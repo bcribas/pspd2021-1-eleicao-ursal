@@ -1,7 +1,6 @@
 /*
-   * Erick Giffoni (170141161)
-   * Universidade de Brasilia - UnB
-   * PSPD 2021/1
+   * Erick Giffoni (170141161), Sara Silva (160144752)
+   * Universidade de Brasilia - UnB - PSPD 2021/1
    * 08/2021
    * Eleicao U.R.S.A.L - Versao paralela com OpenMP
 */
@@ -30,129 +29,160 @@ void eleger_politico(int qtd_p, int *politico, int iteracoes);
 
 int main(int argc, char *argv[]){
 
-   int s, f, e;   // qtd senadores, dep.fed, dep.est para a eleicao
-   scanf(" %d %d %d", &s, &f, &e);
+    int *presidente   = (int *) calloc(0b1100100, sizeof(int));             // 0-99
+    int *senador      = (int *) calloc(0b1111101000, sizeof(int));          // 0-999
+    int *depFed       = (int *) calloc(0b10011100010000, sizeof(int));      // 0-9999
+    int *depEst       = (int *) calloc(0b11000011010100000, sizeof(int));   // 0-99999
 
-   int *presidente   = (int *) calloc(0b1100100, sizeof(int));             // 0-99
-   int *senador      = (int *) calloc(0b1111101000, sizeof(int));          // 0-999
-   int *depFed       = (int *) calloc(0b10011100010000, sizeof(int));      // 0-9999
-   int *depEst       = (int *) calloc(0b11000011010100000, sizeof(int));   // 0-99999
+    int voto;
+    int qtd_votos_presidente = 0;
+    int qtd_invalidos        = 0;
+    int qtd_validos          = 0;
+    
+    char *filename = argv[1];
+    FILE *arquivo = fopen(filename, "r");
+    
+    int s, f, e;   // qtd senadores, dep.fed, dep.est para a eleicao
+    fscanf(arquivo, "%d %d %d", &s, &f, &e);
+    
+    int ultimo_primeira_linha = ftell(arquivo); // ultimo byte primeira linha, ela precisa ser ignorada nas threads
 
-   int voto;
-   int qtd_votos_presidente = 0;
-   int qtd_invalidos        = 0;
-   int qtd_validos          = 0;
-   while(scanf(" %d", &voto) != EOF){
-      // printf("voto lido %d\n", voto);
-      // voto valido ?
-      if(voto < 0){
-         qtd_invalidos += 1;
-      }
-      else{
-         qtd_validos += 1;
+    int total_bytes = 0;
+    fseek(arquivo, 0, SEEK_END); // posiciona no final do arquivo para pegar o total de bytes
+    total_bytes = ftell(arquivo) - ultimo_primeira_linha;
+    printf("Quantidade de bytes no arquivo: %d\n", total_bytes);
 
-         // para quem e o voto ? verificar qtd de digitos do voto
-         if((voto / 10000) > 0){
-            // voto depEst
-            depEst[voto] += 1;
-         } // end if voto depEst
-         else if((voto / 1000) > 0){
-            // voto depFed
-            depFed[voto] += 1;
-         } // end else if voto depFed
-         else if((voto / 100) > 0){
-            // voto senador
-            senador[voto] += 1;
-         } // end else if voto senador
-         else {
-            // voto presidente
-            presidente[voto] += 1;
-            qtd_votos_presidente += 1;
-         } // end else voto presidente
+    #pragma omp parallel
+    {
+        // quantidade de bytes pelo número total de threas em execução
+        int qnt_bytes_thread = total_bytes / omp_get_num_threads();
+        printf("Quantidade de bytes por thread: %d\n", qnt_bytes_thread);
 
-      } // end else voto valido
-   } // end while
+        FILE *arquivo = fopen(filename, "r");
+        fseek(arquivo, ultimo_primeira_linha+(qnt_bytes_thread*omp_get_thread_num()), SEEK_SET);
 
-   printf("%d %d\n", qtd_validos, qtd_invalidos);
+        int lido = 0;
+        int count = 0;
+        while(count < qnt_bytes_thread){
+            int posicao_anterior = ftell(arquivo);
 
-   // logica para ver quem ganhou, se houve empate etc
+            fscanf(arquivo, "%d", &lido);
+            printf("Thread %d leu %d\n", omp_get_thread_num(), lido);
+            
+            int nova_posicao = ftell(arquivo);
+            count += nova_posicao - posicao_anterior; // incrementa qnt de bytes lido no ultimo scanf
+        }
+    }
 
-   int pos_eleito = 0;
-   char segundo_turno = 0b00000000; // boolean falso
-
-   #pragma omp parallel sections private(pos_eleito, segundo_turno)
-   {
-      #pragma omp section
-      {   
-         for(int i=1; i<100; i++){
-            // printf("i=%d, p[i]=%d, pos_eleito=%d, p[pos_eleito]=%d\n", i, presidente[i], pos_eleito, presidente[pos_eleito]);
-            if(presidente[i] > presidente[pos_eleito]){
-               pos_eleito = i;
-               segundo_turno = 0b00000000;
-            }
-            else if(presidente[i] == presidente[pos_eleito]){
-               segundo_turno = 0b00000001;   // true
-            }
-         } // end for elege presidente
-
-         if(segundo_turno || (presidente[pos_eleito] <= (qtd_votos_presidente/2))){
-            printf("Segundo turno\n");
-         }
-         else{
-            printf("%d\n", pos_eleito);
-         }
-      } // end parallel section presidente
-
-      // eleger senador
-      #pragma omp section
-      {
-         eleger_politico(s, senador, 1000);
-      } // end parallel section senador
-
-      // eleger dep.Fed
-      #pragma omp section
-      {
-         eleger_politico(f, depFed, 10000);
-      } // end parallel section dep.Fed
-
-      // eleger dep.Est
-      #pragma omp section
-      {   
-         eleger_politico(e, depEst, 100000);
-      } // end parallel section dep.Est
-   } // end omp parallel sections
-
-   return 0;
-} // end main
-
-void eleger_politico(int qtd_p, int *politico, int iteracoes){
-   int pos_eleito;
-   char segundo_turno; // boolean
-   
-   while(qtd_p){
-      pos_eleito = 0;
-      segundo_turno = 0b00000000; // empate = false
-      for(int i=1; i<iteracoes; i++){
-         if(politico[i] > politico[pos_eleito]){
-            pos_eleito = i;
-            segundo_turno = 0b0000000;
-         }
-         else if(politico[i] == politico[pos_eleito]){
-            i > pos_eleito ? pos_eleito = i : pos_eleito;
-            segundo_turno = 0b00000001;
-         }
-      }
-
-      printf("%d", pos_eleito);
-      qtd_p--;
-
-      if(qtd_p){
-         printf(" ");   // tem mais 1 candidato para elegermos
-      }
-
-      politico[pos_eleito] = 0;
-   }
-   printf("\n");
-
-   return;
-} // end eleger_politico
+//    while(scanf(" %d", &voto) != EOF){
+//        // voto valido ?
+//        if(voto < 0){
+//            qtd_invalidos += 1;
+//        }
+//        else{
+//            qtd_validos += 1;
+//
+//            // para quem e o voto ? verificar qtd de digitos do voto
+//            if((voto / 10000) > 0){
+//                // voto depEst
+//                depEst[voto] += 1;
+//            } // end if voto depEst
+//            else if((voto / 1000) > 0){
+//                // voto depFed
+//                depFed[voto] += 1;
+//            } // end else if voto depFed
+//            else if((voto / 100) > 0){
+//                // voto senador
+//                senador[voto] += 1;
+//            } // end else if voto senador
+//            else {
+//                // voto presidente
+//                presidente[voto] += 1;
+//                qtd_votos_presidente += 1;
+//            } // end else voto presidente
+//
+//        } // end else voto valido
+//    } // end while
+//
+//    printf("%d %d\n", qtd_validos, qtd_invalidos);
+//
+//    // logica para ver quem ganhou, se houve empate etc
+//
+//    int pos_eleito = 0;
+//    char segundo_turno = 0b00000000; // boolean falso
+//
+//#pragma omp parallel sections private(pos_eleito, segundo_turno)
+//    {
+//#pragma omp section
+//        {   
+//            for(int i=1; i<100; i++){
+//                if(presidente[i] > presidente[pos_eleito]){
+//                    pos_eleito = i;
+//                    segundo_turno = 0b00000000;
+//                }
+//                else if(presidente[i] == presidente[pos_eleito]){
+//                    segundo_turno = 0b00000001;   // true
+//                }
+//            } // end for elege presidente
+//
+//            if(segundo_turno || (presidente[pos_eleito] <= (qtd_votos_presidente/2))){
+//                printf("Segundo turno\n");
+//            }
+//            else{
+//                printf("%d\n", pos_eleito);
+//            }
+//        } // end parallel section presidente
+//
+//        // eleger senador
+//#pragma omp section
+//        {
+//            eleger_politico(s, senador, 1000);
+//        } // end parallel section senador
+//
+//        // eleger dep.Fed
+//#pragma omp section
+//        {
+//            eleger_politico(f, depFed, 10000);
+//        } // end parallel section dep.Fed
+//
+//        // eleger dep.Est
+//#pragma omp section
+//        {   
+//            eleger_politico(e, depEst, 100000);
+//        } // end parallel section dep.Est
+//    } // end omp parallel sections
+//
+    return 0;
+} 
+//
+//void eleger_politico(int qtd_p, int *politico, int iteracoes){
+//    int pos_eleito;
+//    char segundo_turno; // boolean
+//
+//    while(qtd_p){
+//        pos_eleito = 0;
+//        segundo_turno = 0b00000000; // empate = false
+//        for(int i=1; i<iteracoes; i++){
+//            if(politico[i] > politico[pos_eleito]){
+//                pos_eleito = i;
+//                segundo_turno = 0b0000000;
+//            }
+//            else if(politico[i] == politico[pos_eleito]){
+//                i > pos_eleito ? pos_eleito = i : pos_eleito;
+//                segundo_turno = 0b00000001;
+//            }
+//        }
+//
+//        printf("%d", pos_eleito);
+//        qtd_p--;
+//
+//        if(qtd_p){
+//            printf(" ");   // tem mais 1 candidato para elegermos
+//        }
+//
+//        politico[pos_eleito] = 0;
+//    }
+//    printf("\n");
+//
+//    return;
+//} // end eleger_politico
