@@ -63,12 +63,18 @@ int main(int argc, char *argv[]){
 
         int lido = 0;
         int count = 0;
+        int lixo = 0;
         while(count < qnt_bytes_thread){
             int posicao_anterior = ftell(arquivo);
-
-            fscanf(arquivo, "%d", &lido);
-            printf("Thread %d leu %d\n", omp_get_thread_num(), lido);
-            
+            fseek(arquivo, posicao_anterior-1, SEEK_SET);
+            if(fgetc(arquivo) == '\n'){
+                fscanf(arquivo, "%d ", &lido);
+                printf("Thread %d leu %d\n", omp_get_thread_num(), lido);
+            }
+            else{
+                fseek(arquivo, posicao_anterior-1, SEEK_SET);
+                fscanf(arquivo, "%d ", &lixo);
+            }
             int nova_posicao = ftell(arquivo);
             count += nova_posicao - posicao_anterior; // incrementa qnt de bytes lido no ultimo scanf
         }
