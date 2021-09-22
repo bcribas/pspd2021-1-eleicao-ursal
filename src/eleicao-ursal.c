@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include <string.h>
 #include<omp.h>
 
 void encontraFimLinha(FILE *arquivo){
@@ -85,7 +86,7 @@ void imprime(int numPoliticos, Politico * V, int tamanho) {
 
 int main(int argc, char *argv[]){
 
-    int numCandidato;
+    
     int S,F,E;
     int totalVotos =0, invalidos =0, totalvotosPresidente = 0;
 
@@ -138,38 +139,58 @@ int main(int argc, char *argv[]){
   omp_lock_t writelock;
 
   omp_init_lock(&writelock);
-  #pragma omp parallel 
+  #pragma omp parallel shared(totalVotos, invalidos, totalvotosPresidente,presidente,senador,depFederal,depEstadual)
   {   
-    Politico *presidente_private = (Politico *) calloc(100,sizeof(Politico));
-    Politico *senador_private = (Politico *) calloc(900,sizeof(Politico));
-    Politico *depFederal_private = (Politico *) calloc(9000,sizeof(Politico));
-    Politico *depEstadual_private = (Politico *) calloc(90000,sizeof(Politico));
+    int numCandidato;
+    // Politico *presidente_private = (Politico *) calloc(100,sizeof(Politico));
+    // Politico *senador_private = (Politico *) calloc(900,sizeof(Politico));
+    // Politico *depFederal_private = (Politico *) calloc(9000,sizeof(Politico));
+    // Politico *depEstadual_private = (Politico *) calloc(90000,sizeof(Politico));
 
+    Politico presidente_private[100];
+    Politico senador_private[900];
+    Politico depFederal_private[9000];
+    Politico depEstadual_private[90000];
+    memset(presidente_private, 0, 100*sizeof(Politico));
+    memset(senador_private, 0, 900*sizeof(Politico));
+    memset(depFederal_private, 0, 9000*sizeof(Politico));
+    memset(depEstadual_private, 0, 90000*sizeof(Politico));
 
     FILE *arquivo = fopen("./input.txt","r");
     // printf("Thread %d, inicio: %d, fim: %d\n",omp_get_thread_num(),posicoes_iniciais_linhas_arquivos[omp_get_thread_num()],posicoes_iniciais_linhas_arquivos[omp_get_thread_num()+1]  );
 
     fseek(arquivo,posicoes_iniciais_linhas_arquivos[omp_get_thread_num()],SEEK_SET);
-    
+    // if(omp_get_thread_num() != 0){
+    //     encontraFimLinha(arquivo);
+    //   }
     // Enquando a Thread não chegar ao inicio da outra(byte da prxima thread) 
     while (ftell(arquivo) < posicoes_iniciais_linhas_arquivos[omp_get_thread_num()+1]-1){
-      if(omp_get_thread_num() != 0){
-        encontraFimLinha(arquivo);
-      }
+      
       fscanf(arquivo,"%d",&numCandidato);
-      printf("Thread %d: valor lido %d Posicao: %ld\n",omp_get_thread_num(),numCandidato,ftell(arquivo));
+      // printf("Thread %d: valor lido %d Posicao: %ld\n",omp_get_thread_num(),numCandidato,ftell(arquivo));
 
       if(numCandidato < 0){
+        #pragma omp atomic
           invalidos++;
       }
       else if(numCandidato < 100){
+          // omp_set_lock(&writelock);
+          // presidente[numCandidato].votos++;
+          // presidente[numCandidato].codigo = numCandidato;
+          // omp_unset_lock(&writelock);
           presidente_private[numCandidato].votos++;
           presidente_private[numCandidato].codigo = numCandidato;
+          #pragma omp atomic
           totalvotosPresidente++;
       }
       else if(numCandidato >=100 && numCandidato < 1000){
+        // omp_set_lock(&writelock);
+        // senador[numCandidato-100].votos++;
+        //   senador[numCandidato-100].codigo = numCandidato;
+        // omp_unset_lock(&writelock);
           senador_private[numCandidato-100].votos++;
           senador_private[numCandidato-100].codigo = numCandidato;
+        
       }
       else if(numCandidato >=1000 && numCandidato < 10000){
           depFederal_private[numCandidato-1000].votos++;
@@ -179,46 +200,56 @@ int main(int argc, char *argv[]){
           depEstadual_private[numCandidato-10000].votos++;
           depEstadual_private[numCandidato-10000].codigo = numCandidato;
       }
+      #pragma omp atomic
       totalVotos++;
     } 
 
-    // Copiando valores para vetores principais
     {
-      #pragma omp critical
       for(int i =0; i<100;i++){
-        omp_set_lock(&writelock);
-          presidente[i].codigo = presidente_private[i].codigo;
-          presidente[i].votos += presidente_private[i].votos;
+          omp_set_lock(&writelock);
+          if( presidente_private[i].codigo != 0){
+            presidente[i].codigo = presidente_private[i].codigo;
+            presidente[i].votos += presidente_private[i].votos;
+          }
+          
           omp_unset_lock(&writelock);
       }
       
       for(int i =0; i<900;i++){
         omp_set_lock(&writelock);
-          senador[i].codigo = senador_private[i].codigo;
-          senador[i].votos += senador_private[i].votos;
+        if( senador_private[i].codigo != 0){
+            senador[i].codigo = senador_private[i].codigo;
+            senador[i].votos += senador_private[i].votos;
+          }
+          
         omp_unset_lock(&writelock);
       }
       
       for(int i =0; i<9000;i++){
         omp_set_lock(&writelock);
-          depFederal[i].codigo = depFederal_private[i].codigo;
+        if(depFederal_private[i].codigo != 0){
+            depFederal[i].codigo = depFederal_private[i].codigo;
           depFederal[i].votos += depFederal_private[i].votos;
+        }
+          
         omp_unset_lock(&writelock);
       }
       
       for(int i =0; i<90000;i++){
         omp_set_lock(&writelock);
-          depEstadual[i].codigo = depEstadual_private[i].codigo;
+        if( depEstadual_private[i].codigo != 0){
+            depEstadual[i].codigo = depEstadual_private[i].codigo;
           depEstadual[i].votos += depEstadual_private[i].votos;
+          }
         omp_unset_lock(&writelock);
       }
     }
       
 
-    free(presidente_private);
-    free(senador_private);
-    free(depFederal_private);
-    free(depEstadual_private);
+    // free(presidente_private);
+    // free(senador_private);
+    // free(depFederal_private);
+    // free(depEstadual_private);
 
     fclose(arquivo);
   }
