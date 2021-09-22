@@ -92,9 +92,8 @@ int main(int argc, char **argv){
   for(int i = 0; i < 99999; i++)
     for(int j = 0; j < omp_get_max_threads(); j++)
       votos[i] += leitura_votos[j][i];
-  for(int i = 0; i < 99999; i++)
-    printf("vetor[%d]: %d\n", i, votos[i]);
 
+#pragma omp parallel for
 	for(int i = 0; i < 4; i++){
 		if(i == 0){
 			presidente_vencedor = conta_votos_presidente(votos);
