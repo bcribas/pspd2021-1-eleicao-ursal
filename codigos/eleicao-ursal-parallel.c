@@ -53,13 +53,13 @@ int main(int argc, char *argv[]){
     int total_bytes = 0;
     fseek(arquivo, 0, SEEK_END); // posiciona no final do arquivo para pegar o total de bytes
     total_bytes = ftell(arquivo) - ultimo_primeira_linha;
-    printf("Quantidade de bytes no arquivo: %d\n", total_bytes);
+    // printf("Quantidade de bytes no arquivo: %d\n", total_bytes);
 
     #pragma omp parallel
     {
         // quantidade de bytes pelo número total de threas em execução
         int qnt_bytes_thread = total_bytes / omp_get_num_threads();
-        printf("Quantidade de bytes por thread: %d\n", qnt_bytes_thread);
+        // printf("Quantidade de bytes por thread: %d\n", qnt_bytes_thread);
 
         FILE *arquivo = fopen(filename, "r");
         fseek(arquivo, ultimo_primeira_linha+(qnt_bytes_thread*omp_get_thread_num()), SEEK_SET);
@@ -68,22 +68,24 @@ int main(int argc, char *argv[]){
         int count = 0;
         int lixo = 0;
         while(count < qnt_bytes_thread){
-            int posicao_anterior = ftell(arquivo);
-            fseek(arquivo, posicao_anterior-1, SEEK_SET);
+            int posicao_atual = ftell(arquivo);
+            fseek(arquivo, posicao_atual-1, SEEK_SET);
             if(fgetc(arquivo) == '\n'){
                 fscanf(arquivo, "%d ", &lido);
                 // todo: chamar funcao que computa o voto
                 computar_voto(lido, &qtd_votos_presidente, &qtd_invalidos,
                               &qtd_validos, presidente, senador, depFed, depEst);
-                printf("Thread %d leu %d\n", omp_get_thread_num(), lido);
+                // printf("Thread %d leu %d\n", omp_get_thread_num(), lido);
             }
             else{
-                fseek(arquivo, posicao_anterior-1, SEEK_SET);
+                fseek(arquivo, posicao_atual-1, SEEK_SET);
                 fscanf(arquivo, "%d ", &lixo);
             }
             int nova_posicao = ftell(arquivo);
-            count += nova_posicao - posicao_anterior; // incrementa qnt de bytes lido no ultimo scanf
+            count += nova_posicao - posicao_atual; // incrementa qnt de bytes lido no ultimo scanf
         }
+
+        fclose(arquivo);
     }
 
 //    while(scanf(" %d", &voto) != EOF){
