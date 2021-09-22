@@ -85,7 +85,17 @@ void imprime(int numPoliticos, Politico * V, int tamanho) {
 }
 
 int main(int argc, char *argv[]){
+    if(argc < 2)
+    {
+        fprintf(stderr, "[Erro]: Parametro <caminho/nome_do_arquivo> nao informado!\n");
+        exit(EXIT_FAILURE);
+    }
 
+    if( argc == 3)
+        omp_set_num_threads(strtol(argv[2], NULL, 10));
+    else
+       omp_set_num_threads(3); 
+    
     
     int S,F,E;
     int totalVotos =0, invalidos =0, totalvotosPresidente = 0;
@@ -95,13 +105,13 @@ int main(int argc, char *argv[]){
     Politico *depFederal = (Politico *) calloc(9000,sizeof(Politico));
     Politico *depEstadual = (Politico *) calloc(90000,sizeof(Politico));
 
-    omp_set_num_threads(3);
+    // omp_set_num_threads(3);
     // Vetor irá utilizado para salvar onde cada thread começará a ler(byte) no arquivo
     int *posicoes_iniciais_linhas_arquivos  = (int *) calloc(omp_get_max_threads()+1,sizeof(int));
     // Primeira thread será definida aqui após ler os três inteiros iniciais x y z
     posicoes_iniciais_linhas_arquivos[0] = 0;
     
-    FILE *arquivo = fopen("./input.txt","r");
+    FILE *arquivo = fopen(argv[1],"r");
     fscanf(arquivo,"%d",&S);
     fscanf(arquivo,"%d",&F);
     fscanf(arquivo,"%d",&E);
@@ -122,7 +132,7 @@ int main(int argc, char *argv[]){
 #pragma omp parallel
 {   
     int lido;
-    FILE *arquivo = fopen("./input.txt","r");
+    FILE *arquivo = fopen(argv[1],"r");
     fseek(arquivo,omp_get_thread_num()*tamanho_bloco,SEEK_SET);
     
     // Salva a posição do inicio da linha para usar como final das threads anteriores
@@ -142,21 +152,21 @@ int main(int argc, char *argv[]){
   #pragma omp parallel shared(totalVotos, invalidos, totalvotosPresidente,presidente,senador,depFederal,depEstadual)
   {   
     int numCandidato;
-    // Politico *presidente_private = (Politico *) calloc(100,sizeof(Politico));
-    // Politico *senador_private = (Politico *) calloc(900,sizeof(Politico));
-    // Politico *depFederal_private = (Politico *) calloc(9000,sizeof(Politico));
-    // Politico *depEstadual_private = (Politico *) calloc(90000,sizeof(Politico));
+    Politico *presidente_private = (Politico *) calloc(100,sizeof(Politico));
+    Politico *senador_private = (Politico *) calloc(900,sizeof(Politico));
+    Politico *depFederal_private = (Politico *) calloc(9000,sizeof(Politico));
+    Politico *depEstadual_private = (Politico *) calloc(90000,sizeof(Politico));
 
-    Politico presidente_private[100];
-    Politico senador_private[900];
-    Politico depFederal_private[9000];
-    Politico depEstadual_private[90000];
-    memset(presidente_private, 0, 100*sizeof(Politico));
-    memset(senador_private, 0, 900*sizeof(Politico));
-    memset(depFederal_private, 0, 9000*sizeof(Politico));
-    memset(depEstadual_private, 0, 90000*sizeof(Politico));
+    // Politico presidente_private[100];
+    // Politico senador_private[900];
+    // Politico depFederal_private[9000];
+    // Politico depEstadual_private[90000];
+    // memset(presidente_private, 0, 100*sizeof(Politico));
+    // memset(senador_private, 0, 900*sizeof(Politico));
+    // memset(depFederal_private, 0, 9000*sizeof(Politico));
+    // memset(depEstadual_private, 0, 90000*sizeof(Politico));
 
-    FILE *arquivo = fopen("./input.txt","r");
+    FILE *arquivo = fopen(argv[1],"r");
     // printf("Thread %d, inicio: %d, fim: %d\n",omp_get_thread_num(),posicoes_iniciais_linhas_arquivos[omp_get_thread_num()],posicoes_iniciais_linhas_arquivos[omp_get_thread_num()+1]  );
 
     fseek(arquivo,posicoes_iniciais_linhas_arquivos[omp_get_thread_num()],SEEK_SET);
@@ -246,10 +256,10 @@ int main(int argc, char *argv[]){
     }
       
 
-    // free(presidente_private);
-    // free(senador_private);
-    // free(depFederal_private);
-    // free(depEstadual_private);
+    free(presidente_private);
+    free(senador_private);
+    free(depFederal_private);
+    free(depEstadual_private);
 
     fclose(arquivo);
   }
