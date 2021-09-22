@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 #define true 1
 #define false 0
@@ -60,7 +59,6 @@ int main(int argc, char *argv[]) {
   int *congressman = calloc(MAX_CM, sizeof(int));
   int *congressperson = calloc(MAX_CP, sizeof(int));
 
-  clock_t begin = clock();
   FILE *file = fopen(argv[1], "r");
 
   fscanf(file, "%d", &totalSenators);
@@ -90,8 +88,5 @@ int main(int argc, char *argv[]) {
   printElected(senator, totalSenators, MAX_P, MAX_S, false);
   printElected(congressman, totalCongressman, MAX_S, MAX_CM, false);
   printElected(congressperson, totalCongressperson, MAX_CM, MAX_CP, false);
-  clock_t end = clock();
-  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-  printf("Tempo: %lf\n", time_spent);
   return 0;
 }
