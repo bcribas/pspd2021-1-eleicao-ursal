@@ -13,43 +13,38 @@
 #define MAX_CP 100000
 
 void printElected(int *politicianArray, int maxElected, int minSize, int maxSize, int totalVoters) {
-  while (maxElected) {
-    int elected = 0, secondRound = false;
-    for (int i = minSize; i < maxSize; i++) {
-      if (politicianArray[i] > politicianArray[elected]) {
-        elected = i;
-        secondRound = false;
-      } else if (politicianArray[i] == politicianArray[elected]) {
-        if (minSize != MIN_P) {
-          elected = i > elected ? i : elected;
-        }
-        secondRound = true;
+  int *best = calloc(maxElected, sizeof(int));
+  int secondRound = false;
+  for (int i = 0; i < maxElected; i++) {
+      int elected = 0;
+      for (int j = minSize; j < maxSize; j++) {
+          if (politicianArray[j] > politicianArray[elected]) {
+              elected = j;
+              secondRound = false;
+          }
+          else if (politicianArray[j] == politicianArray[elected]) {
+              if (minSize != MIN_P)
+                  elected = j > elected ? j : elected;
+              secondRound = true;
+          }
       }
-    }
-
-    if (minSize == MIN_P) {
-      maxElected--;
-      int lessThanHalf = politicianArray[elected] <= (totalVoters / 2);
-      if (secondRound || lessThanHalf) {
-        printf("Segundo turno");
-      } else {
-        printf("%d", elected);
-      }
-    } else {
-      for (int i = minSize; i < maxSize; i++) {
-        if (politicianArray[i] == politicianArray[elected]) {
-          elected = i > elected ? i : elected;
-          secondRound = true;
-        }
-      }
-      printf("%d", elected);
-
+      best[i] = elected;
       politicianArray[elected] = -1;
+  }
 
-      maxElected--;
-      if (maxElected) {
+  if (minSize == MIN_P) {
+    int lessThanHalf = politicianArray[best[0]] <= (totalVoters / 2);
+
+    if (secondRound || lessThanHalf) {
+      printf("Segundo turno");
+    } else {
+      printf("%d", best[0]);
+    }
+  } else {
+    for (int i = 0; i < maxElected; i++) {
+      printf("%d", best[i]);
+      if (i + 1 < maxElected)
         printf(" ");
-      }
     }
   }
   printf("\n");
@@ -66,25 +61,25 @@ int main(int argc, char *argv[]) {
 
   FILE *file = fopen(argv[1], "r");
 
-  fscanf(file, "%d %d %d", &totalSenators, &totalCongressman, &totalCongressperson);
+  int start_position;
 
-  int start_position = ftell(file) + 1;
+  fscanf(file, "%d %d %d%n", &totalSenators, &totalCongressman, &totalCongressperson, &start_position);
+
+  start_position += 1;
 
   fseek(file, 0L, SEEK_END);
-  long int end_position = ftell(file);
-  printf("final: %ld\n", end_position);
+  long int end_position = ftell(file) + 1;
   fseek(file, start_position, SEEK_SET);
 
   long int size = end_position - start_position;
 
   int* thread_starts = calloc(num_threads + 1, sizeof(long int));
   thread_starts[0] = start_position;
-  //thread_starts[num_threads] = end_position;
+  thread_starts[num_threads] = end_position;
 
   int chunk_size = (int)floor(size / num_threads);
 
-  for(int i = 1; i < num_threads + 1; i++) {
-    printf("entrou aqui\n");
+  for(int i = 1; i < num_threads; i++) {
     fseek(file, thread_starts[i-1] + chunk_size, SEEK_SET);
     char line[10];
     fgets(line, 10, file);
@@ -93,7 +88,7 @@ int main(int argc, char *argv[]) {
 
   fclose(file);
 
-  #pragma omp parallel reduction(+ : validVote, invalidVote, totalVotesPresident)
+  #pragma omp parallel reduction(+ : validVote, invalidVote, totalVotesPresident, president, senator, congressman, congressperson)
   {
     FILE* file = fopen(argv[1], "r");
     long int start, end;
@@ -131,24 +126,10 @@ int main(int argc, char *argv[]) {
 
   printf("%d %d\n", validVote, invalidVote);
 
-  #pragma omp parallel sections
-  {
-    #pragma omp section
-    {
-      printElected(president, 1, MIN_P, MAX_P, totalVotesPresident);
-    }
-    #pragma omp section
-    {
-      printElected(senator, totalSenators, MAX_P, MAX_S, false);
-    }
-    #pragma omp section
-    {
-      printElected(congressman, totalCongressman, MAX_S, MAX_CM, false);
-    }
-    #pragma omp section
-    {
-      printElected(congressperson, totalCongressperson, MAX_CM, MAX_CP, false);
-    }
-  }
+  printElected(president, 1, MIN_P, MAX_P, totalVotesPresident);
+  printElected(senator, totalSenators, MAX_P, MAX_S, false);
+  printElected(congressman, totalCongressman, MAX_S, MAX_CM, false);
+  printElected(congressperson, totalCongressperson, MAX_CM, MAX_CP, false);
+
   return 0;
 }
