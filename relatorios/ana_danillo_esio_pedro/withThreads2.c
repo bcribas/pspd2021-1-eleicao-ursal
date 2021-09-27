@@ -15,7 +15,6 @@
 void printElected(int *politicianArray, int maxElected, int minSize, int maxSize, int totalVoters) {
   int *best = calloc(maxElected, sizeof(int));
   int secondRound = false;
-
   for (int i = 0; i < maxElected; i++) {
       int elected = 0;
       for (int j = minSize; j < maxSize; j++) {
@@ -62,12 +61,14 @@ int main(int argc, char *argv[]) {
 
   FILE *file = fopen(argv[1], "r");
 
-  fscanf(file, "%d %d %d", &totalSenators, &totalCongressman, &totalCongressperson);
+  int start_position;
 
-  int start_position = ftell(file) + 1;
+  fscanf(file, "%d %d %d%n", &totalSenators, &totalCongressman, &totalCongressperson, &start_position);
+
+  start_position += 1;
 
   fseek(file, 0L, SEEK_END);
-  long int end_position = ftell(file);
+  long int end_position = ftell(file) + 1;
   fseek(file, start_position, SEEK_SET);
 
   long int size = end_position - start_position;

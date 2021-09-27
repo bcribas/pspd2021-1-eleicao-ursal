@@ -72,17 +72,19 @@ int main(int argc, char *argv[]) {
 
   fseek(file, 0L, SEEK_END);
   long int end_position = ftell(file);
+  printf("final: %ld\n", end_position);
   fseek(file, start_position, SEEK_SET);
 
   long int size = end_position - start_position;
 
   int* thread_starts = calloc(num_threads + 1, sizeof(long int));
   thread_starts[0] = start_position;
-  thread_starts[num_threads] = end_position;
+  //thread_starts[num_threads] = end_position;
 
   int chunk_size = (int)floor(size / num_threads);
 
-  for(int i = 1; i < num_threads; i++) {
+  for(int i = 1; i < num_threads + 1; i++) {
+    printf("entrou aqui\n");
     fseek(file, thread_starts[i-1] + chunk_size, SEEK_SET);
     char line[10];
     fgets(line, 10, file);
