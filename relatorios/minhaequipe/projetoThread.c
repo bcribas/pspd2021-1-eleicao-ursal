@@ -6,6 +6,11 @@
 
 //clock_t t;
 
+#define SIZE_COLUMN 1000000
+#define SIZE_ROWS 16
+
+int votos[SIZE_ROWS][SIZE_COLUMN];
+
 int resultadoUrna ( int Candidato[], int tipoCandidato) {
 
 	int tamanhoMax = 0;
@@ -51,12 +56,16 @@ int main(int argc, char *argv[]) {
 
 	int numeroCandidato = 0;
 
+    int numberThreads;
+
     long int bytesIniciais;
     long int bytesFinais;
 	int numBytes;
 
 #pragma omp parallel reduction(+:votosValidos,votosInvalidos)
 {
+
+	numberThreads = omp_get_num_threads();
 
 	FILE *arquivo=fopen(argv[1], "r");
 
@@ -84,11 +93,15 @@ int main(int argc, char *argv[]) {
 
 
     if (c != '\n') {
-        fseek(arquivo, -2, SEEK_CUR);
 
-        while(c != '\n') {
+        fseek(arquivo, -1, SEEK_CUR);
+		c = fgetc(arquivo);
+
+		if( c != '\n') {
+			while(c != '\n') {
             c = fgetc(arquivo);
-        }
+        	}
+		}
     }
 
 
@@ -104,27 +117,14 @@ int main(int argc, char *argv[]) {
 
 			if( numeroVoto > 0) {
 				votosValidos++;
+				votos[omp_get_thread_num()][numeroVoto]++;
+				// printf("Thread %d: voto %d Valido!\n", omp_get_thread_num(), numeroVoto);
 
-				if( (numeroVoto / 10000) > 0 ) {		
-		
-					(Estadual[numeroVoto]) += 1 ;
-					
-				} else {
-					if( ( numeroVoto / 1000 ) > 0 ) {
-
-						Federal[numeroVoto] += 1;
-
-					} else {
-						if ( (numeroVoto / 100 ) > 0 ) {
-
-							Senadores[numeroVoto] += 1;
-
-						}
-					}
-				}
+				if( (numeroVoto / 10) > 0 && (numeroVoto / 100) < 1) votosPresidente++;
 
 			} else 
 			{
+				// printf("Thread %d: voto %d INVALIDO!\n", omp_get_thread_num(), numeroVoto);
 				votosInvalidos++;
 			}
 
@@ -132,7 +132,23 @@ int main(int argc, char *argv[]) {
 	}
 
 	printf("%d %d\n", votosValidos, votosInvalidos);
+	// printf("Dados Contados: %d\n", numBytes);
 
+
+
+	for(int i=0; i<numberThreads; i++ ){
+		for(int j=0; j<1000000; j++) {
+			if( j<100 ) Presidentes[j] += votos[i][j];
+			else {
+				if( j<1000 ) Senadores[j] += votos[i][j];
+				else {
+					if( j<10000 ) Federal[j] += votos[i][j];
+					else Estadual[j] += votos[i][j];
+				}
+			}
+
+		}
+	}
 
 
 	int numeroVoto = 0;
