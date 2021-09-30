@@ -4,7 +4,7 @@
 #include <omp.h>
 #include <time.h>
 
-//clock_t t;
+// clock_t t;
 
 #define SIZE_COLUMN 1000000
 #define SIZE_ROWS 16
@@ -14,16 +14,26 @@ int votos[SIZE_ROWS][SIZE_COLUMN];
 int resultadoUrna ( int Candidato[], int tipoCandidato) {
 
 	int tamanhoMax = 0;
+	int tamanhoMin = 0;
 	int quantidadeVotos = 0;
 	int numeroCandidato = 0;
 
-	if(tipoCandidato == 1) tamanhoMax = 1000;
+	if(tipoCandidato == 1) {
+		tamanhoMax = 1000;
+		tamanhoMin = 99;
+	}
 	else {
-		if(tipoCandidato == 2) tamanhoMax = 10000;
-		else tamanhoMax = 100000;
+		if(tipoCandidato == 2) {
+		 tamanhoMax = 10000;
+		 tamanhoMin = 999;
+		}
+		else {
+			tamanhoMax = 100000;
+			tamanhoMin = 9999;
+		}
 	}
 
-	for(int i = tamanhoMax-1; i>=0; --i) {
+	for(int i = tamanhoMax-1; i>=tamanhoMin; --i) {
 		if ( quantidadeVotos < Candidato[i] ) {
 			quantidadeVotos = Candidato[i];
 			numeroCandidato = i;
@@ -62,7 +72,7 @@ int main(int argc, char *argv[]) {
     long int bytesFinais;
 	int numBytes;
 
-#pragma omp parallel reduction(+:votosValidos,votosInvalidos)
+#pragma omp parallel reduction(+:votosValidos,votosInvalidos, votosPresidente)
 {
 
 	numberThreads = omp_get_num_threads();
@@ -104,13 +114,14 @@ int main(int argc, char *argv[]) {
 		}
     }
 
-
-
 		int lastThread = (omp_get_num_threads())-1;
 		
     	if( lastThread == omp_get_thread_num() ) valorDest = bytesFinais-1;   
 	
 		int numeroVoto = 0;
+
+		// MIGUÉÉÉÉ
+		if (ftell(arquivo) == valorDest )valorDest++;
 
 		while(ftell(arquivo) < valorDest ) {
 			fscanf(arquivo, "%d", &numeroVoto);
@@ -132,7 +143,9 @@ int main(int argc, char *argv[]) {
 	}
 
 	printf("%d %d\n", votosValidos, votosInvalidos);
-	// printf("Dados Contados: %d\n", numBytes);
+	//printf("Dados Contados: %d\n", numBytes);
+
+	// t = clock();
 
 	for(int i=0; i<numberThreads; ++i ){
 		for(int j=0; j<1000000; ++j) {
@@ -164,7 +177,6 @@ int main(int argc, char *argv[]) {
 		}else  printf("Segundo turno\n");
 	
 	
-	//t = clock();
 
 	while( numeroSenadores > 0 ) {
 
