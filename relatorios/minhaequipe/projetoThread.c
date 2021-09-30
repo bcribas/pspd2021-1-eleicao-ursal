@@ -23,7 +23,7 @@ int resultadoUrna ( int Candidato[], int tipoCandidato) {
 		else tamanhoMax = 100000;
 	}
 
-	for(int i = tamanhoMax-1; i>=0; i--) {
+	for(int i = tamanhoMax-1; i>=0; --i) {
 		if ( quantidadeVotos < Candidato[i] ) {
 			quantidadeVotos = Candidato[i];
 			numeroCandidato = i;
@@ -134,10 +134,8 @@ int main(int argc, char *argv[]) {
 	printf("%d %d\n", votosValidos, votosInvalidos);
 	// printf("Dados Contados: %d\n", numBytes);
 
-
-
-	for(int i=0; i<numberThreads; i++ ){
-		for(int j=0; j<1000000; j++) {
+	for(int i=0; i<numberThreads; ++i ){
+		for(int j=0; j<1000000; ++j) {
 			if( j<100 ) Presidentes[j] += votos[i][j];
 			else {
 				if( j<1000 ) Senadores[j] += votos[i][j];
@@ -153,7 +151,7 @@ int main(int argc, char *argv[]) {
 
 	int numeroVoto = 0;
 
-	for(int i = 0; i<100; i++) {
+	for(int i = 0; i<100; ++i) {
 		if ( numeroVoto < Presidentes[i]){
 			 numeroVoto = Presidentes[i];
 			 numeroCandidato = i;
