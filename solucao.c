@@ -1,12 +1,10 @@
 #include <stdio.h>
-#include <stdlib.h>
 
 typedef struct candidato
 {
     int nCandidato;
     int qtdVotos;
 } Candidato;
-
 
 //Definicoes Gerais
 typedef int item;
@@ -19,22 +17,26 @@ typedef int item;
 void ordena(Candidato *v, int l, int r);
 void merge(Candidato *v, int l, int r1, int r2);
 
-int main()
+int main(int argc, char **argv)
 {
+    FILE *inputFile;
+    
     int nSenadores, nDepFederal, nDepEstadual;
     int votoP = 0, votoS = 0, votoF = 0, votoE = 0, votoInvalido = 0;
     int voto = 1;
+    double metade;
 
     Candidato presidente[100] = {0,0};
     Candidato senador[1000] = {0,0};
     Candidato depFederal[10000] = {0,0};
     Candidato depEstadual[100000] = {0,0};
 
-    scanf("%d %d %d", &nSenadores, &nDepFederal, &nDepEstadual);
+    inputFile = fopen(argv[1], "r");
 
-    while (voto != 0)
+    fscanf(inputFile, "%d %d %d\n", &nSenadores, &nDepFederal, &nDepEstadual);
+
+    while (fscanf(inputFile, "%d", &voto) != EOF)
     {
-        scanf("%d", &voto);
         if (voto < 10){
             votoInvalido++;
         }
@@ -68,20 +70,28 @@ int main()
         ordena(depFederal, 0, 9999);
         ordena(depEstadual, 0, 99999);
 
-        printf("%d %d\n", (votoP+votoE+votoF+votoS), votoInvalido-1);
+        printf("%d %d\n", (votoP+votoE+votoF+votoS), votoInvalido);
 
-        printf("%d\n", presidente[0].nCandidato);
+        metade = votoP * 0.51;
         
-        for(int i = 0; i < nSenadores; i++)
-            printf("%d ", senador[i].nCandidato);
+        if(presidente[0].qtdVotos > metade)
+           printf("%d\n", presidente[0].nCandidato);
+        else
+            printf("Segundo turno\n");
+        
+        printf("%d", senador[0].nCandidato);
+        for(int i = 1; i < nSenadores; i++)
+            printf(" %d", senador[i].nCandidato);
         printf("\n");
         
-        for(int i = 0; i < nDepFederal; i++)
-            printf("%d ", depFederal[i].nCandidato);
+        printf("%d", depFederal[0].nCandidato);
+        for(int i = 1; i < nDepFederal; i++)
+            printf(" %d", depFederal[i].nCandidato);
         printf("\n");
 
-        for(int i = 0; i < nDepEstadual; i++)
-            printf("%d ", depEstadual[i].nCandidato);
+        printf("%d", depEstadual[0].nCandidato);
+        for(int i = 1; i < nDepEstadual; i++)
+            printf(" %d", depEstadual[i].nCandidato);
         printf("\n");
 
     return 0;
