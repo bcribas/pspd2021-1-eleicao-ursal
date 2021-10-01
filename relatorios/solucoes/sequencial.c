@@ -23,8 +23,8 @@ int main(int argc, char **argv)
     FILE *inputFile;
     
     int nSenadores, nDepFederal, nDepEstadual;
-    int votoP = 0, votoS = 0, votoF = 0, votoE = 0, votoInvalido = 0;
-    int voto = 1;
+    int votoP = 0, votoInvalido = 0, votoValido = 0;
+    int voto;
     double metade;
 
     Candidato presidente[100] = {0,0};
@@ -38,11 +38,8 @@ int main(int argc, char **argv)
 
     while (fscanf(inputFile, "%d", &voto) != EOF)
     {
-        if (voto < 10){
-            votoInvalido++;
-        }
-        else
-        {
+        if (voto >= 10){
+            votoValido++;
             if (voto < 100){
                 presidente[voto].nCandidato = voto;
                 presidente[voto].qtdVotos++;
@@ -51,19 +48,16 @@ int main(int argc, char **argv)
             else if(voto < 1000){
                 senador[voto].nCandidato = voto;
                 senador[voto].qtdVotos++;
-                votoS++;
             }
             else if(voto < 10000){
                 depFederal[voto].nCandidato = voto;
                 depFederal[voto].qtdVotos++;
-                votoF++;
             }
             else{
                 depEstadual[voto].nCandidato = voto;
                 depEstadual[voto].qtdVotos++;
-                votoE++;
             }
-        }
+        } else votoInvalido++;
     }
         // Ordenar em ordem decrescente de acordo com qtdVotos.
         ordena(presidente, 0, 99);
@@ -71,7 +65,7 @@ int main(int argc, char **argv)
         ordena(depFederal, 0, 9999);
         ordena(depEstadual, 0, 99999);
 
-        printf("%d %d\n", (votoP+votoE+votoF+votoS), votoInvalido);
+        printf("%d %d\n", votoValido, votoInvalido);
 
         metade = votoP * 0.51;
         
