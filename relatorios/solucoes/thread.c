@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
-#include <string.h>
-#include <math.h>
 
 typedef struct candidato
 {
@@ -10,7 +8,7 @@ typedef struct candidato
     int qtdVotos;
 } Candidato;
 
-//Definicoes Gerais
+// Definicoes gerais
 typedef int item;
 #define key(A) (A)
 #define less(A, B) (key(A) > key(B))
@@ -25,119 +23,131 @@ typedef int item;
             exch(A, B); \
     }
 
-//Funcoes
+Candidato results[17][100000] = {0, 0};
+
+// Funcoes
 void ordena(Candidato *v, int l, int r);
 void merge(Candidato *v, int l, int r1, int r2);
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
     FILE *inputFile;
 
     int nSenadores, nDepFederal, nDepEstadual;
-    int votoInvalido = 0, votoValido = 0, votoP = 0;
-    int voto;
+    int votoP = 0, votoValido = 0, votoInvalido = 0;
+    int voto = 0;
     double metade;
+    int nThreads = omp_get_max_threads();
+    int thread_starting_points[nThreads];
 
     Candidato presidente[100] = {0, 0};
     Candidato senador[1000] = {0, 0};
     Candidato depFederal[10000] = {0, 0};
     Candidato depEstadual[100000] = {0, 0};
 
-    int num_threads = omp_get_max_threads();
+    inputFile = fopen(argv[1], "r");
 
-    FILE *file = fopen(argv[1], "r");
+    fseek(inputFile, 0, SEEK_END);
+    long int end_position = ftell(inputFile);
+    rewind(inputFile);
 
-    int start_position;
+    fscanf(inputFile, "%d %d %d\n", &nSenadores, &nDepFederal, &nDepEstadual);
 
-    fscanf(file, "%d %d %d%n", &nSenadores, &nDepFederal, &nDepEstadual, &start_position);
+    int starting_position = ftell(inputFile);
 
-    start_position += 1;
+    long int fileSize = end_position - starting_position;
 
-    fseek(file, 0L, SEEK_END);
-    long int end_position = ftell(file) + 1;
-    fseek(file, start_position, SEEK_SET);
+    int chunkSize = (int)(fileSize / nThreads);
 
+    char temp;
+    thread_starting_points[0] = starting_position;
 
-    int *thread_starts = calloc(num_threads + 1, sizeof(long int));
-    thread_starts[0] = start_position;
-    thread_starts[num_threads] = end_position;
-
-    long int size = end_position - start_position;
-    int chunk_size = (int)floor(size / num_threads);
-    
-    for (int i = 1; i < num_threads; i++)
+    for (int i = 1; i < nThreads; i++)
     {
-        fseek(file, thread_starts[i - 1] + chunk_size, SEEK_SET);
-        char line[10];
-        fgets(line, 10, file);
-        thread_starts[i] = thread_starts[i - 1] + chunk_size + strlen(line);
-    }
+        fseek(inputFile, thread_starting_points[i - 1] + chunkSize, SEEK_SET);
 
-    for(int i = 0; i < num_threads; i++)
-        printf("%d - %d\n", i, thread_starts[i]);
-    printf("\n");
-
-    fclose(file);
-
-#pragma omp parallel reduction(+: votoInvalido, votoValido, votoP)
-    {
-        FILE *file = fopen(argv[1], "r");
-        long int start, end;
-
-        start = thread_starts[omp_get_thread_num()];
-        end = thread_starts[omp_get_thread_num()+1];
-
-        fseek(file, start, SEEK_SET);
-
-        int size, vote;
-
-        long int counter = start;
-        
-        while (fscanf(file, "%d%n", &voto, &size) != EOF)
+        fscanf(inputFile, "%c", &temp);
+        while (temp != '\n' && ftell(inputFile) < end_position)
         {
-            counter += size;
-            if(counter >= end){
+            fseek(inputFile, ftell(inputFile) - 2, SEEK_SET);
+            fscanf(inputFile, "%c", &temp);
+        }
+        thread_starting_points[i] = ftell(inputFile);
+    }
+    fclose(inputFile);
+
+#pragma omp parallel private(voto) reduction(+ \
+                                             : votoInvalido, votoValido, votoP)
+    {
+        FILE *inputFile = fopen(argv[1], "r");
+
+        int current_thread = omp_get_thread_num();
+        int current_pointer = thread_starting_points[current_thread];
+        int end_pointer = thread_starting_points[current_thread + 1];
+        if (current_thread == omp_get_max_threads() - 1)
+        {
+            end_pointer = end_position;
+        }
+
+        fseek(inputFile, current_pointer, SEEK_SET);
+        int size_read;
+
+        while (fscanf(inputFile, "%d%n", &voto, &size_read) != EOF)
+        {
+            current_pointer += size_read;
+            if (current_pointer >= end_pointer)
+            {
                 break;
             }
-
-            if (voto >= 10)
+            if (voto < 10)
             {
+                votoInvalido++;
+            }
+            else
+            {
+                results[current_thread][voto].nCandidato = voto;
+                results[current_thread][voto].qtdVotos += 1;
                 votoValido++;
                 if (voto < 100)
-                {
-                    #pragma omp critical
-                    {
                     votoP++;
-                    presidente[voto].nCandidato = voto;
-                    presidente[voto].qtdVotos++;
-                    }
-                }
-                else if (voto < 1000)
-                {
-                    #pragma omp critical
-                    {
-                    senador[voto].qtdVotos++;
-                    senador[voto].nCandidato = voto;
-                    }
-                }
-                else if (voto < 10000)
-                {
-                    #pragma omp critical
-                    {
-                    depFederal[voto].qtdVotos++;
-                    depFederal[voto].nCandidato = voto;
-                    }
-                }
-                else
-                {
-                    #pragma omp critical
-                    {
-                    depEstadual[voto].qtdVotos++;
-                    depEstadual[voto].nCandidato = voto;
-                    }
-                }
-            } else votoInvalido++;
+            }
         }
+    }
+
+    for (int i = 0; i < 16; i++)
+    {
+        for (int j = 0; j < 100000; j++)
+        {
+            if (results[i][j].qtdVotos > 0)
+            {
+                results[16][j].nCandidato = results[i][j].nCandidato;
+                results[16][j].qtdVotos += results[i][j].qtdVotos;
+            }
+        }
+    }
+
+    for (int i = 10; i < 100; i++)
+    {
+        presidente[i].nCandidato = results[16][i].nCandidato;
+        presidente[i].qtdVotos = results[16][i].qtdVotos;
+    }
+
+    for (int i = 100; i < 1000; i++)
+    {
+        senador[i].nCandidato = results[16][i].nCandidato;
+        senador[i].qtdVotos = results[16][i].qtdVotos;
+    }
+
+    for (int i = 1000; i < 10000; i++)
+    {
+        depFederal[i].nCandidato = results[16][i].nCandidato;
+        depFederal[i].qtdVotos = results[16][i].qtdVotos;
+    }
+
+    for (int i = 10000; i < 100000; i++)
+    {
+        depEstadual[i].nCandidato = results[16][i].nCandidato;
+        depEstadual[i].qtdVotos = results[16][i].qtdVotos;
     }
 
     // Ordenar em ordem decrescente de acordo com qtdVotos.
