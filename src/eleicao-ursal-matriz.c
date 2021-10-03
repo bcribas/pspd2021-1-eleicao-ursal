@@ -26,10 +26,6 @@ void encontraFimLinha(FILE *arquivo){
     }
 }
 
-
-
-
-
 int compara(Politico A, Politico B) {
   if(A.votos == B.votos){
     if(B.codigo > A.codigo){
@@ -129,12 +125,8 @@ int main(int argc, char *argv[]){
     // Definindo uma ultima posição que será o final do arquivo
     // Para que a ultima thread vá até o final
     posicoes_iniciais_linhas_arquivos[omp_get_max_threads()] = arquivo_tamanho;
-    //printf("Tamanho do arquivo: %d bytes\n ",arquivo_tamanho);
-    //printf("%d\n",omp_get_max_threads());
-
     // Calculando tamanho do bloco
     int tamanho_bloco = arquivo_tamanho/omp_get_max_threads();
-    //printf("Bloco tamanho:%d\n", tamanho_bloco);
     fclose(arquivo);
 
 #pragma omp parallel
@@ -142,13 +134,9 @@ int main(int argc, char *argv[]){
     int lido;
     FILE *arquivo = fopen(argv[1],"r");
     fseek(arquivo,omp_get_thread_num()*tamanho_bloco,SEEK_SET);
-    
     // Salva a posição do inicio da linha para usar como final das threads anteriores
     encontraFimLinha(arquivo);
     posicoes_iniciais_linhas_arquivos[omp_get_thread_num()] = ftell(arquivo);
-
-    //printf("Thread %d POSICOES iniciais %ld\n",omp_get_thread_num(), ftell(arquivo));
-  
     fclose(arquivo);
 }
 
@@ -156,17 +144,11 @@ int main(int argc, char *argv[]){
   {   
     int numCandidato;
     FILE *arquivo = fopen(argv[1],"r");
-    // printf("Thread %d, inicio: %d, fim: %d\n",omp_get_thread_num(),posicoes_iniciais_linhas_arquivos[omp_get_thread_num()],posicoes_iniciais_linhas_arquivos[omp_get_thread_num()+1]  );
-
     fseek(arquivo,posicoes_iniciais_linhas_arquivos[omp_get_thread_num()],SEEK_SET);
-    // if(omp_get_thread_num() != 0){
-    //     encontraFimLinha(arquivo);
-    //   }
     // Enquando a Thread não chegar ao inicio da outra(byte da prxima thread) 
     while (ftell(arquivo) < posicoes_iniciais_linhas_arquivos[omp_get_thread_num()+1]-1){
       
       fscanf(arquivo,"%d",&numCandidato);
-      // printf("Thread %d: valor lido %d Posicao: %ld\n",omp_get_thread_num(),numCandidato,ftell(arquivo));
 
       if(numCandidato < 0){
         #pragma omp atomic
@@ -175,16 +157,11 @@ int main(int argc, char *argv[]){
       else if(numCandidato < 100){
           candidatos[omp_get_thread_num()][numCandidato].votos++;
           candidatos[omp_get_thread_num()][numCandidato].codigo = numCandidato;
-          // presidente_private[numCandidato].votos++;
-          // presidente_private[numCandidato].codigo = numCandidato;
+
           #pragma omp atomic
           totalvotosPresidente++;
       }
       else if(numCandidato >=100 && numCandidato < 1000){
-        // omp_set_lock(&writelock);
-        // senador[numCandidato-100].votos++;
-        //   senador[numCandidato-100].codigo = numCandidato;
-        // omp_unset_lock(&writelock);
           candidatos[omp_get_thread_num()][numCandidato].votos++;
           candidatos[omp_get_thread_num()][numCandidato].codigo = numCandidato;
         
@@ -239,11 +216,6 @@ int main(int argc, char *argv[]){
 
     mergesort(candidatos[0],10000,99999);
     imprime(E,candidatos[0],99999);
-
-    // free(presidente);
-    // free(senador);
-    // free(depFederal);
-    // free(depEstadual);
     libera_matriz(omp_get_max_threads());
     return 0;
 }
