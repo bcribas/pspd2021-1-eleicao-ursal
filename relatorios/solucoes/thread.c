@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <omp.h>
 
-typedef struct candidato
+typedef struct Candidato
 {
     int nCandidato;
     int qtdVotos;
@@ -34,11 +34,20 @@ int main(int argc, char **argv)
     FILE *inputFile;
 
     int nSenadores, nDepFederal, nDepEstadual;
-    int votoP = 0, votoValido = 0, votoInvalido = 0;
-    int voto = 0;
-    double metade;
-    int nThreads = omp_get_max_threads();
-    int thread_starting_points[nThreads];
+    int votoPresidente = 0, votoValido = 0, votoInvalido = 0, voto = 0;
+
+    // Especificar numero de threads
+    int nThreads = 8;
+    if (nThreads > omp_get_max_threads())
+    {
+        nThreads = omp_get_max_threads();
+    }
+    int threadStartingPoints[nThreads];
+
+    int startingPosition, chunkSize;
+    long int endPosition, fileSize;
+
+    double maioriaPresidente;
 
     Candidato presidente[100] = {0, 0};
     Candidato senador[1000] = {0, 0};
@@ -47,73 +56,85 @@ int main(int argc, char **argv)
 
     inputFile = fopen(argv[1], "r");
 
+    // Calculando byte inicial, byte final, bytes a serem lidos e divisão do arquivo em blocos
+    // de acordo com o numero de threads
     fseek(inputFile, 0, SEEK_END);
-    long int end_position = ftell(inputFile);
+    endPosition = ftell(inputFile);
     rewind(inputFile);
 
     fscanf(inputFile, "%d %d %d\n", &nSenadores, &nDepFederal, &nDepEstadual);
 
-    int starting_position = ftell(inputFile);
+    startingPosition = ftell(inputFile);
 
-    long int fileSize = end_position - starting_position;
+    fileSize = endPosition - startingPosition;
 
-    int chunkSize = (int)(fileSize / nThreads);
+    chunkSize = (int)(fileSize / nThreads);
 
-    char temp;
-    thread_starting_points[0] = starting_position;
+    char character;
+    threadStartingPoints[0] = startingPosition;
 
     for (int i = 1; i < nThreads; i++)
     {
-        fseek(inputFile, thread_starting_points[i - 1] + chunkSize, SEEK_SET);
+        fseek(inputFile, threadStartingPoints[i - 1] + chunkSize, SEEK_SET);
 
-        fscanf(inputFile, "%c", &temp);
-        while (temp != '\n' && ftell(inputFile) < end_position)
+        // Busca o final da linha anterior
+        fscanf(inputFile, "%c", &character);
+        while (character != '\n' && ftell(inputFile) < endPosition)
         {
             fseek(inputFile, ftell(inputFile) - 2, SEEK_SET);
-            fscanf(inputFile, "%c", &temp);
+            fscanf(inputFile, "%c", &character);
         }
-        thread_starting_points[i] = ftell(inputFile);
+        threadStartingPoints[i] = ftell(inputFile);
     }
     fclose(inputFile);
 
+    // Especificando o numero de threads
+    omp_set_dynamic(0);
+    omp_set_num_threads(nThreads);
+
 #pragma omp parallel private(voto) reduction(+ \
-                                             : votoInvalido, votoValido, votoP)
+                                             : votoInvalido, votoValido, votoPresidente)
     {
         FILE *inputFile = fopen(argv[1], "r");
 
-        int current_thread = omp_get_thread_num();
-        int current_pointer = thread_starting_points[current_thread];
-        int end_pointer = thread_starting_points[current_thread + 1];
-        if (current_thread == omp_get_max_threads() - 1)
+        int currentThread = omp_get_thread_num();
+        int currentPointer = threadStartingPoints[currentThread];
+        int endPointer = threadStartingPoints[currentThread + 1];
+        if (currentThread == nThreads - 1)
         {
-            end_pointer = end_position;
+            endPointer = endPosition;
         }
 
-        fseek(inputFile, current_pointer, SEEK_SET);
+        fseek(inputFile, currentPointer, SEEK_SET);
         int size_read;
 
         while (fscanf(inputFile, "%d%n", &voto, &size_read) != EOF)
         {
-            current_pointer += size_read;
-            if (current_pointer >= end_pointer)
+            // Evita que uma thread invada o espaço de leitura da proxima
+            currentPointer += size_read;
+            if (currentPointer >= endPointer)
             {
                 break;
             }
+
             if (voto < 10)
             {
                 votoInvalido++;
             }
             else
             {
-                results[current_thread][voto].nCandidato = voto;
-                results[current_thread][voto].qtdVotos += 1;
+                results[currentThread][voto].nCandidato = voto;
+                results[currentThread][voto].qtdVotos += 1;
                 votoValido++;
                 if (voto < 100)
-                    votoP++;
+                    votoPresidente++;
             }
         }
     }
 
+    /*Cada thread escreve os resultados lidos em uma linha da matriz results,
+    evitando concorrência de acesso. Aqui, os valores lidos são somados e atribuidos
+    a ultima linha da matriz, que passa a possuir o resultado final dos votos*/
     for (int i = 0; i < 16; i++)
     {
         for (int j = 0; j < 100000; j++)
@@ -126,6 +147,7 @@ int main(int argc, char **argv)
         }
     }
 
+    // Copia os resultados para arrays especificos, preparando para a ordenacao
     for (int i = 10; i < 100; i++)
     {
         presidente[i].nCandidato = results[16][i].nCandidato;
@@ -150,7 +172,7 @@ int main(int argc, char **argv)
         depEstadual[i].qtdVotos = results[16][i].qtdVotos;
     }
 
-    // Ordenar em ordem decrescente de acordo com qtdVotos.
+    // Ordena em ordem decrescente de acordo com qtdVotos
     ordena(presidente, 0, 99);
     ordena(senador, 0, 999);
     ordena(depFederal, 0, 9999);
@@ -158,9 +180,9 @@ int main(int argc, char **argv)
 
     printf("%d %d\n", votoValido, votoInvalido);
 
-    metade = votoP * 0.51;
+    maioriaPresidente = votoPresidente * 0.51;
 
-    if (presidente[0].qtdVotos > metade)
+    if (presidente[0].qtdVotos > maioriaPresidente)
         printf("%d\n", presidente[0].nCandidato);
     else
         printf("Segundo turno\n");
