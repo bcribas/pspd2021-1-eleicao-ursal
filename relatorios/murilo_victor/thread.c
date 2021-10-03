@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
+#include <time.h>
 
 typedef struct Candidato
 {
@@ -33,8 +34,11 @@ int main(int argc, char **argv)
 {
     FILE *inputFile;
 
+    clock_t start, end;
+    double cpu_time_used;
+
     int nSenadores, nDepFederal, nDepEstadual;
-    int votoPresidente = 0, votoValido = 0, votoInvalido = 0, voto = 0;
+    int votoPresidente = 0, votoValido = 0, votoInvalido = 0, voto;
 
     // Especificar numero de threads
     int nThreads = 8;
@@ -177,6 +181,13 @@ int main(int argc, char **argv)
     ordena(senador, 0, 999);
     ordena(depFederal, 0, 9999);
     ordena(depEstadual, 0, 99999);
+    
+    //TESTAR TEMPO GASTO
+    /*start = clock();
+    código vai aqui
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("tempo usado de cpu: %f\n", cpu_time_used);*/
 
     printf("%d %d\n", votoValido, votoInvalido);
 
