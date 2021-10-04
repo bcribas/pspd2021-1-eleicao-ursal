@@ -42,5 +42,61 @@ A segunda solução foi criar uma matriz para os candidatos, onde cada thread op
 Para evitar outros conflitos de acesso, a variável 'voto' foi tornada privada de cada thread e foi aplicado um reduction nas variáveis de soma de votos.
 
 ## 4. Teste de desempenho
-### 4.1. Gráfico
-### 4.2. Observações
+### 4.1. Gráficos
+#### 4.1.1 FILE001-SAMPLE
+<p align="center">
+    <img src="imagens/file001-sample.png" alt="Logo">
+</p>
+
+#### 4.1.2 FILE002-SAMPLE
+<p align="center">
+    <img src="imagens/file002-sample.png" alt="Logo">
+</p>
+
+#### 4.1.3 FILE003
+<p align="center">
+    <img src="imagens/file003.png" alt="Logo">
+</p>
+
+#### 4.1.4 FILE004
+<p align="center">
+    <img src="imagens/file004.png" alt="Logo">
+</p>
+
+#### 4.1.5 FILE005-SAMPLE
+<p align="center">
+    <img src="imagens/file005-sample.png" alt="Logo">
+</p>
+
+#### 4.1.6 FILE006
+<p align="center">
+    <img src="imagens/file006.png" alt="Logo">
+</p>
+
+#### 4.1.7 FILE007-SAMPLE
+<p align="center">
+    <img src="imagens/file007-sample.png" alt="Logo">
+</p>
+
+#### 4.1.8 FILE008
+<p align="center">
+    <img src="imagens/file008.png" alt="Logo">
+</p>
+
+#### 4.1.9 FILE009
+<p align="center">
+    <img src="imagens/file009.png" alt="Logo">
+</p>
+
+#### 4.1.10 FILE010-BIG
+<p align="center">
+    <img src="imagens/file010-big.png" alt="Logo">
+</p>
+
+#### 4.1.11 FILE-011-BIG
+<p align="center">
+    <img src="imagens/file-011-big.png" alt="Logo">
+</p>
+
+### 4.2. Conclusões
+
