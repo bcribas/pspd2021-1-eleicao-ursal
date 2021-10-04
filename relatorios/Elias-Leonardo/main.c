@@ -1,17 +1,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
+#include <omp.h>
 
 
 /**
- * -> Abrir o arquivo via input de path no main argv -> OK
- * -> Verificar o tamanho do arquivo  -> OK
- * -> De forma síncrona, ler o arquivo e os inputs, vendo se o código tá ok -> OK
  * -> Atualizar implementação pra rodar no openmp
  * -> Gerar relatório 
  * 
  */
+struct file_limits 
+{
+    int start_limit;
+} typedef File_limits;
 
 struct candidato
 {
@@ -31,16 +32,18 @@ int compare(const void *a, const void *b) {
 }
 
 int main(int argc, char* argv[]) {
-    int qtdVotosPresidente = 0, votosValidos = 0, invalidos = 0;
+    int qtdVotosPresidente = 0, votosValidos = 0, invalidos = 0, num_threads = omp_get_max_threads();
 
     int senadoresEleitos, depFederalEleitos, depEstaduaisEleitos, voto;
 
-    ssize_t read;
-    char * line = NULL;
-    size_t len = 0;
+    size_t read;
 
     if (argc < 2) {
+        printf(" O caminho do arquivo deve ser especificado!!\n");
         return 1;
+    }
+    if (argc == 3) {
+        num_threads = atoi(argv[2]);
     }
 
     FILE *fptr;
@@ -51,34 +54,78 @@ int main(int argc, char* argv[]) {
         printf("ERRO\n");
         return 1;
     }
-
+    
     fseek(fptr, 0L, SEEK_END);
-    int sz = ftell(fptr);
+
+    int total_file_size = ftell(fptr);
 
     rewind(fptr);
     fscanf(fptr, "%d %d %d", &senadoresEleitos, &depFederalEleitos, &depEstaduaisEleitos);
 
-    fseek(fptr, sizeof(int)*3, SEEK_SET);
+    int initial_limit = ftell(fptr);
 
-    for (int i = sizeof(int)*3; i < sz;) 
+    File_limits *limits_per_thread = malloc(sizeof(File_limits)*num_threads);
+
+    int file_size = total_file_size - initial_limit;
+
+    size_t len = sizeof(int);
+
+    limits_per_thread[0].start_limit = initial_limit;
+
+    for (int i = 1; i < num_threads; i++ )
     {
-        read = getline(&line, &len, fptr);
-        int voto = atoi(line);
-        if (voto > 0) {
-            votosValidos++;
-            candidatos[voto].index = voto;
-            candidatos[voto].votos++;
-        }
-        else {
-            invalidos++;
-        }
-        i+=read;
+        limits_per_thread[i].start_limit = i * (file_size/num_threads);
     }
-    
 
     fclose(fptr);
 
-    // TA OK 
+    for (int i = 0; i < 99999; i++){
+        candidatos[i].index = i;
+    }
+
+    #pragma omp parallel private(voto) num_threads(num_threads) reduction(+:votosValidos, invalidos)
+    {
+        char *line = NULL;
+        line = malloc(sizeof(char)*6);
+
+        FILE *fptr;
+
+        size_t len = sizeof(int);
+
+        fptr = fopen(argv[1],"r");
+
+        fseek(fptr, limits_per_thread[omp_get_thread_num()].start_limit, SEEK_SET);
+
+        char ch;
+        do {
+            fscanf(fptr, "%c", &ch);
+        } while(ch != '\n');
+
+        int end_limit = (num_threads - 1) == omp_get_thread_num()
+                ? total_file_size
+                : limits_per_thread[omp_get_thread_num() + 1].start_limit;
+
+        for (int i = ftell(fptr); i < end_limit;)
+        {   
+            i += getline(&line, &len, fptr);
+            voto = atoi(line);
+        
+            if (voto > 0) {
+                votosValidos++;
+
+                #pragma omp atomic
+                candidatos[voto].votos++;
+            }
+            else {
+                invalidos++;
+            }
+
+        }
+        free(line);
+        fclose(fptr);
+    }
+
+    // TA OK
     for (int i = 0; i < 100; i++) {
         qtdVotosPresidente += candidatos[i].votos;
     }
@@ -87,11 +134,11 @@ int main(int argc, char* argv[]) {
 
     printf("%d %d\n", votosValidos, invalidos);
 
-    if (candidatos[0].votos > (qtdVotosPresidente / 2)) 
+    if (candidatos[0].votos > (qtdVotosPresidente / 2))
         printf("%d\n",candidatos[0].index);
     else
         printf("Segundo turno\n");
-    
+
     qsort(candidatos + 100, 900, sizeof(Candidato), compare);
 
     for (int i = 0; i < senadoresEleitos; i++) {
@@ -122,6 +169,6 @@ int main(int argc, char* argv[]) {
 
     printf("\n");
 
-
+    free(limits_per_thread);
     return 0;
 }
