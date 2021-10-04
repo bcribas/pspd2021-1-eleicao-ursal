@@ -59,29 +59,35 @@ int main(int argc, char **argv){
   {
     FILE *f;
     f = fopen(argv[1], "r");
-    int n_senadores, n_dep_fed, n_dep_est;
-    long offset;
+    long offset, localizacao;
+    int tamanho_voto;
     char buff = '\0';
     int voto;
+    int thread_num = omp_get_thread_num();
     while(buff != '\n')
       fscanf(f, "%c", &buff);
-    if(omp_get_thread_num() > 0){
-      fscanf(f, "%c", &buff);
-      offset = (long) tam_arquivo * (omp_get_thread_num()) / omp_get_max_threads();
+    localizacao = ftell(f);
+    if(thread_num > 0){
+      offset = (long) tam_arquivo * (thread_num) / omp_get_max_threads();
       fseek(f, offset, SEEK_CUR);
+      fscanf(f, "%c", &buff);
       while(buff != '\n')
         fscanf(f, "%c", &buff);
 #pragma omp critical
-      marcadores[omp_get_thread_num() - 1] = ftell(f);
+      marcadores[thread_num - 1] = ftell(f);
+      localizacao = marcadores[thread_num -1];
     }
 #pragma omp barrier
-    while(fscanf(f, "%d", &voto) != EOF && ftell(f) < marcadores[omp_get_thread_num()]){
+    while(fscanf(f, "%d%n", &voto, &tamanho_voto) != EOF){
+      localizacao += tamanho_voto;
+      if(localizacao >= marcadores[thread_num])
+        break;
       if (voto > 9){
-        leitura_votos[omp_get_thread_num()][voto]++;
-        leitura_votos_validos[omp_get_thread_num()]++;
+        leitura_votos[thread_num][voto]++;
+        leitura_votos_validos[thread_num]++;
       }
       else
-        leitura_votos_invalidos[omp_get_thread_num()]++;
+        leitura_votos_invalidos[thread_num]++;
     }
   }
 
@@ -89,7 +95,9 @@ int main(int argc, char **argv){
     n_voto += leitura_votos_validos[i];
     n_voto_invalido += leitura_votos_invalidos[i];
   }
+#pragma omp parallel for
   for(int i = 0; i < 99999; i++)
+#pragma omp parallel for
     for(int j = 0; j < omp_get_max_threads(); j++)
       votos[i] += leitura_votos[j][i];
 
