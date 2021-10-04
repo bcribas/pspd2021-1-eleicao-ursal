@@ -2,7 +2,7 @@
 
 Integrantes:
 
-- Ailton Aires ()
+- Ailton Aires (180011600)
 - Erick Giffoni (170141161)
 - Maicon Mares ()
 - Sara Silva (160144752)
@@ -100,6 +100,10 @@ no total, dividisse essa quantidade de modo igual para cada *thread* e fizesse o
 controle desses processos paralelos para que cada um lesse a quantidade de bytes<br>
 dividida anteriormente, sem que deixar que uma *thread* "invadisse" o espaço da<br>
 outra ou que algum valor de entrada fosse perdido ou repetido.<br>
+
+Para que a estratégia da leitura paralela fosse realizada com sucesso, tivemos que<br>
+utilizar algumas funções que nos ajudassem na manipulação de arquivos. Algumas delas<br>
+são: `fseek`, `fscanf`, `ftell`, `fopen` e `fclose`.
 
 Mantivemos a utilização daqueles vetores estáticos para computar cada voto, sendo<br>
 que existe a possibilidade de uma ou mais *threads* acessarem uma mesma posição<br>
