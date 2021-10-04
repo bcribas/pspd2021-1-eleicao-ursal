@@ -32,10 +32,28 @@ void computar_voto(int voto, int *qtd_votos_presidente, int *qtd_invalidos,
 
 int main(int argc, char *argv[]){
 
-    int *presidente   = (int *) calloc(0b1100100, sizeof(int));             // 0-99
+    /*int *presidente   = (int *) calloc(0b1100100, sizeof(int));             // 0-99
     int *senador      = (int *) calloc(0b1111101000, sizeof(int));          // 0-999
     int *depFed       = (int *) calloc(0b10011100010000, sizeof(int));      // 0-9999
-    int *depEst       = (int *) calloc(0b11000011010100000, sizeof(int));   // 0-99999
+    int *depEst       = (int *) calloc(0b11000011010100000, sizeof(int));   // 0-99999*/
+
+    int lines = omp_get_num_threads() + 1;
+    int cols = 99999;
+
+    int **all_votes = (int **) calloc(lines, sizeof(int));
+
+    if (all_votes == NULL) {
+       printf("Somethin went wrong during allocation\n");
+       exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < cols; i++) {
+       all_votes[i] = (int *) calloc(cols, sizeof(int));
+       if (all_votes[i] == NULL) {
+         printf("Somethin went wrong during allocation\n");
+         exit(EXIT_FAILURE);
+      }
+    }
 
     int voto;
     int qtd_votos_presidente = 0;
@@ -67,30 +85,36 @@ int main(int argc, char *argv[]){
         int lido = 0;
         int count = 0;
         int lixo = 0;
-        while(count < qnt_bytes_thread){
-            int posicao_atual = ftell(arquivo);
+        int nova_posicao = 0;
+        int posicao_atual = 0;
+        for (count = 0; count < qnt_bytes_thread; count+=nova_posicao-posicao_atual){
+            posicao_atual = ftell(arquivo);
             fseek(arquivo, posicao_atual-1, SEEK_SET);
             if(fgetc(arquivo) == '\n'){
                 fscanf(arquivo, "%d ", &lido);
-                // todo: chamar funcao que computa o voto
-                computar_voto(lido, &qtd_votos_presidente, &qtd_invalidos,
-                              &qtd_validos, presidente, senador, depFed, depEst);
+                // todo: substituir chamada a funcao computa_voto por calculo na matriz
+                #pragma omp parallel for
+                for (int i = 0; i < lines; i++) {
+                   for (int j = 0; j < cols; j++) {
+                      if (lido > 0) {
+                        all_votes[omp_get_thread_num()][lido] += 1;
+                        qtd_validos += 1;
+                      } else 
+                        qtd_invalidos += 1;
+                   }
+                }
                 // printf("Thread %d leu %d\n", omp_get_thread_num(), lido);
             }
             else{
                 fseek(arquivo, posicao_atual-1, SEEK_SET);
                 fscanf(arquivo, "%d ", &lixo);
             }
-            int nova_posicao = ftell(arquivo);
-            count += nova_posicao - posicao_atual; // incrementa qnt de bytes lido no ultimo scanf
+            nova_posicao = ftell(arquivo);
+            //count += nova_posicao - posicao_atual; // incrementa qnt de bytes lido no ultimo scanf
         }
 
         fclose(arquivo);
     }
-
-//    while(scanf(" %d", &voto) != EOF){
-       
-//    } // end while
 
    printf("%d %d\n", qtd_validos, qtd_invalidos);
 
@@ -99,6 +123,8 @@ int main(int argc, char *argv[]){
    int pos_eleito = 0;
    char segundo_turno = 0b00000000; // boolean falso
 
+// Adaptar para cada thread computar presidente, sen., dep. fed e dep. est. e adicionar 
+// o maior do seu intervalo para cada um deles na ultima linha
 #pragma omp parallel sections private(pos_eleito, segundo_turno)
    {
 #pragma omp section
