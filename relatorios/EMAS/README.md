@@ -122,7 +122,11 @@ O código foi evoluído usando a lógica de histograma, que consiste em uma dist
 Nessa versão também foi utilizada a diretiva do for do OpenMp para paralelizar o laço principal de leitura dos votos.
 
 **Observando o desempenho nesse ponto do trabalho:**
-TO-DO.
+A tabela a seguir apresenta os resultados para melhor solução implementada considerando todos os arquivos de entrada.
+Tabela 1:<br>
+<img src="./imagens/tabela.jpg">
+<br>Fonte: autores
+</img><br>
 
 <hr>
 
