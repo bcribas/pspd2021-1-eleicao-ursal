@@ -115,4 +115,4 @@ Foi observado que foi obtido uma aproximação do valor do ribas-ac-ioajustado a
 
 ## Gráfico demonstrativo
 
-![grafico](Elias-Leonardo/grafico.jpg)
+![grafico](grafico.jpg)
