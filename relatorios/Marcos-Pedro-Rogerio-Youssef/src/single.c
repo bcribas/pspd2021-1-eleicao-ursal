@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
-#define MAX_ARRAY_SIZE 100000
+#define MAX_ARRAY_SIZE 10000000
 int encontrar_candidato(int *votos, long int size)
 {
     unsigned int maior = 0;
@@ -33,19 +33,22 @@ float porcentagem_presidente(int *votos, int total)
     }
     return (float)maior / total;
 }
-int main()
+int main(int argc, char *argv[])
 {
     long int s, f, e;
     const int size_p = 100, size_s = 1000, size_f = 10000, size_e = 100000;
-    scanf("%ld %ld %ld", &s, &f, &e);
+    const char *in = argv[1];
+    FILE *file = fopen(in, "r");
+    fscanf(file, "%ld %ld %ld\n", &s, &f, &e);
     int *votos = calloc(MAX_ARRAY_SIZE, sizeof(int));
     long int voto;
 
     int quantidade_p = 0;
     long int validos = 0, invalidos = 0;
-    while (scanf("%ld", &voto) != EOF)
+    long int size;
+    while (fscanf(file, "%d\n", &voto, &size) != EOF)
     {
-        if (voto > 0)
+        if (voto > 0 && voto < 1000000)
         {
             //presidente
             if (((float)voto) / size_p <= 1.0)
