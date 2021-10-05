@@ -1,4 +1,4 @@
-# Equipe EMAS
+# Equipe Sara-Erick-Ailton-Maicon
 
 Integrantes:
 
