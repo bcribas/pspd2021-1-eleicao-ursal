@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
     long int bytesFinais;
 	int numBytes;
 
-// 
+
 #pragma omp parallel reduction(+:votosValidos,votosInvalidos, votosPresidente)
 {
 
