@@ -1,26 +1,3 @@
-/*
-   * Erick Giffoni (170141161), Sara Silva (160144752)
-   * Universidade de Brasilia - UnB - PSPD 2021/1
-   * 08/2021
-   * Eleicao U.R.S.A.L - Versao paralela com OpenMP
-*/
-
-/* .Voto valido         = numero inteiro positivo
-   .Voto invalido/nulo  =   ||   inteiro negativo
-*/
-
-/* .Presidente = 2 digitos & vitoria = 51% dos votos
-   .Senador    = 3   ||    & cada eleitor escolhe 2
-   .Dep.Fed    = 4   ||
-   .Dep.Est    = 5   ||
-
-   .Vitoria = maioria simples (exceto o presidente) dos votos validos
-
-   .Partido = identificado pelos 2 primeiros dígitos do codigo de um candidato.
-*/
-
-/* COMPILE WITH gcc-10 -fopenmp */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
@@ -63,12 +40,11 @@ int main(int argc, char *argv[]){
         int nova_posicao = 0;
         int posicao_atual = 0;
         
-        //while(count < qnt_bytes_thread){
-        //#pragma omp parallel for private(voto, qnt_bytes_thread) shared(votos) reduction(+:qnt_validos) reduction(+:qnt_invalidos)
-        for (count = 0; count < qnt_bytes_thread;){
-
+        #pragma omp parallel for private(voto) shared(votos)
+        for (count = 0; count < qnt_bytes_thread; count++){
             posicao_atual = ftell(arquivo);
             fseek(arquivo, posicao_atual-1, SEEK_SET);
+
             if(fgetc(arquivo) == '\n'){
                 fscanf(arquivo, "%d ", &voto);
 
@@ -86,33 +62,19 @@ int main(int argc, char *argv[]){
             }
             int nova_posicao = ftell(arquivo);
             count += nova_posicao - posicao_atual; // incrementa qnt de bytes voto no ultimo scanf
+            count--;
         }        
 
         fclose(arquivo);
 
     }
-   printf("%d %d\n", qnt_validos, qnt_invalidos);
+    printf("%d %d\n", qnt_validos, qnt_invalidos);
 
 
-    #pragma omp parallel sections
-    {
-        #pragma omp section
-        {
-            elege_presidente(votos);
-        }
-        #pragma omp section
-        {
-            elege_politico(votos, 100, 999, s);  // elege senadores
-        }
-        #pragma omp section
-        {
-            elege_politico(votos, 1000, 9999, s);  // elege deputados federais
-        }
-        #pragma omp section
-        {
-            elege_politico(votos, 10000, 99999, s);  // elege deputados estaduais
-        }
-    }
+    elege_presidente(votos);
+    elege_politico(votos, 100, 999, s);  // elege senadores
+    elege_politico(votos, 1000, 9999, s);  // elege deputados federais
+    elege_politico(votos, 10000, 99999, s);  // elege deputados estaduais
 
     return 0;
 } 
