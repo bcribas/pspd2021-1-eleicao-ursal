@@ -54,11 +54,11 @@ A comparação entre as implementações foram realizadas em todos os arquivos d
 | SYS          | 0,14         | 0,07            | 0,19  | 0,15      | 0,18      | 0,17      | 0,17      | 0,21       |
 *tempos em segundos
 
-![image info](./img/grafico1.png)
+![image info](https://i.imgur.com/FiJwBZ4.png)
 
-![image info](./img/grafico2.png)
+![image info](https://i.imgur.com/9gvlIBW.png)
 
-![image info](./img/grafico3.png)
+![image info](https://i.imgur.com/m3nREYt.png)
 
 
 ### Conclusão
