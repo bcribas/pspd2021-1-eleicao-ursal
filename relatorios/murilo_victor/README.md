@@ -42,7 +42,10 @@ A segunda solução foi criar uma matriz para os candidatos, onde cada thread op
 Para evitar outros conflitos de acesso, a variável 'voto' foi tornada privada de cada thread e foi aplicado um reduction nas variáveis de soma de votos.
 
 ## 4. Teste de desempenho
+No dia no qual o grupo testou o projeto, a máquina CHOCOCINO recomendada pelo professor não estava disponível. Fomos orientados a usar uma máquina dos próprios integrantes do grupo, apesar da limitação de 8 threads.
+
 ### 4.1. Gráficos
+
 #### 4.1.1 FILE001-SAMPLE
 <p align="center">
     <img src="imagens/file001-sample.png" alt="Logo">
@@ -100,3 +103,16 @@ Para evitar outros conflitos de acesso, a variável 'voto' foi tornada privada d
 
 ### 4.2. Conclusões
 
+Cada programa foi executado 3 vezes com cada arquivo e os gráficos representam a média dos tempos de execução.
+
+Os principais pontos a serem destacados são:
+
+- Fazer uso de mais threads nos arquivos menores aumentou o tempo de processamento sem ganhos significantes no tempo de execução. Isso acontece por causa dos passos extras que a implementação das threads exige. Isso é facilmente notável comparando a execução sequencial e a execução com 1 thread. Apesar de ambos usarem somente uma thread para processamento, a execução com 1 thread perde ou empata com a sequencial em todos os casos.
+
+- O ganho de tempo da execução com mais threads torna-se mais claro nos arquivos maiores. Nos arquivos 'big', por exemplo, a utilização de mais threads aumenta o tempo de processamento, devido a utilização do processador por completo, mas reduz significativamente o tempo de execução.
+
+[Planilha com os tempos médios de execução](https://docs.google.com/spreadsheets/d/1oWU8GOvMt8J1LMZlms-_GB_e31vwBHyafCCxKyFT1iE/edit?usp=sharing)
+
+Obs.: É possível mudar o número de threads a serem executadas na linha 44 do arquivo 'thread.c'.
+
+Obs2.: O arquivo 'thread.c' deve ser compilado com a flag '-fopenmp', devido a utilização da biblioteca opm.h
