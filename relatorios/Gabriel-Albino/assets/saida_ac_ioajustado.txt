@@ -1,0 +1,98 @@
+* Processando input/file002-sample
+time -p ./prof/ribas-ac-ioajustado input/file002-sample > benchmark/file002-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file009
+time -p ./prof/ribas-ac-ioajustado input/file009 > benchmark/file009
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file008
+time -p ./prof/ribas-ac-ioajustado input/file008 > benchmark/file008
+real 0.05
+user 0.05
+sys 0.00
+
+* Processando input/file006
+time -p ./prof/ribas-ac-ioajustado input/file006 > benchmark/file006
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file004
+time -p ./prof/ribas-ac-ioajustado input/file004 > benchmark/file004
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file003
+time -p ./prof/ribas-ac-ioajustado input/file003 > benchmark/file003
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./prof/ribas-ac-ioajustado input/file007-sample > benchmark/file007-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file001-sample
+time -p ./prof/ribas-ac-ioajustado input/file001-sample > benchmark/file001-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file010-big
+time -p ./prof/ribas-ac-ioajustado input/file010-big > benchmark/file010-big
+real 0.27
+user 0.26
+sys 0.00
+
+* Processando input/file-011-big
+time -p ./prof/ribas-ac-ioajustado input/file-011-big > benchmark/file-011-big
+real 1.09
+user 0.99
+sys 0.09
+
+* Processando input/file005-sample
+time -p ./prof/ribas-ac-ioajustado input/file005-sample > benchmark/file005-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Comparando output/file002-sample
+Files output/file002-sample and benchmark/file002-sample are identical
+
+* Comparando output/file009
+Files output/file009 and benchmark/file009 are identical
+
+* Comparando output/file008
+Files output/file008 and benchmark/file008 are identical
+
+* Comparando output/file006
+Files output/file006 and benchmark/file006 are identical
+
+* Comparando output/file004
+Files output/file004 and benchmark/file004 are identical
+
+* Comparando output/file003
+Files output/file003 and benchmark/file003 are identical
+
+* Comparando output/file007-sample
+Files output/file007-sample and benchmark/file007-sample are identical
+
+* Comparando output/file001-sample
+Files output/file001-sample and benchmark/file001-sample are identical
+
+* Comparando output/file010-big
+Files output/file010-big and benchmark/file010-big are identical
+
+* Comparando output/file-011-big
+Files output/file-011-big and benchmark/file-011-big are identical
+
+* Comparando output/file005-sample
+Files output/file005-sample and benchmark/file005-sample are identical
