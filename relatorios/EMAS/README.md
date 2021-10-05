@@ -116,13 +116,13 @@ local "ao mesmo tempo".<br>
 
 TO-DO.
 
-## solucao histograma
+## Histograma
 
-TODO
+O código foi evoluído usando a lógica de histograma, que consiste em uma distribuição de frequências. Foi usado um vetor *votos* e a cada voto *v* válido lido, o valor do vetor no índice *v* é incrementado, registrando assim a frenquência desse voto. Então deixaram de ser usados os vetores diferentes para cada tipo de candidato.
+Nessa versão também foi utilizada a diretiva do for do OpenMp para paralelizar o laço principal de leitura dos votos.
 
-## solucao matriz
-
-TODO
+**Observando o desempenho nesse ponto do trabalho:**
+TO-DO.
 
 <hr>
 
