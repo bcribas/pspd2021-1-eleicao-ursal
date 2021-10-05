@@ -1,0 +1,409 @@
+OMP_NUM_THREADS = 1
+
+* Processando input/file002-sample
+time -p ./prog input/file002-sample > benchmark/file002-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file009
+time -p ./prog input/file009 > benchmark/file009
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file008
+time -p ./prog input/file008 > benchmark/file008
+real 1.63
+user 1.20
+sys 0.43
+
+* Processando input/file006
+time -p ./prog input/file006 > benchmark/file006
+real 0.07
+user 0.06
+sys 0.00
+
+* Processando input/file004
+time -p ./prog input/file004 > benchmark/file004
+real 0.01
+user 0.01
+sys 0.00
+
+* Processando input/file003
+time -p ./prog input/file003 > benchmark/file003
+real 0.01
+user 0.01
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./prog input/file007-sample > benchmark/file007-sample
+real 0.20
+user 0.18
+sys 0.02
+
+* Processando input/file001-sample
+time -p ./prog input/file001-sample > benchmark/file001-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file010-big
+time -p ./prog input/file010-big > benchmark/file010-big
+real 8.42
+user 6.43
+sys 1.99
+
+* Processando input/file-011-big
+time -p ./prog input/file-011-big > benchmark/file-011-big
+real 34.47
+user 26.82
+sys 7.64
+
+* Processando input/file005-sample
+time -p ./prog input/file005-sample > benchmark/file005-sample
+real 0.07
+user 0.06
+sys 0.00
+
+
+OMP_NUM_THREADS = 2
+
+* Processando input/file002-sample
+time -p ./prog input/file002-sample > benchmark/file002-sample
+real 0.01
+user 0.10
+sys 0.00
+
+* Processando input/file009
+time -p ./prog input/file009 > benchmark/file009
+real 0.03
+user 0.19
+sys 0.00
+
+* Processando input/file008
+time -p ./prog input/file008 > benchmark/file008
+real 0.72
+user 3.63
+sys 0.76
+
+* Processando input/file006
+time -p ./prog input/file006 > benchmark/file006
+real 0.10
+user 0.44
+sys 0.01
+
+* Processando input/file004
+time -p ./prog input/file004 > benchmark/file004
+real 0.05
+user 0.30
+sys 0.00
+
+* Processando input/file003
+time -p ./prog input/file003 > benchmark/file003
+real 0.04
+user 0.20
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./prog input/file007-sample > benchmark/file007-sample
+real 0.16
+user 0.68
+sys 0.08
+
+* Processando input/file001-sample
+time -p ./prog input/file001-sample > benchmark/file001-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file010-big
+time -p ./prog input/file010-big > benchmark/file010-big
+real 3.74
+user 18.01
+sys 4.94
+
+* Processando input/file-011-big
+time -p ./prog input/file-011-big > benchmark/file-011-big
+real 15.04
+user 77.80
+sys 21.17
+
+* Processando input/file005-sample
+time -p ./prog input/file005-sample > benchmark/file005-sample
+real 0.10
+user 0.38
+sys 0.00
+
+OMP_NUM_THREADS = 4
+
+* Processando input/file002-sample
+time -p ./prog input/file002-sample > benchmark/file002-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file009
+time -p ./prog input/file009 > benchmark/file009
+real 0.00
+user 0.01
+sys 0.00
+
+* Processando input/file008
+time -p ./prog input/file008 > benchmark/file008
+real 0.79
+user 2.39
+sys 0.73
+
+* Processando input/file006
+time -p ./prog input/file006 > benchmark/file006
+real 0.06
+user 0.15
+sys 0.00
+
+* Processando input/file004
+time -p ./prog input/file004 > benchmark/file004
+real 0.01
+user 0.04
+sys 0.00
+
+* Processando input/file003
+time -p ./prog input/file003 > benchmark/file003
+real 0.01
+user 0.05
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./prog input/file007-sample > benchmark/file007-sample
+real 0.14
+user 0.43
+sys 0.05
+
+* Processando input/file001-sample
+time -p ./prog input/file001-sample > benchmark/file001-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file010-big
+time -p ./prog input/file010-big > benchmark/file010-big
+real 4.02
+user 11.65
+sys 3.52
+
+* Processando input/file-011-big
+time -p ./prog input/file-011-big > benchmark/file-011-big
+real 16.95
+user 51.23
+sys 14.89
+
+* Processando input/file005-sample
+time -p ./prog input/file005-sample > benchmark/file005-sample
+real 0.07
+user 0.12
+sys 0.00
+
+OMP_NUM_THREADS = 8
+
+* Processando input/file002-sample
+time -p ./prog input/file002-sample > benchmark/file002-sample
+real 0.03
+user 0.14
+sys 0.00
+
+* Processando input/file009
+time -p ./prog input/file009 > benchmark/file009
+real 0.05
+user 0.29
+sys 0.00
+
+* Processando input/file008
+time -p ./prog input/file008 > benchmark/file008
+real 0.72
+user 3.52
+sys 0.84
+
+* Processando input/file006
+time -p ./prog input/file006 > benchmark/file006
+real 0.08
+user 0.34
+sys 0.00
+
+* Processando input/file004
+time -p ./prog input/file004 > benchmark/file004
+real 0.06
+user 0.32
+sys 0.00
+
+* Processando input/file003
+time -p ./prog input/file003 > benchmark/file003
+real 0.03
+user 0.16
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./prog input/file007-sample > benchmark/file007-sample
+real 0.15
+user 0.70
+sys 0.08
+
+* Processando input/file001-sample
+time -p ./prog input/file001-sample > benchmark/file001-sample
+real 0.05
+user 0.26
+sys 0.00
+
+* Processando input/file010-big
+time -p ./prog input/file010-big > benchmark/file010-big
+real 3.56
+user 17.09
+sys 4.53
+
+* Processando input/file-011-big
+time -p ./prog input/file-011-big > benchmark/file-011-big
+real 14.08
+user 73.77
+sys 19.67
+
+* Processando input/file005-sample
+time -p ./prog input/file005-sample > benchmark/file005-sample
+real 0.08
+user 0.21
+sys 0.00
+
+
+OMP_NUM_THREADS = 12
+
+* Processando input/file002-sample
+time -p ./prog input/file002-sample > benchmark/file002-sample
+real 0.07
+user 0.00
+sys 0.00
+
+* Processando input/file009
+time -p ./prog input/file009 > benchmark/file009
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file008
+time -p ./prog input/file008 > benchmark/file008
+real 0.65
+user 3.22
+sys 0.88
+
+* Processando input/file006
+time -p ./prog input/file006 > benchmark/file006
+real 0.05
+user 0.06
+sys 0.02
+
+* Processando input/file004
+time -p ./prog input/file004 > benchmark/file004
+real 0.01
+user 0.01
+sys 0.00
+
+* Processando input/file003
+time -p ./prog input/file003 > benchmark/file003
+real 0.01
+user 0.01
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./prog input/file007-sample > benchmark/file007-sample
+real 0.11
+user 0.35
+sys 0.07
+
+* Processando input/file001-sample
+time -p ./prog input/file001-sample > benchmark/file001-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file010-big
+time -p ./prog input/file010-big > benchmark/file010-big
+real 3.28
+user 16.46
+sys 4.33
+
+* Processando input/file-011-big
+time -p ./prog input/file-011-big > benchmark/file-011-big
+real 12.90
+user 69.41
+sys 19.24
+
+* Processando input/file005-sample
+time -p ./prog input/file005-sample > benchmark/file005-sample
+real 0.07
+user 0.06
+sys 0.00
+
+OMP_NUM_THREADS = 16
+
+* Processando input/file002-sample
+time -p ./prog input/file002-sample > benchmark/file002-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file009
+time -p ./prog input/file009 > benchmark/file009
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file008
+time -p ./prog input/file008 > benchmark/file008
+real 0.66
+user 3.25
+sys 0.85
+
+* Processando input/file006
+time -p ./prog input/file006 > benchmark/file006
+real 0.06
+user 0.08
+sys 0.00
+
+* Processando input/file004
+time -p ./prog input/file004 > benchmark/file004
+real 0.01
+user 0.01
+sys 0.00
+
+* Processando input/file003
+time -p ./prog input/file003 > benchmark/file003
+real 0.01
+user 0.01
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./prog input/file007-sample > benchmark/file007-sample
+real 0.12
+user 0.35
+sys 0.07
+
+* Processando input/file001-sample
+time -p ./prog input/file001-sample > benchmark/file001-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file010-big
+time -p ./prog input/file010-big > benchmark/file010-big
+real 3.53
+user 17.16
+sys 4.66
+
+* Processando input/file-011-big
+time -p ./prog input/file-011-big > benchmark/file-011-big
+real 13.72
+user 73.82
+sys 20.49
+
+* Processando input/file005-sample
+time -p ./prog input/file005-sample > benchmark/file005-sample
+real 0.07
+user 0.06
+sys 0.01
