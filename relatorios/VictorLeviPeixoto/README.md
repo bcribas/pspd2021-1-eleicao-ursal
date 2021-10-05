@@ -19,7 +19,7 @@ O trabalho precisa de melhoras na parte de ordenação do hash, uma possível al
 Ademais, existe uma possibilidade da leitura do arquivo não estar na forma mais otimizada.
 
 
-### Teste de desempenho
+## Teste de desempenho
 
 Os testes foram realizados no cluster *Chococino*, na máquina CM2. Cada um dos testes foi executado três vezes, para cada arquivo de entrada, sendo o tempo final a média do tempo de execução.
 
@@ -40,7 +40,7 @@ A seguinte tabela compara o tempo médio das soluções de acordo com a entrada:
 | file-011-big   | 19,67      | 14,99            | 1,98              | 18,69    | 19,13     | 14,40     | 13,20     | 12,67      | 12,26      |
 
 
-### Gráfico
+## Gráfico
 
 Visando uma melhor vista do gráfico foram apresentadas somente a versão do aluno com 16 threads e a versão melhorada do professor
 
