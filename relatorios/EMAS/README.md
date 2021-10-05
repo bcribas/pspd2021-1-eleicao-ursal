@@ -4,7 +4,7 @@ Integrantes:
 
 - Ailton Aires (180011600)
 - Erick Giffoni (170141161)
-- Maicon Mares ()
+- Maicon Mares (180023411)
 - Sara Silva (160144752)
 
 
@@ -115,6 +115,14 @@ local "ao mesmo tempo".<br>
 **Observando o desempenho nesse ponto do trabalho:**
 
 TO-DO.
+
+## solucao histograma
+
+TODO
+
+## solucao matriz
+
+TODO
 
 <hr>
 
