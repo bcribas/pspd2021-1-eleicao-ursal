@@ -114,7 +114,45 @@ local "ao mesmo tempo".<br>
 
 **Observando o desempenho nesse ponto do trabalho:**
 
-TO-DO.
+Realizamos os testes para essa versão paralela evoluída e utilizamos uma planilha [2]<br>
+para avaliar os resultados e montar gráficos. Além disso, os resultados para essa<br>
+ocasião também estão disponíveis em [`resultados.txt`](./resultados.txt).<br>
+
+A seguir mostramos alguns gráficos comparando a quantidade de *threads* e os tem-<br>
+pos de execução. Para que o relatório não ficasse muito extenso, decidimos colocar<br>
+aqui apenas 3 dos 11 possíveis gráficos.<br>
+
+Sendo assim, a figura 3 a seguir é relativa ao arquivo de entrada `file010-big`.<br>
+
+Figura 3:<br>
+<img src="./imagens/evoluindo-paralela-file010-big.png">
+<br>Fonte: autores
+</img><br>
+
+É possível notar que, nesse caso, aumentar o número de *threads* diminuiu bastante<br>
+o tempo de execução. Mesmo assim, utilizar 12 *threads* foi melhor que usar 16.<br>
+
+De modo semelhante, a figura 4 abaixo é relativa ao arquivo de entrada `file-011-big`.<br>
+
+Figura 4:<br>
+<img src="./imagens/evoluindo-paralela-file011-big.png">
+<br>Fonte: autores
+</img><br>
+
+Sobre esse gráfico, também percebe-se a diminuição do tempo de execução conforme<br>
+o número de *threds* aumenta. Semelhantemente ao gráfico 3, utilizar 12 *threads*<br>
+foi melhor que usar 16.<br>
+
+Já a figura 5 a seguir é relativa ao arquivo de entrada `file009`.<br>
+
+Figura 5:<br>
+<img src="./imagens/evoluindo-paralela-file009.png">
+<br>Fonte: autores
+</img><br>
+
+Ocorreu um fato curioso, dado que esse arquivo de entrada é menor que os utiliza-<br>
+dos para gerar as figuras 3 e 4. Percebe-se que aumentar o número de *threds* piora<br>
+bastante o desempenho da solução.<br>
 
 ## solucao histograma
 
@@ -129,3 +167,5 @@ TODO
 ## Referências
 
 [1] RIBAS, Bruno. Aula 18 de Agosto. Disponível em: https://www.brunoribas.com.br/pspd/2021-1/#orga81c164
+
+[2] Autores. Planilha de resultados diversos. Disponível em: https://docs.google.com/spreadsheets/d/1B6N221LsnoZr-mcAZc0cFOv39i3_os2w_r7ys_ToiIs/edit?usp=sharing
