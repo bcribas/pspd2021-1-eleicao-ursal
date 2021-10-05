@@ -1,0 +1,79 @@
+#+TITLE: Eleição U.R.S.A.L - contando votos em paralelo
+
+Este repositório trata do *trabalho 1* de PSPD de 2021-1.
+
+O objetivo deste trabalho é implementar o exercício /Eleição
+U.R.S.A.L/ utilizando OpenMP.
+
+O enunciado do problema pode ser lido [[https://moj.naquadah.com.br/contests/bcr-PSPD-2021_1/eleicao-ursal][AQUI]].
+
+Este repositório faz uso de /git-lfs/, verifique se o pacote está
+instalado (debian é ~git-lfs~) antes de fazer o /git clone/.
+
+* Para gerar o conjunto de testes
+
+Os arquivos de entrada estão compactados no arquivo ~input.tar.gz~, para
+descompactar basta rodar:
+#+begin_src bash
+make input/.create
+#+end_src
+
+* Gerando o Gabarito
+
+Dentro do repositório, no diretório ~prof~ existe uma solução de
+referência (distribuída em formato de binários) para ser utilizada
+como referência.
+
+Para gerar o gabarito (a saída esperada) dos arquivos de entrada
+disponibilizados, basta executar:
+#+begin_src bash
+make gerargabarito
+#+end_src
+
+* Calculando o benchmark
+
+Você pode invocar o =make= com o parâmetro =benchmark=, desta forma
+ele irá executar o benchmark padrão, para todos arquivos dentro do
+diretório =input/=.
+
+Você também poderá executar o =benchmark= usando a sua solução
+passando a variável =BENCHMARKBINARY=, por exemplo:
+
+#+begin_src bash
+make benchmark BENCHMARKBINARY=relatorios/minhaequipe/minhasolucao
+#+end_src
+ - naturalmente trocando a string =relatorios/minhaequipe/minhasolucaor=
+   para o path do seu programa verificador.
+
+** Solução de referência mais espertinha
+Existe uma solução de referência mais esperta que trata a entrada de
+maneira mais eficiente, ainda sim é uma solução de thread única, para
+verificar os tempos desta solução execute:
+#+begin_src bash
+make benchmark BENCHMARKBINARY=prof/ribas-ac-ioajustado
+#+end_src
+
+* Clean
+
+A diretiva =make clean= remove os arquivos de saída gerados pelo
+=benchmark=
+
+Já a diretiva =make dist-clean= remove tudo que a =clean= remove e
+ainda remove o conteúdo dos diretório =input/= e =output/=.
+
+* Comparando resultados
+
+Para comparar resultados você deve invocar a diretiva /verificar/, por
+exemplo:
+
+#+begin_src bash
+make verificar BENCHMARKBINARY=./meuverificador
+#+end_src
+ - Se não passar a variável =BENCHMARKBINARY= o sistema utilizará a
+   solução de referência padrão.
+
+Esta diretiva de verificação vai rodar todos os benchmarks (caso não
+tenham sido executados) e depois irá comparar os arquivos gerados pelo
+/verificador/ com o gabarito armazenado no diretorio =output/=
+
+- Prof. Bruno Ribas
