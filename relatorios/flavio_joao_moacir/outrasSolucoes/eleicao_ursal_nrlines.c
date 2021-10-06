@@ -1,13 +1,3 @@
-// =================================================================================
-//                              Trabalho 1 - PSPD
-// 	Professor  : Bruno Ribas
-// 	Alunos     : Flavio Vieira / 
-// 	Matricula  : 15/0125682    /
-//  
-//  Examplo:
-//  make p_ursal_nrlines CFLAGS=-fopenmp
-//  ./p_ursal_nrlines  file011-big 4 200000000 > f11_diff
-// =================================================================================
 # include <stdio.h>
 # include <stdlib.h>
 # include <omp.h>

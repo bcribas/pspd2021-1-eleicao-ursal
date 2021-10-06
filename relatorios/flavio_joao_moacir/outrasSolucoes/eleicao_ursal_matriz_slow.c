@@ -1,9 +1,3 @@
-// =================================================================================
-//                              Trabalho 1 - PSPD
-// 	Professor  : Bruno Ribas
-// 	Alunos     : Flavio Vieira / 
-// 	Matricula  : 15/0125682    /
-// =================================================================================
 # include <stdio.h>
 # include <stdlib.h>
 # include <omp.h>

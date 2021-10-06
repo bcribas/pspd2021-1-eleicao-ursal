@@ -1,10 +1,3 @@
-// ------------------------------------------------------------------------------
-// 	Professor  : Bruno Ribas
-// 	Aluno     : Flavio Vieira 
-// 	Matricula : 15/0125682  
-//
-//https://moj.naquadah.com.br/contests/bcr-EDA2-2021_1-hash/eleicao-ursal-big.html
-// ------------------------------------------------------------------------------
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

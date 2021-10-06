@@ -20,7 +20,7 @@
 ### Tabelas e Gráficos
 
 #### Melhor Solução
-   A tabela e gráfico abaixo exibem a comparação entre a melhor solução desenvolvida pelo grupo(eleicao_ursal_final.c) com a solução sequencial, desenvolvida pelo Flávio, e com as soluções disponibilizadas pelo professor(ribas-ac-ingenuo e ribas-ac-ioajustado).
+   A tabela e gráfico abaixo exibem as comparações entre a melhor solução desenvolvida pelo grupo(eleicao_ursal_final.c) com a solução sequencial, desenvolvida pelo Flávio, e com as soluções disponibilizadas pelo professor(ribas-ac-ingenuo e ribas-ac-ioajustado).
 ##### Tebela com os tempos medidos.
 ![image](https://user-images.githubusercontent.com/48539765/136131611-9b8714a7-195d-4c91-9652-7a3b5e2f78e6.png)
 
@@ -36,6 +36,27 @@
   
   ![image](https://user-images.githubusercontent.com/48539765/136133911-0a33ff6f-b62d-4f6c-88b1-963060c7b9e4.png)
 
+#### Como rodar
+
+```$ gcc eleicao_ursal_final.c ursal.c -o eleicao -fopenmp```
+
+```$ ./eleicao [arquivo_entrada] [quantidade_threads]```
 
 
+#### Especificações de ambiente de execução
 
+Architecture:                    x86_64
+
+CPU op-mode(s):                  32-bit, 64-bit
+
+Address sizes:                   39 bits physical, 48 bits 
+
+CPU(s):                          12
+
+On-line CPU(s) list:             0-11
+
+Thread(s) per core:              2
+
+CPU family:                      6
+
+Model name:                      Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz

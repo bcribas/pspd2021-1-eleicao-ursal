@@ -1,14 +1,3 @@
-// =================================================================================
-//                              Trabalho 1 - PSPD
-// 	Professor  : Bruno Ribas
-// 	Alunos     : Flavio Vieira / 
-// 	Matricula  : 15/0125682    /
-//
-// =================================================================================
-//  Resultados
-//  file-011-big
-//      4 thread  - 121,08s user 1,27s system 305% cpu 40,089 total
-// =================================================================================
 # include <stdio.h>
 # include <stdlib.h>
 # include <omp.h>
@@ -103,21 +92,20 @@ int main( int argc, char *argv[] )
             fscanf(fp, "%d", &voto);
             if(voto > 0)
             {
-                #pragma omp critical
-                {
+                #pragma omp atomic
                     reg_votos_global[voto].cont_votos++;
-                    votos_val++;
-                }
+                   
                 reg_votos_global[voto].id = voto;
                 
 
                 if( voto < 100){
-                    #pragma omp critical
+                    #pragma omp atomic
                         votos_pres++;
                 }
-
+                #pragma omp atomic
+                    votos_val++;
             }
-            #pragma omp critical
+            #pragma omp atomic
                 num_votos++;
 
             inicio = ftell(fp);
