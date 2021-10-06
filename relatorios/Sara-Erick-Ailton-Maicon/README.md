@@ -165,20 +165,25 @@ bastante o desempenho da solução.<br>
 
 ## Histograma
 
-Especificações do computador que executou os testes nesse momento:<br>
-
-- Ubuntu 20.04 LTS, 11th Gen Intel® Core™ i5-1135G7 @ 2.40GHz × 8
-
 O código foi evoluído usando a lógica de histograma, que consiste em uma distribuição de frequências. Foi usado um vetor *votos* e a cada voto *v* válido lido, o valor do vetor no índice *v* é incrementado, registrando assim a frenquência desse voto. Então deixaram de ser usados os vetores diferentes para cada tipo de candidato.
 Nessa versão também foi utilizada a diretiva do for do OpenMp para paralelizar o laço principal de leitura dos votos.
 
 **Observando o desempenho nesse ponto do trabalho:**
+
+Especificações do computador que executou os testes nesse momento:<br>
+
+- Ubuntu 20.04 LTS, 11th Gen Intel® Core™ i5-1135G7 @ 2.40GHz × 8
+
 A tabela a seguir apresenta os resultados para melhor solução implementada considerando todos os arquivos de entrada.<br>
 Tabela 1:<br>
 <img src="./imagens/tabela.jpg">
 <br>Fonte: autores
 </img><br>
 
+Praticamente todos os tempos de execução ficaram próximos a 0 (zero) segundo,<br>
+o que é muito bom. As 2 únicas exceções são para os arquivos `file010-big`, cujo<br>
+melhor tempo foi **2.98 segundos** com 8 *threads*, e `file-011-big`, cujo melhor tem-<br>
+po foi 12.67 segundos com 8 *threads*.<br>
 
 <hr>
 
