@@ -119,6 +119,10 @@ local "ao mesmo tempo".<br>
 **Observando o desempenho nesse ponto do trabalho:**
 
 
+Especificações do computador que executou os testes nesse momento:<br>
+
+- Ubuntu 20.04 LTS, 11th Gen Intel® Core™ i5-1135G7 @ 2.40GHz × 8
+
 Realizamos os testes para essa versão paralela evoluída e utilizamos uma planilha [2]<br>
 para avaliar os resultados e montar gráficos. Além disso, os resultados para essa<br>
 ocasião também estão disponíveis em [`resultados.txt`](./resultados.txt).<br>
@@ -160,6 +164,10 @@ dos para gerar as figuras 3 e 4. Percebe-se que aumentar o número de *threds* p
 bastante o desempenho da solução.<br>
 
 ## Histograma
+
+Especificações do computador que executou os testes nesse momento:<br>
+
+- Ubuntu 20.04 LTS, 11th Gen Intel® Core™ i5-1135G7 @ 2.40GHz × 8
 
 O código foi evoluído usando a lógica de histograma, que consiste em uma distribuição de frequências. Foi usado um vetor *votos* e a cada voto *v* válido lido, o valor do vetor no índice *v* é incrementado, registrando assim a frenquência desse voto. Então deixaram de ser usados os vetores diferentes para cada tipo de candidato.
 Nessa versão também foi utilizada a diretiva do for do OpenMp para paralelizar o laço principal de leitura dos votos.
