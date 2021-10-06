@@ -73,8 +73,8 @@ int main(int argc, char *argv[]){
 
     elege_presidente(votos);
     elege_politico(votos, 100, 999, s);  // elege senadores
-    elege_politico(votos, 1000, 9999, s);  // elege deputados federais
-    elege_politico(votos, 10000, 99999, s);  // elege deputados estaduais
+    elege_politico(votos, 1000, 9999, f);  // elege deputados federais
+    elege_politico(votos, 10000, 99999, e);  // elege deputados estaduais
 
     return 0;
 } 
