@@ -38,6 +38,10 @@ sos scripts.<br>
 
 **Sobre o desempenho dessas primeiras versões:**
 
+Especificações do computador que executou os testes nesse momento:<br>
+
+- MacOS 2.6 GHz Quad-Core Intel Core i7, 16 GB 2133 MHz LPDDR3
+
 Sendo assim, a figura 1 abaixo compara os tempos de execução das nossas soluções<br>
 sequencial e paralela. Os valores foram obtidos por meio da execução dos scripts<br>
 de teste explicados acima.<br>
