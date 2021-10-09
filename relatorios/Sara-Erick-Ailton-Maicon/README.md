@@ -243,7 +243,8 @@ do desenvolvimento desse trabalho.<br>
 | ribas-ac-ingenuo | file-011-big | 2 | **9.33** |
 | grupo: histograma | file-011-big | 8 | **12.67** |
 | grupo: 1a evolucao | file-011-big | 12 | **12.9** |
-| grupo: inicial | file-002 | 4 | **20.576** |<br>
+| grupo: inicial | file-002 | 4 | **20.576** |
+<br>
 Fonte: autores
 
 Ao comparar as versões do professor e as do grupo, a diferença de tempo passou de<br>
