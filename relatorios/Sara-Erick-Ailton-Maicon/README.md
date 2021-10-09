@@ -91,6 +91,8 @@ em mãos. Fizemos um *fork* dele e passamos a trabalhar com a criação de difer
 
 **Sobre o código paralelo:**
 
+- Programa: [```relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-parallel.c```](./eleicao-ursal-parallel.c)
+
 A turma logo recebeu algumas orientações do professor Ribas com o intuito de que<br>
 todos entendessem quais seriam os próximos desafios do trabalho. Dentre eles, co-<br>
 meçamos a trabalhar para que a leitura dos votos de entrada do programa fosse feita<br>
@@ -165,6 +167,8 @@ bastante o desempenho da solução.<br>
 
 ## Histograma
 
+- Programa: [```relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela.c```](./eleicao-ursal-paralela.c)
+
 O código foi evoluído usando a lógica de histograma, que consiste em uma distribuição de frequências. Foi usado um vetor *votos* e a cada voto *v* válido lido, o valor do vetor no índice *v* é incrementado, registrando assim a frenquência desse voto. Então deixaram de ser usados os vetores diferentes para cada tipo de candidato.
 Nessa versão também foi utilizada a diretiva do for do OpenMp para paralelizar o laço principal de leitura dos votos.
 
@@ -184,6 +188,37 @@ Praticamente todos os tempos de execução ficaram próximos a 0 (zero) segundo,
 o que é muito bom. As 2 únicas exceções são para os arquivos `file010-big`, cujo<br>
 melhor tempo foi **2.98 segundos** com 8 *threads*, e `file-011-big`, cujo melhor tem-<br>
 po foi 12.67 segundos com 8 *threads*.<br>
+
+
+### Compilando com -O3 na chococino
+
+Especificações da máquina chococino:<br>
+
+- TO-DO
+
+Após realizar uma conexão via `ssh` em `chococino.naquadah.com.br`, fizemos a compilação<br>
+do nosso programa e realizamos os testes de execução conforme os comandos abaixo.<br>
+
+> Compilação:
+
+```gcc-10 relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela.c -O3 -o prog -fopenmp```
+
+> Execução dos testes:
+
+```make benchmark BENCHMARKBINARY=./prog```
+
+Os resultados estão em [```relatorios/Sara-Erick-Ailton-Maicon/chococino-results.txt```](./chococino-results.txt).<br>
+A figura 6 compara os tempos de execução da solução do grupo com as duas soluções<br>
+disponibilizadas pelo professor, tendo como arquivo de entrada `file-011-big`.<br>
+
+Figura 6:<br>
+<img src="./imagens/g6-hist-choco-O3.png">
+<br>Fonte: autores
+</img><br>
+
+É possível perceber que, para a solução do grupo, o tempo diminuiu consideravelmente<br>
+com o aumento do número de *threads*. Por outro lado, o contrário aconteceu para os<br>
+programas do professor, em alguns casos, mas o tempo se manteve igual em outros.<br>
 
 <hr>
 
