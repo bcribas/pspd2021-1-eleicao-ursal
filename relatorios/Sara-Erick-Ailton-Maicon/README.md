@@ -249,12 +249,12 @@ Fonte: autores
 
 Ao comparar as versões do professor e as do grupo, a diferença de tempo passou de<br>
 aproximadamente 19s, em relação à 1a versão do grupo, para 8.09s, considerando a<br>
-nossa última versão (histograma). Considerando somente os tempos das nossas solu-<br>
+nossa última versão (histograma). Em relação somente aos tempos das nossas solu-<br>
 ções, pode-se verificar que **o grupo melhorou consideravelmente o desempenho do pro-**<br>
 **grama (54,6%)**.<br>
 
 Como trabalho futuro, recomenda-se pensar em alguma forma de melhorar a estratégia<br>
-de eleição que foi utilizada. Talvez a realização de uma ordenação completa funcione,<br>
+de eleição que foi utilizada. Talvez a realização de uma ordenação completa funcione<br>
 melhor. Somado a isso, é bom considerar a utilização das diretivas paralelas para os<br>
 trechos de código em que ocorrem as eleições.<br>
 
