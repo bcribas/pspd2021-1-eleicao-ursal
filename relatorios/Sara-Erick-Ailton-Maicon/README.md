@@ -194,7 +194,7 @@ po foi 12.67 segundos com 8 *threads*.<br>
 
 Especificações da máquina chococino:<br>
 
-- TO-DO
+- Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz 6 cores, 16GB
 
 Após realizar uma conexão via `ssh` em `chococino.naquadah.com.br`, fizemos a compilação<br>
 do nosso programa e realizamos os testes de execução conforme os comandos abaixo.<br>
