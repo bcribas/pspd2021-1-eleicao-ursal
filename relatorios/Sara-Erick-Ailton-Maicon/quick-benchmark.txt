@@ -1,0 +1,71 @@
+Versao = histograma + quick sort (like)
+Tue, Oct 12 2021
+
+8 threads
+
+* Processando input/file002-sample
+time -p ./a.out input/file002-sample > benchmark/file002-sample
+real 0.95
+user 1.05
+sys 0.00
+
+* Processando input/file009
+time -p ./a.out input/file009 > benchmark/file009
+real 0.94
+user 1.01
+sys 0.00
+
+* Processando input/file008
+time -p ./a.out input/file008 > benchmark/file008
+real 0.94
+user 4.88
+sys 1.65
+
+* Processando input/file006
+time -p ./a.out input/file006 > benchmark/file006
+real 0.04
+user 0.17
+sys 0.02
+
+* Processando input/file004
+time -p ./a.out input/file004 > benchmark/file004
+real 0.92
+user 1.01
+sys 0.00
+
+* Processando input/file003
+time -p ./a.out input/file003 > benchmark/file003
+real 0.94
+user 1.04
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./a.out input/file007-sample > benchmark/file007-sample
+real 0.11
+user 0.57
+sys 0.23
+
+* Processando input/file001-sample
+time -p ./a.out input/file001-sample > benchmark/file001-sample
+real 0.94
+user 1.02
+sys 0.00
+
+* Processando input/file010-big
+time -p ./a.out input/file010-big > benchmark/file010-big
+real 4.64
+user 23.34
+sys 7.81
+
+* Processando input/file-011-big
+time -p ./a.out input/file-011-big > benchmark/file-011-big
+real 18.03
+user 92.16
+sys 32.27
+
+* Processando input/file005-sample
+time -p ./a.out input/file005-sample > benchmark/file005-sample
+real 0.78
+user 0.86
+sys 0.00
+
