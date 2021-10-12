@@ -9,9 +9,9 @@
 
 ## Experimentos e tentativas da equipe
 
-Após fazermos os algorítimos sequenciais (*ursal_array..c* e *ursal_lista.c*), desenvolvemos a primeira versão paralela (*ursal_paralelo.c*) onde foi utilizada a estratégia de paralelismo na leitura dos dados. O arquivo é carregado integralmente na memória e as threads se tornam responsáveis por diferentes áreas do arquivo. Isso é feito obtendo o tamanho total de *bytes* do arquivo e dividindo pela quantidade de *threads* considerando o espaço da primeira linha, que contém informações gerais.
+Após fazermos os algoritimos sequenciais (*ursal_array.c* e *ursal_lista.c*), desenvolvemos a primeira versão paralela (*ursal_paralelo.c*) onde foi utilizada a estratégia de paralelismo na leitura dos dados. O arquivo é carregado integralmente na memória e as threads se tornam responsáveis por diferentes áreas do arquivo. Isso é feito obtendo o tamanho total de *bytes* do arquivo e dividindo pela quantidade de *threads* considerando o espaço da primeira linha, que contém informações gerais.
 
-Após uma análise mais apurada no código, evoluímos para a versão que se encontra no arquivo *ursal_paralelo_v2.c*. Foi notado um gargalo relevante no uso da  função *atoi*, responsável por converter uma *string* até um espaço ou *\n* em inteiro. Por esse motivo, foi decidido que usaríamos um algorítimo próprio que possui a mesma saída do *atoi* para esse contexto.
+Após uma análise mais apurada no código, evoluímos para a versão que se encontra no arquivo *ursal_paralelo_v2.c*. Foi notado um gargalo relevante no uso da  função *atoi*, responsável por converter uma *string* até um espaço ou *\n* em inteiro. Por esse motivo, foi decidido que usaríamos um algoritimo próprio que possui a mesma saída do *atoi* para esse contexto.
 
 Ao invés disso:
 ```c
@@ -64,8 +64,6 @@ A última alteração feita foi a paralelização do código no momento de elege
 ### Leitura do arquivo
 
 Quando uma *thread* inicia sua leitura, ela continua a ler até encontrar um marcador *\n* para indicar o fim de uma linha. Só após encontrar esse marcador a leitura é iniciada. Ou seja, caso a *thread* comece a leitura no meio de uma linha - e, consequentemente no meio de um número -  ela avança para a linha seguinte do arquivo e essa linha será responsabilidade da *thread* anterior. Como todas as *threads* repetem este comportamento, não há linha computada mais de uma vez ou linha não lida.
-
-## Informações sobre as regiões críticas de paralelização
 
 A região paralelizada que possui questões de concorrência é mostrada a seguir:
 
@@ -140,7 +138,7 @@ Entradas com até 1000491 linhas        |  Mais que 1000491 linhas
 
 ## Gerador de gráficos
 
-Com o objetivo de automatizar a geração de dados que populam os gráficos foi feito um algorítimo em *Python* que pode ser visto a seguir:
+Com o objetivo de automatizar a geração de dados que populam os gráficos foi feito um algoritimo em *Python* que pode ser visto a seguir:
 
 ```python
 ## run_benchmark.py
