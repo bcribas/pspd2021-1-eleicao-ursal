@@ -3,7 +3,7 @@
 #include <omp.h>
 #include <math.h>
 #include <string.h>
-#define MAX_ARRAY_SIZE 100000
+#define MAX_ARRAY_SIZE 1000000
 #ifndef THREADS
     #define THREADS 1
 #endif
@@ -41,7 +41,7 @@ int get_start_position(int thread, FILE * file, int votes_start_position, int ch
         position+=chunk_size;
     }
     if(thread>0 && thread < threads){
-        char line[7];
+        char line[10];
         fseek(file, position, SEEK_SET);
         fgets(line, 10, file);
         position+=strlen(line);
@@ -72,7 +72,6 @@ int main(int argc, char *argv[])
 #pragma omp parallel reduction(+ \
                                : validos, invalidos, quantidade_p)
     {
-        
         FILE *read_file = fopen(in, "r");
         fscanf(read_file, "%ld %ld %ld\n", &s, &f, &e);
         int votes_start_position = ftell(read_file);
@@ -88,14 +87,14 @@ int main(int argc, char *argv[])
         
         fseek(read_file, start_position, SEEK_SET);
         char *line;
-        line = malloc(6);
+        line = malloc(10);
         size_t size = sizeof(int);
         int total_read = start_position;
         while (fscanf(read_file, "%d%n", &voto, &size) != EOF)
         {
             total_read+=size;
             if (total_read > end_position && thread_num<(threads-1))
-            {
+	    {
                 break;
             }
             if (voto >= 10)
