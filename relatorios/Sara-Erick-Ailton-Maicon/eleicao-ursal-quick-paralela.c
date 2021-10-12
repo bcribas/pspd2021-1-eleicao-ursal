@@ -127,33 +127,6 @@ void elege_politico(Voto *votos, int inicio, int fim, int qnt){
    }
    printf("\n");
 
-   /*=============*/
-   // int pos_eleito;
-   // char segundo_turno; // boolean
-
-   // while(qnt){
-   //     pos_eleito = 0;
-
-   //     for(int i=inicio; i<fim; i++){
-   //         if(votos[i] > votos[pos_eleito]){
-   //             pos_eleito = i;
-   //         }
-   //         else if(votos[i] == votos[pos_eleito]){
-   //             i > pos_eleito ? pos_eleito = i : pos_eleito;
-   //         }
-   //     }
-
-   //     printf("%d", pos_eleito);
-   //     qnt--;
-
-   //     if(qnt){
-   //         printf(" ");   // tem mais 1 candidato para elegermos
-   //     }
-
-   //     votos[pos_eleito] = 0;
-   // }
-   // printf("\n");
-
    return;
 }
 
