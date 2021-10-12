@@ -31,8 +31,7 @@ Houveram alguns testes tentando paralelizar a parte de seleção dos candidato
 
 ### Testes realizados
 
-#### Especificações da máquina de teste
-- Testado na Chococino
+- **Máquina utilizada para testes**: Chococino
 
 Na tabela abaixo é possível ver o tempo em segundos obtidos em cada um dos testes.a
 os testes ingenuo e io foram fornecidos pelo professor com o objetivo de comparar com nossos resultados.
