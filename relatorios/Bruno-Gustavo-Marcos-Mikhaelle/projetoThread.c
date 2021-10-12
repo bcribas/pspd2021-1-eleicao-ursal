@@ -113,25 +113,25 @@ int main(int argc, char *argv[]) {
     fseek(arquivo, bytesIniciais+(bytesDivididos*omp_get_thread_num()) , SEEK_SET );
 
     int valorDest = ftell(arquivo);
-    valorDest+=(bytesDivididos-1);                           // valor para parada de leitura
-    int c = fgetc(arquivo);   								 // pega o caracter
+    valorDest+=(bytesDivididos-1); 
+    int c = fgetc_unlocked(arquivo);   						 // pega o caracter
     fseek(arquivo, -1, SEEK_CUR);                            // volta uma posição
 
+	// printf("-----------------------------Thread %d: inicio %ld\n", omp_get_thread_num(), ftell(arquivo));
 
 	// verifica se há um "\n" antes ou se ele está em um "\n"
 	// continua executando até achar o "\n" para começar a contagem dos votos
 	// evita de começar no "meio" de um numero
-    if (c != '\n') {
 
-        fseek(arquivo, -1, SEEK_CUR);
-		c = fgetc(arquivo);
 
-		if( c != '\n') {
-			while(c != '\n') {
-            c = fgetc(arquivo);
-        	}
-		}
-    }
+	if (c != '\n') {
+		fseek(arquivo, -1, SEEK_CUR);
+		c = fgetc_unlocked(arquivo);
+
+		if (c != '\n') 	while (c != '\n') c = fgetc_unlocked(arquivo);
+	} else {
+		fseek(arquivo, 1, SEEK_CUR);   
+	}
 
 		// caso seja a ultima thread ele coloca o ponteiro de parada no final
 		// para que seja possível ler até o final
@@ -139,13 +139,16 @@ int main(int argc, char *argv[]) {
     	if( lastThread == omp_get_thread_num() ) valorDest = bytesFinais-1;   
 	
 		int numeroVoto = 0;
+		char stringLida[10];
 
 		// MIGUÉÉÉÉ
 		if (ftell(arquivo) == valorDest )valorDest++;
 
 		// executa o laço enquanto o ponteiro não chega ao final
-		while(ftell(arquivo) < valorDest ) {
-			fscanf(arquivo, "%d", &numeroVoto);
+		while(ftell(arquivo) < valorDest+1 ) {
+			// fscanf(arquivo, "%d", &numeroVoto);
+			fgets_unlocked(stringLida ,10,arquivo);
+        	numeroVoto = atoi(stringLida);
 
 			//verifica se voto é valido
 			if( numeroVoto > 0) {
@@ -166,10 +169,10 @@ int main(int argc, char *argv[]) {
 	}
 
 	printf("%d %d\n", votosValidos, votosInvalidos);
-	//printf("Dados Contados: %d\n", numBytes);
+	// printf("Dados Contados: %d\n", numBytes);
+
 
 	// t = clock();
-
 	// coloca o numero de votos no vetor na posição dos respectivos candidatos
 	for(int i=0; i<numberThreads; ++i ){
 		for(int j=0; j<1000000; ++j) {
