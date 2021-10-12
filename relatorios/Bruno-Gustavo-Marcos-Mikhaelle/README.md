@@ -45,6 +45,7 @@ A comparação entre as implementações foram realizadas em todos os arquivos d
 | REAL        | 2,66         | 0,41           | 4,24  | 2,63     | 1,49      | 0,89      | 0,72      | 0,58       |
 | USER        | 2,64         | 0,37           | 4,19  | 2,59     | 5,14      | 2,85      | 3,57      | 4,42       |
 | SYS         | 0,01         | 0,03           | 0,03  | 0,02     | 0,03      | 0,03      | 0,02      | 0,1        |
+
 *tempos em segundos
 
 | file-011-big | PROF-INGENUO | PROF-IOAJUSTADO | CDMOJ | 1 THREADS | 2 THREADS | 4 THREADS | 8 THREADS | 16 THREADS |
@@ -52,6 +53,7 @@ A comparação entre as implementações foram realizadas em todos os arquivos d
 | REAL         | 10,6         | 1,63            | 15,95 | 9,98      | 5,14      | 3,15      | 1,77      | 1,36       |
 | USER         | 10,49        | 1,49            | 15,82 | 9,83      | 9,91      | 11,24     | 12,03     | 16,79      |
 | SYS          | 0,1          | 0,13            | 0,12  | 0,16      | 0,18      | 0,16      | 0,12      | 0,17       |
+
 *tempos em segundos
 
 Abaixo segua a tabela do Tempo vs Arquivos:
