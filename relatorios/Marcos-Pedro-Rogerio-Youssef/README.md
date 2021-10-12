@@ -15,20 +15,38 @@ A abordagem inicial da equipe foi entender o problema e resolvê-lo de forma seq
 
 Com base na tentativa inicial, a equipe observou que a leitura do arquivo de votos se provou ser a parte mais demorada, por isso a segunda abordagem foi quebrar o arquivo de votos em pedaços de forma a cada thread ficar responsável por esses chunks, e fazer a tratativa de possíveis corner cases por conta da divisão do arquivo em threads.
 
+Mesmo tratando a entrada por meio de chunks a solução ainda parecia distante da solução ajustada do professor, decidimos então buscar formas de melhorar a solução. Para isso removemos a parte da leitura dos 3 inteiros da parte sequencial e permitimos que cada thread realizasse uma leitura desses valores pra evitar que todas as threads ficassem esperando pela finalização do fscanf sequencial. Além disso removemos a etapa onde era criado um vetor com posições que cada thread acessaria, criamos uma função que recebe o número da thread e calcula a posição final e inicial de leitura de cada thread. Removemos também a comparação com a posição final utilizando o ftell e substituímos por uma variável que se incrementava na quantidade de bytes lidos.
+
 ## Informações sobre as regiões críticas de paralelização
 
-Com base na explicação sobre as tentativas da equipe, o código paralelizado utilizou as diretivas do OpenMP: omp, parallel, reduction. Além proteger as variáveis validos, invalidos, quantidade_p, já existiria uma race condition ao várias threads tentarem acessá-las.
+Com base na explicação sobre as tentativas da equipe, o código paralelizado utilizou as diretivas do OpenMP: omp, parallel, reduction. Além proteger as variáveis validos, invalidos, quantidade_p, já que existiria uma race condition ao várias threads tentarem acessá-las.
 ```c
     #pragma omp parallel reduction(+ \
                                : validos, invalidos, quantidade_p)
     {
+        
         FILE *read_file = fopen(in, "r");
-        fseek(read_file, threads_read_positions[omp_get_thread_num()], SEEK_SET);
-        char line[1000];
-        int size, voto;
-        while(fscanf(read_file, "%d%n", &voto, &size) != EOF)
+        fscanf(read_file, "%ld %ld %ld\n", &s, &f, &e);
+        int votes_start_position = ftell(read_file);
+        fseek(read_file, 0L, SEEK_END);
+        long int votes_end_position = ftell(read_file);
+        long int bytes_size = votes_end_position - votes_start_position;
+        threads = omp_get_num_threads();
+        int chunk_size = (int)floor(bytes_size / threads);
+        int voto;
+        int thread_num = omp_get_thread_num();
+        int start_position = get_start_position(thread_num, read_file, votes_start_position, chunk_size, threads);
+        int end_position = get_end_position(thread_num, read_file, votes_start_position, chunk_size, threads);
+        
+        fseek(read_file, start_position, SEEK_SET);
+        char *line;
+        line = malloc(6);
+        size_t size = sizeof(int);
+        int total_read = start_position;
+        while (fscanf(read_file, "%d%n", &voto, &size) != EOF)
         {
-            if (ftell(read_file) > threads_read_positions[omp_get_thread_num() + 1])
+            total_read+=size;
+            if (total_read > end_position && thread_num<(threads-1))
             {
                 break;
             }
@@ -40,13 +58,15 @@ Com base na explicação sobre as tentativas da equipe, o código paralelizado u
                 {
                     quantidade_p++;
                 }
-                matrix[omp_get_thread_num()][voto]++;
+                #pragma omp atomic
+                matrix[thread_num][voto]++;
             }
             else
             {
                 invalidos++;
             }
         }
+        free(line);
         fclose(read_file);
     }
 ```
