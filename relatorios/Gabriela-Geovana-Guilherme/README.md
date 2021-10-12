@@ -9,7 +9,7 @@
 
 ## Experimentos e tentativas da equipe
 
-Após fazermos os algorítimos sequenciais (*ursal_array..c* e *ursal_lista.c*), desenvolvemos a primeira versão paralela (*ursal_paralelo.c*) onde foi utilizada a estratégia de paralelismo na leitura dos dados. O arquivo é carregado integralmente na memória e as threads se tornam responsáveis por diferentes áreas do arquivo. Isso é feito obtendo o tamanho total de *bytes* do arquivo e dividindo pela quantidade de *threads*, considerando o espaço da primeira linha, que contém informações gerais.
+Após fazermos os algorítimos sequenciais (*ursal_array..c* e *ursal_lista.c*), desenvolvemos a primeira versão paralela (*ursal_paralelo.c*) onde foi utilizada a estratégia de paralelismo na leitura dos dados. O arquivo é carregado integralmente na memória e as threads se tornam responsáveis por diferentes áreas do arquivo. Isso é feito obtendo o tamanho total de *bytes* do arquivo e dividindo pela quantidade de *threads* considerando o espaço da primeira linha, que contém informações gerais.
 
 Após uma análise mais apurada no código, evoluímos para a versão que se encontra no arquivo *ursal_paralelo_v2.c*. Foi notado um gargalo relevante no uso da  função *atoi*, responsável por converter uma *string* até um espaço ou *\n* em inteiro. Por esse motivo, foi decidido que usaríamos um algorítimo próprio que possui a mesma saída do *atoi* para esse contexto.
 
@@ -63,7 +63,7 @@ A última alteração feita foi a paralelização do código no momento de elege
 
 ### Leitura do arquivo
 
-Quando uma *thread* inicia sua leitura, ela continua a ler até encontrar um marcador *\n* para indicar o fim de uma linha. Só após encontrar esse marcador a leitura é iniciada. Ou seja, caso a *thread* comece a leitura no meio de uma linha - e, consequentemente no meio de um número -  ela avança para a linha seguinte do arquivo e essa linha será de responsabilidade da *thread* anterior. Como todas as *threads* repetem este comportamento, não há linha computada mais de uma vez ou linha não lida.
+Quando uma *thread* inicia sua leitura, ela continua a ler até encontrar um marcador *\n* para indicar o fim de uma linha. Só após encontrar esse marcador a leitura é iniciada. Ou seja, caso a *thread* comece a leitura no meio de uma linha - e, consequentemente no meio de um número -  ela avança para a linha seguinte do arquivo e essa linha será responsabilidade da *thread* anterior. Como todas as *threads* repetem este comportamento, não há linha computada mais de uma vez ou linha não lida.
 
 ## Informações sobre as regiões críticas de paralelização
 
@@ -99,7 +99,7 @@ Nesta região são utilizadas as diretivas do *OMP* da seguinte forma:
 ```c
 #pragma omp parallel for private(voto) reduction(+:total_geral) reduction(+:total_invalidos) reduction(+:votos)
 ```
-Esse trecho de código define uma região paralela que executará três reduções de soma, uma para o total de votos, outra para contabilizar os votos inválidos e outra para somar os votos de cada candidato. Além disso é definida a variável *voto* como privada para cada *thread* por possuir o seu valor definido dentro do *loop*.
+Esse trecho de código define uma região paralela que executará três reduções de soma, uma para o total de votos, outra para contabilizar os votos inválidos e outra para somar os votos de cada candidato. Além disso é definida a variável *voto* como privada para cada *thread* por seu valor ser definido dentro do *loop*.
 
 É possível visualizar a alteração feita na última versão, explicada no tópico anterior. Nela podemos notar que a variável *votos* está dentro de *reduction()* e que não possui uma diretiva de operação atômica na linha anterior.
 
@@ -116,29 +116,29 @@ Com o objetivo de mostrar a evolução das duas versões paralelizadas, primeiro
 
 Entradas com até 1000491 linhas        |  Mais que 1000491 linhas
 :-------------------------------------:|:-------------------------:
-![](docs/imgs/chart.png)               |  ![](docs/imgs/chart.png)
+![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=60594908&format=image)               |  ![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=1859316235&format=image)
 
 
-#### Versão paralelizada com substituição do *atoi* (O³)
-
-
-Entradas com até 1000491 linhas        |  Mais que 1000491 linhas
-:-------------------------------------:|:-------------------------:
-![](docs/imgs/chart.png)               |  ![](docs/imgs/chart.png)
-
-#### Versão paralelizada com todas as otimizações (O³)
+#### Primeira versão paralelizada executada com O3
 
 
 Entradas com até 1000491 linhas        |  Mais que 1000491 linhas
 :-------------------------------------:|:-------------------------:
-![](docs/imgs/chart.png)               |  ![](docs/imgs/chart.png)
+![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=461646246&format=image)               |  ![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=677563982&format=image)
+
+#### Segunda versão paralelizada executada com O3
+
+
+Entradas com até 1000491 linhas        |  Mais que 1000491 linhas
+:-------------------------------------:|:-------------------------:
+![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=2096977485&format=image)               |  ![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=1077183580&format=image)
 
 
 [Fonte dos dados](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubhtml)
 
 É possível notar que a versão seuqencial é uma boa opção para arquivos com até 50 linhas, mas que se torna uma solução bem mais lenta a partir disso. Também podemos ver que, na melhor versão da solução, as execuções com entradas maiores e que utilizaram 4 e 8, assim como as  12 e 16 threads possuem tempos muito próximos, tendo que avaliar qual o impacto de ocupar tantas threads em um ambiente com maiores limitações de recursos.  
 
-### Gerador de gráficos
+## Gerador de gráficos
 
 Com o objetivo de automatizar a geração de dados que populam os gráficos foi feito um algorítimo em *Python* que pode ser visto a seguir:
 
