@@ -51,7 +51,7 @@ os testes ingenuo e io foram fornecidos pelo professor com o objetivo de compara
 |file010-big   |2,38   |2,48      |0,34|2,99            |1,67             |0,92             |0,73             |0,71              |0,68              |
 |file-011-big  |9,35   |9,56      |1,26|11,81           |6,52             |3,56             |2,79             |2,69              |2,5               |
 
-![Resultado obtidos](./imagens/resultados.svg)
+![Resultado obtidos](./resultados.svg)
 
 
 
