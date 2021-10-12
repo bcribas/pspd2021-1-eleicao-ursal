@@ -23,7 +23,7 @@ ríodo 2021/1 da Universidade de Brasília, Faculdade do Gama.<br>
 ## Primeiras versões
 
 No começo desse trabalho, nossa equipe desenvolveu uma solução sequencial e outra<br>
-paralela para o problema proposto. Isso foi antes da criação do repositório oficial<br>
+[paralela](./eleicao-ursal-paralela-v1.c) para o problema proposto. Isso foi antes da criação do repositório oficial<br>
 para o trabalho pelo professor Bruno Ribas.<br>
 
 Nesse sentido, utilizamos alguns scripts em `bash`, de nossa autoria, para executar<br>
@@ -91,7 +91,7 @@ em mãos. Fizemos um *fork* dele e passamos a trabalhar com a criação de difer
 
 **Sobre o código paralelo:**
 
-- Programa: [```relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-parallel.c```](./eleicao-ursal-parallel.c)
+- Programa: [```relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela-v2.c```](./eleicao-ursal-paralela-v2.c)
 
 A turma logo recebeu algumas orientações do professor Ribas com o intuito de que<br>
 todos entendessem quais seriam os próximos desafios do trabalho. Dentre eles, co-<br>
@@ -167,7 +167,7 @@ bastante o desempenho da solução.<br>
 
 ## Histograma
 
-- Programa: [```relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela.c```](./eleicao-ursal-paralela.c)
+- Programa: [```relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela-v3.c```](./eleicao-ursal-paralela-v3.c)
 
 O código foi evoluído usando a lógica de histograma, que consiste em uma distribuição de frequências. Foi usado um vetor *votos* e a cada voto *v* válido lido, o valor do vetor no índice *v* é incrementado, registrando assim a frenquência desse voto. Então deixaram de ser usados os vetores diferentes para cada tipo de candidato.
 Nessa versão também foi utilizada a diretiva do for do OpenMp para paralelizar o laço principal de leitura dos votos.
