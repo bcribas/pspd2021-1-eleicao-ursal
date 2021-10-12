@@ -136,7 +136,7 @@ Entradas com até 1000491 linhas        |  Mais que 1000491 linhas
 
 [Fonte dos dados](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubhtml)
 
-É possível notar que a versão seuqencial é uma boa opção para arquivos com até 50 linhas, mas que se torna uma solução bem mais lenta a partir disso. Também podemos ver que, na melhor versão da solução, as execuções com entradas maiores e que utilizaram 4 e 8, assim como as  12 e 16 threads possuem tempos muito próximos, tendo que avaliar qual o impacto de ocupar tantas threads em um ambiente com maiores limitações de recursos.  
+É possível notar que a versão sequencial é uma boa opção para arquivos com até 50 linhas, mas que se torna uma solução bem mais lenta a partir disso. Também podemos ver que, na melhor versão da solução, as execuções com entradas maiores e que utilizaram 4 e 8, assim como as  12 e 16 threads possuem tempos muito próximos, tendo que avaliar qual o impacto de ocupar tantas threads em um ambiente com maiores limitações de recursos.  
 
 ## Gerador de gráficos
 
