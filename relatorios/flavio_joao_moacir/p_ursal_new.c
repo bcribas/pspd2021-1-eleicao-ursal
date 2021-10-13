@@ -126,17 +126,22 @@ void ler_arquivo(int file_size, int l1, char *arquivo)
     init = (chunk * id_th) + l1;  
     buf_size_th = (file_size-l1) / num_th;
 
-    fseek(fp, init+buf_size_th, SEEK_SET);
-    while(fgetc(fp) != '\n')
+    // Ajuste final do bloco de cada thread
+    fseek(fp, init+buf_size_th, SEEK_SET);   
+    while(fgetc(fp) != '\n')                      // final bloco e ajusta ate o prox /n
         buf_size_th++;
 
     rewind(fp);
-    fseek(fp, init, SEEK_SET);
-    while(fgetc(fp) != '\n')
+
+     // Ajuste final do bloco de cada thread
+    fseek(fp, init, SEEK_SET);  
+    while(fgetc(fp) != '\n')                  // inicio bloco e ajusta ate o prox /n
         buf_size_th--;
     
+
+    //Aloca a mem do bloco
     buffer = (char *) malloc(sizeof(int) * buf_size_th);
-    fread(buffer, buf_size_th, 1, fp);
+    fread(buffer, buf_size_th, 1, fp);                     //Colocar o bloco em mem          
 
     voto = i = 0;
     while(i < buf_size_th)
@@ -150,7 +155,7 @@ void ler_arquivo(int file_size, int l1, char *arquivo)
         else
         {
             if( c != '\n')
-                voto = voto * 10 + c - 48;
+                voto = voto * 10 + c - 48;             // converter char usando tab ascII
             else
             {
                 votos_validos_local++;
