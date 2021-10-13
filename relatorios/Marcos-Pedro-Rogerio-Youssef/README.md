@@ -76,6 +76,8 @@ Com base na explicação sobre as tentativas da equipe, o código paralelizado u
 
 Esses testes foram feitos utilizando a flag de compilação -O3 na máquina Chococino. Cujas especificações são um processador Core i7-8700 de 6 núcleos e 16GB de memória RAM.
 
+Se quiser ver mais detalhes nos gráficos ou avaliar a curva de uma thread de forma isolada, basta clicar no gráfico e interagir com a visualização que será aberta na ferramenta. 
+Uma vez na ferramenta, basta clicar nas legendas para isolar cada uma das curvas.
 
 ## Resultados - Versão Paralelizável 01
 
@@ -97,7 +99,7 @@ Esses são os resultados da primeira tentativa de paralelização do algoritmo.
 
 <div>
     <a href="https://plotly.com/~MarcosNBJ/5/?share_key=YB7J4nNBxmnxAN1oWNpLXX" target="_blank" title="Plot 5" style="display: block; text-align: center;"><img src="https://plotly.com/~MarcosNBJ/5.png?share_key=YB7J4nNBxmnxAN1oWNpLXX" alt="Plot 5" style="max-width: 100%;width: 600px;"  width="600" onerror="this.onerror=null;this.src='https://plotly.com/404.png';" /></a>
-    <script data-plotly="MarcosNBJ:5" sharekey-plotly="YB7J4nNBxmnxAN1oWNpLXX" src="https://plotly.com/embed.js" async></script>
+
 </div>
 
 ## Resultados - Versão Paralelizável 02
@@ -120,5 +122,4 @@ Esses são os resultados da segunda tentativa de paralelização do algoritmo, c
 
 <div>
     <a href="https://plotly.com/~MarcosNBJ/7/?share_key=JGzApkUO65MkKhjAR8dshS" target="_blank" title="pspd-new" style="display: block; text-align: center;"><img src="https://plotly.com/~MarcosNBJ/7.png?share_key=JGzApkUO65MkKhjAR8dshS" alt="pspd-new" style="max-width: 100%;width: 600px;"  width="600" onerror="this.onerror=null;this.src='https://plotly.com/404.png';" /></a>
-    <script data-plotly="MarcosNBJ:7" sharekey-plotly="JGzApkUO65MkKhjAR8dshS" src="https://plotly.com/embed.js" async></script>
 </div>
