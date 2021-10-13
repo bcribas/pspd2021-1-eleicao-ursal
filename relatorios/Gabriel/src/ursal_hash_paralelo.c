@@ -128,7 +128,6 @@ int main(int argc ,char** argv) {
     }
     else if (voto > 0)
     {
-      #pragma omp atomic
       votos[voto]++;
       votosValidos++;
     }
