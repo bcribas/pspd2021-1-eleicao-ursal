@@ -1,9 +1,11 @@
-// =================================================================================
+
+// =============================================================================
 //                              Trabalho 1 - PSPD
 // 	Professor  : Bruno Ribas
-// 	Alunos     : Flavio Vieira / 
-// 	Matricula  : 15/0125682    /
-// =================================================================================
+// 	Alunos     : Flavio Vieira / Joao Cirqueira / Moacir Mascarenha
+// 	Matricula  : 15/0125682    / 15/0132344 / 
+// =============================================================================
+
 # include <stdio.h>
 # include <stdlib.h>
 # include <omp.h>
@@ -76,7 +78,7 @@ int main( int argc, char *argv[] )
         ler_arquivo(fsize, l1, argv[1]);
     
     unificar_resultado();
-
+    
     ordenar_printar(sfe);
 
 // limpar ponteiros
@@ -110,9 +112,7 @@ int compara_votos (const void *x, const void *y)
 void ler_arquivo(int file_size, int l1, char *arquivo)
 {
     int i, id_th, voto, chunk, init, fim, buf_size, buf_size_th;
-    char *p_split = NULL; 
-    char *p_save = NULL;
-    char *buffer;       // buffer[fsize]      //buffer tamanho total do arquivo
+    char *buffer, c;       
     
     int votos_invalidos_local = 0,              
         votos_validos_local = 0,
@@ -124,36 +124,45 @@ void ler_arquivo(int file_size, int l1, char *arquivo)
     // definir blocos/chunks de leitura
     chunk = (file_size - l1) / num_th;   
     init = (chunk * id_th) + l1;  
+    buf_size_th = (file_size-l1) / num_th;
 
-    fseek(fp, init+chunk, SEEK_SET);
+    fseek(fp, init+buf_size_th, SEEK_SET);
     while(fgetc(fp) != '\n')
-        chunk++;
+        buf_size_th++;
 
     rewind(fp);
     fseek(fp, init, SEEK_SET);
     while(fgetc(fp) != '\n')
-        chunk--;
+        buf_size_th--;
     
-    buffer = (char *) malloc(sizeof(int) * chunk);
-    fread(buffer, chunk, 1, fp);
+    buffer = (char *) malloc(sizeof(int) * buf_size_th);
+    fread(buffer, buf_size_th, 1, fp);
 
-   for (p_split = strtok_r(buffer, "\n", &p_save); 
-        p_split != NULL; 
-        p_split = strtok_r(NULL, "\n", &p_save))
-   {
-        voto = atoi(p_split);
-        if(voto > 0)
-        {   
-            votos_validos_local++;
-            matriz_votos_global[id_th][voto]++;
-
-            if( voto < 100)
-                votos_presidente_local++;
+    voto = i = 0;
+    while(i < buf_size_th)
+    {
+        c = buffer[i++];
+        if(c == '-')
+        {
+            while(buffer[i++] != '\n');
+            votos_invalidos_local++; 
         }
         else
-            votos_invalidos_local++; 
+        {
+            if( c != '\n')
+                voto = voto * 10 + c - 48;
+            else
+            {
+                votos_validos_local++;
+                matriz_votos_global[id_th][voto]++;
 
-   }  
+                if( voto < 100)
+                    votos_presidente_local++;
+                voto = 0;
+            }
+        }
+    }
+
     votos_invalidos[id_th]  = votos_invalidos_local;
     votos_presidente[id_th] = votos_presidente_local;
     votos_validos[id_th]    = votos_validos_local;
