@@ -35,22 +35,48 @@ if (buffer[i - 1] != '\n') {
 #pragma omp parallel for reduction(+:votosInvalidos) reduction(+:votosValidos)
 ```
 
+# Evoluções
+
+## Armazenamento dos votos
+
+Foi altearado o armazenamento para utilizar apenas um vetor ao inves de quatro, dado que a posição hash ocupada por cada candidato não é conflitante entre os tipos de candidatos. Isso possibilitou uma implementação mais fácil da leitura do arquivo.
+
+![](assets/armazenamento.png)
+
+## Leitura do arquivo
+
+Na leitura do arquivo foi alterado para uma reduction para a some dos candidatos no vetor 'votos'. além de ter sido removida a diretiva "atomic".
+![](assets/arquivo.png)
+
+## Contagem de votos
+
+Na contagem de votos, foi alterado para utilizar sections para o calculo dos ganhadores de cada tipo de voto.
+
+![](assets/threads_contagem.png)
+
+Para trabalhar corretamente com threads, tiveram que alterar a função de contagem para ao inves de printar direto quando encontra o valor, armazena-los em um vetor e o print ocorre apenas apos a verificação de todos os votos para que não ocorra conflito no print das threads.
+![](assets/contagem.png)
+
 # Teste de desempenho
 
-Foram realizados os testes em um i7-10750H CPU @ 2.60GHz 2.59 GHz
+Devido a dificuldades no acesso das maquinas disponibilizadas, os testes foram realizados os testes em um i7-10750H CPU @ 2.60GHz 2.59 GHz
 
-|Solução|010 big|011 big|
+|Solução|011 big|010 big|
 |-|-|-|
-|IO AJustado|0.26|0.99|
-|16 Threads|0.51|1.38|
-|Linear|1.11|3.90|
-|Solução Ingenua|2.13|8.50|
+|IO AJustado|0.99|0.26|
+|16 Threads|0.93|0.38|
+|12 Threads|0.99|0.37|
+|8 Threads|0.94|0.35|
+|4 Threads|0.94|0.36|
+|2 Threads|0.93|0.36|
+|1 Threads|1.98|0.38|
+|Linear|3.90|1.11|
+|Solução Ingenua|8.50|2.13|
 
 
-Para facilitar a análise dos dados, foram utilizadas as versões de controle do professor e a versão de 16 threads paralela. Os arquivos de saída encontram-se na pasta assets. O grafico abaixo demonstra que houve um prejuizo irrisório ao paralelizar em arquivos pequenos.
+![](assets/grafico010.png)
 
-
-![](assets/grafico.png)
+![](assets/grafico011.png)
 
 # Compilando com -O3 / -O2
 Não foi possível realizar a compilação com -O2 e -O3 devido a um erro
