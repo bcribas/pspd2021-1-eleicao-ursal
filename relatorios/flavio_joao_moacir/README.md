@@ -55,7 +55,10 @@
 
 
 #### Especificações de ambiente de execução
+**SO**: Ubuntu 20.04.03
+**Memoria RAM**: 16 GB
 
+**Processador**
 Architecture:                    x86_64
 
 CPU op-mode(s):                  32-bit, 64-bit
@@ -71,3 +74,6 @@ Thread(s) per core:              2
 CPU family:                      6
 
 Model name:                      Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
+
+
+
