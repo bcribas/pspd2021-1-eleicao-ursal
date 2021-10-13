@@ -11,11 +11,13 @@
 
 ## Experimentos e tentativas da equipe
 
-A abordagem inicial da equipe foi entender o problema e resolvê-lo de forma sequencial e sem a utilização de paralelismo, essa solução pode ser encontrada em: /src/single.c, nela foi utilizado vários laços individuais para fazer a contagem dos votos.
+A abordagem inicial da equipe foi entender o problema e resolvê-lo de forma sequencial e sem a utilização de paralelismo, essa solução pode ser encontrada em: /src/single.c, nela foram utilizados vários laços individuais para fazer a contagem dos votos.
 
-Com base na tentativa inicial, a equipe observou que a leitura do arquivo de votos se provou ser a parte mais demorada, por isso a segunda abordagem foi quebrar o arquivo de votos em pedaços de forma a cada thread ficar responsável por esses chunks, e fazer a tratativa de possíveis corner cases por conta da divisão do arquivo em threads.
+Com base nessa tentativa inicial, a equipe observou que a leitura do arquivo de votos se provou ser a parte mais demorada, por isso a segunda abordagem foi quebrar o arquivo de votos em pedaços. Dessa forma, a leitura é paralelizada entre diversas threads e ao fim agregamos todos os resultados. 
 
-Mesmo tratando a entrada por meio de chunks a solução ainda parecia distante da solução ajustada do professor, decidimos então buscar formas de melhorar a solução. Para isso removemos a parte da leitura dos 3 inteiros da parte sequencial e permitimos que cada thread realizasse uma leitura desses valores pra evitar que todas as threads ficassem esperando pela finalização do fscanf sequencial. Além disso removemos a etapa onde era criado um vetor com posições que cada thread acessaria, criamos uma função que recebe o número da thread e calcula a posição final e inicial de leitura de cada thread. Removemos também a comparação com a posição final utilizando o ftell e substituímos por uma variável que se incrementava na quantidade de bytes lidos.
+Mesmo tratando a entrada por meio de chunks a solução ainda parecia distante da solução ajustada do professor, decidimos então buscar formas de melhorar esse desempenho. Para isso removemos a parte da leitura dos três primeiros inteiros da parte sequencial e permitimos que cada thread realizasse uma leitura desses valores, para evitar que todas as threads ficassem esperando pela finalização do fscanf sequencial. Além disso, removemos a etapa onde era criado um vetor com posições que cada thread acessaria. Essa etapa foi substituida  por uma função que recebe o número da thread e calcula a posição final e inicial que ela deverá ler. Removemos também a comparação com a posição final utilizando o ftell e substituímos por uma variável que é incrementada na quantidade de bytes lidos.
+
+Com essas últimas melhorias, o tempo para solucionar o problema com as entradas maiores diminuiu consideravelmente em todos os testes com quatro threads ou mais. Essa comparação poderá ser vista ao final do relatório.
 
 ## Informações sobre as regiões críticas de paralelização
 
@@ -72,17 +74,12 @@ Com base na explicação sobre as tentativas da equipe, o código paralelizado u
 ```
 ## Teste de desempenho
 
-### Comparar os tempos da versão:
-
-- sequencial da equipe
-- das soluções de referência fornecidas pelo professor
-- paralela com 1,2,4,8,12,16 threads
-
-- Gráficos com os tempos das diversas soluções
-- Use todas as entradas disponíveis neste repositório para fazer os testes para descobrir se a versão paralela é prejudicada nas entradas pequenas
+Esses testes foram feitos utilizando a flag de compilação -O3 na máquina Chococino. Cujas especificações são um processador Core i7-8700 de 6 núcleos e 16GB de memória RAM.
 
 
-## Resultados - V1
+## Resultados - Versão Paralelizável 01
+
+Esses são os resultados da primeira tentativa de paralelização do algoritmo. 
 
 |Entrada       |Número de Linhas|Sequencial|ribas-ac-ingenuo|ribas-ac-ajustado|1 Thread|2 Threads|4 Threads|8 Threads|12 Threads|16 Threads|
 |--------------|----------------|----------|----------------|-----------------|--------|---------|---------|---------|----------|----------|
@@ -103,7 +100,9 @@ Com base na explicação sobre as tentativas da equipe, o código paralelizado u
     <script data-plotly="MarcosNBJ:5" sharekey-plotly="YB7J4nNBxmnxAN1oWNpLXX" src="https://plotly.com/embed.js" async></script>
 </div>
 
-## Resultados - V2
+## Resultados - Versão Paralelizável 02
+
+Esses são os resultados da segunda tentativa de paralelização do algoritmo, com as melhorias descritas no inicio do relatório aplicadas a solução anterior. É possivel ver que agora o tempo com os maiores números de threads diminuiu bastante, embora ainda não tenha alcançado o do algoritmo ajustado.
 
 |Entrada       |Número de Linhas|Sequencial|ribas-ac-ingenuo|ribas-ac-ajustado|1 Thread|2 Threads|4 Threads|8 Threads|12 Threads|16 Threads|
 |--------------|----------------|----------|----------------|-----------------|--------|---------|---------|---------|----------|----------|
