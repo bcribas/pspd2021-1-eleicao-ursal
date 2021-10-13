@@ -34,7 +34,25 @@ if (buffer[i - 1] != '\n') {
 ```c
 #pragma omp parallel for reduction(+:votosInvalidos) reduction(+:votosValidos)
 ```
+
 # Teste de desempenho
 
+Foram realizados os testes em um i7-10750H CPU @ 2.60GHz 2.59 GHz
+
+|Solução|010 big|011 big|
+|-|-|-|
+|IO AJustado|0.26|0.99|
+|16 Threads|0.51|1.38|
+|Linear|1.11|3.90|
+|Solução Ingenua|2.13|8.50|
+
+
 Para facilitar a análise dos dados, foram utilizadas as versões de controle do professor e a versão de 16 threads paralela. Os arquivos de saída encontram-se na pasta assets. O grafico abaixo demonstra que houve um prejuizo irrisório ao paralelizar em arquivos pequenos.
+
+
 ![](assets/grafico.png)
+
+# Compilando com -O3 / -O2
+Não foi possível realizar a compilação com -O2 e -O3 devido a um erro
+
+![](./assets/erro.png)
