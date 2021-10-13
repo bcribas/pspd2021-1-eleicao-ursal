@@ -23,7 +23,7 @@ ríodo 2021/1 da Universidade de Brasília, Faculdade do Gama.<br>
 ## Primeiras versões
 
 No começo desse trabalho, nossa equipe desenvolveu uma solução sequencial e outra<br>
-paralela para o problema proposto. Isso foi antes da criação do repositório oficial<br>
+[paralela](./eleicao-ursal-paralela-v1.c) para o problema proposto. Isso foi antes da criação do repositório oficial<br>
 para o trabalho pelo professor Bruno Ribas.<br>
 
 Nesse sentido, utilizamos alguns scripts em `bash`, de nossa autoria, para executar<br>
@@ -37,6 +37,10 @@ na página web oficial do professor Ribas [1].
 sos scripts.<br>
 
 **Sobre o desempenho dessas primeiras versões:**
+
+Especificações do computador que executou os testes nesse momento:<br>
+
+- MacOS 2.6 GHz Quad-Core Intel Core i7, 16 GB 2133 MHz LPDDR3
 
 Sendo assim, a figura 1 abaixo compara os tempos de execução das nossas soluções<br>
 sequencial e paralela. Os valores foram obtidos por meio da execução dos scripts<br>
@@ -87,6 +91,8 @@ em mãos. Fizemos um *fork* dele e passamos a trabalhar com a criação de difer
 
 **Sobre o código paralelo:**
 
+- Programa: [```relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela-v2.c```](./eleicao-ursal-paralela-v2.c)
+
 A turma logo recebeu algumas orientações do professor Ribas com o intuito de que<br>
 todos entendessem quais seriam os próximos desafios do trabalho. Dentre eles, co-<br>
 meçamos a trabalhar para que a leitura dos votos de entrada do programa fosse feita<br>
@@ -114,6 +120,10 @@ local "ao mesmo tempo".<br>
 
 **Observando o desempenho nesse ponto do trabalho:**
 
+
+Especificações do computador que executou os testes nesse momento:<br>
+
+- Ubuntu 20.04 LTS, 11th Gen Intel® Core™ i5-1135G7 @ 2.40GHz × 8
 
 Realizamos os testes para essa versão paralela evoluída e utilizamos uma planilha [2]<br>
 para avaliar os resultados e montar gráficos. Além disso, os resultados para essa<br>
@@ -157,16 +167,96 @@ bastante o desempenho da solução.<br>
 
 ## Histograma
 
+- Programa: [```relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela-v3.c```](./eleicao-ursal-paralela-v3.c)
+
 O código foi evoluído usando a lógica de histograma, que consiste em uma distribuição de frequências. Foi usado um vetor *votos* e a cada voto *v* válido lido, o valor do vetor no índice *v* é incrementado, registrando assim a frenquência desse voto. Então deixaram de ser usados os vetores diferentes para cada tipo de candidato.
 Nessa versão também foi utilizada a diretiva do for do OpenMp para paralelizar o laço principal de leitura dos votos.
 
 **Observando o desempenho nesse ponto do trabalho:**
+
+Especificações do computador que executou os testes nesse momento:<br>
+
+- Ubuntu 20.04 LTS, 11th Gen Intel® Core™ i5-1135G7 @ 2.40GHz × 8
+
 A tabela a seguir apresenta os resultados para melhor solução implementada considerando todos os arquivos de entrada.<br>
 Tabela 1:<br>
 <img src="./imagens/tabela.jpg">
 <br>Fonte: autores
 </img><br>
 
+Praticamente todos os tempos de execução ficaram próximos a 0 (zero) segundo,<br>
+o que é muito bom. As 2 únicas exceções são para os arquivos `file010-big`, cujo<br>
+melhor tempo foi **2.98 segundos** com 8 *threads*, e `file-011-big`, cujo melhor tem-<br>
+po foi 12.67 segundos com 8 *threads*.<br>
+
+
+### Compilando com -O3 na chococino
+
+Especificações da máquina chococino:<br>
+
+- Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz 6 cores, 16GB
+
+Após realizar uma conexão via `ssh` em `chococino.naquadah.com.br`, fizemos a compilação<br>
+do nosso programa e realizamos os testes de execução conforme os comandos abaixo.<br>
+
+> Compilação:
+
+```gcc-10 relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela.c -O3 -o prog -fopenmp```
+
+> Execução dos testes:
+
+```make benchmark BENCHMARKBINARY=./prog```
+
+Os resultados estão em [```relatorios/Sara-Erick-Ailton-Maicon/chococino-results.txt```](./chococino-results.txt).<br>
+A figura 6 compara os tempos de execução da solução do grupo com as duas soluções<br>
+disponibilizadas pelo professor, tendo como arquivo de entrada `file-011-big`.<br>
+
+Figura 6:<br>
+<img src="./imagens/g6-hist-choco-O3.png">
+<br>Fonte: autores
+</img><br>
+
+É possível perceber que, para a solução do grupo, o tempo diminuiu consideravelmente<br>
+com o aumento do número de *threads*. Por outro lado, o contrário aconteceu para os<br>
+programas do professor, em alguns casos, mas o tempo se manteve igual em outros.<br>
+
+
+## Conclusão
+
+Por meio desse trabalho fomos capazes de evoluir nossos conhecimentos em programação<br>
+paralela. Aprendemos que a utilização dessa técnica de codificação pode ser muito<br>
+útil e vantajosa em alguns contextos. Somado a isso, a utilização da API **OpenMP** [3]<br>
+possibilita que o programador codifique com certa facilidade um programa usando o<br>
+paradigma paralelo.<br>
+
+Tal paradigma, entretanto, não é bala de prata, uma vez que utilizá-lo nem sempre<br>
+melhora o desempenho de um programa. Mesmo assim, é uma ferramenta poderosa para<br>
+contextos em que há a necessidade de processar uma grande quantidade de dados em<br>
+um curto espaço de tempo, como foi visto nas figuras acima.<br>
+
+A tabela 2 a seguir reúne alguns dos melhores tempos de execução coletados ao longo<br>
+do desenvolvimento desse trabalho.<br>
+
+|Programa|Entrada|Qtd threads|Tempo (s)|
+|:----------|:----------:|:----------:|:----------:|
+| ribas-ac-ioajustado | file-011-big | 1 | **1.24** |
+| ribas-ac-ingenuo | file-011-big | 2 | **9.33** |
+| grupo: histograma | file-011-big | 8 | **12.67** |
+| grupo: 1a evolucao | file-011-big | 12 | **12.9** |
+| grupo: inicial | file-002 | 4 | **20.576** |
+<br>
+Fonte: autores
+
+Ao comparar as versões do professor e as do grupo, a diferença de tempo passou de<br>
+aproximadamente 19s, em relação à 1a versão do grupo, para 8.09s, considerando a<br>
+nossa última versão (histograma). Em relação somente aos tempos das nossas solu-<br>
+ções, pode-se verificar que **o grupo melhorou consideravelmente o desempenho do pro-**<br>
+**grama (54,6%)**.<br>
+
+Como trabalho futuro, recomenda-se pensar em alguma forma de melhorar a estratégia<br>
+de eleição que foi utilizada. Talvez a realização de uma ordenação completa funcione<br>
+melhor. Somado a isso, é bom considerar a utilização das diretivas paralelas para os<br>
+trechos de código em que ocorrem as eleições.<br>
 
 <hr>
 
@@ -175,3 +265,5 @@ Tabela 1:<br>
 [1] RIBAS, Bruno. Aula 18 de Agosto. Disponível em: https://www.brunoribas.com.br/pspd/2021-1/#orga81c164
 
 [2] Autores. Planilha de resultados diversos. Disponível em: https://docs.google.com/spreadsheets/d/1B6N221LsnoZr-mcAZc0cFOv39i3_os2w_r7ys_ToiIs/edit?usp=sharing
+
+[3] OpenMP. Home. Disponível em: https://www.openmp.org

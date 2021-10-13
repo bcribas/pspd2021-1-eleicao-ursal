@@ -49,9 +49,11 @@ int main(int argc, char *argv[]){
                 fscanf(arquivo, "%d ", &voto);
 
                 if(voto < 0){
+                    #pragma omp atomic
                     qnt_invalidos++;
                 }
                 else{
+                    #pragma omp atomic
                     qnt_validos++;
                     votos[voto]++;
                 }
@@ -73,15 +75,15 @@ int main(int argc, char *argv[]){
 
     elege_presidente(votos);
     elege_politico(votos, 100, 999, s);  // elege senadores
-    elege_politico(votos, 1000, 9999, s);  // elege deputados federais
-    elege_politico(votos, 10000, 99999, s);  // elege deputados estaduais
+    elege_politico(votos, 1000, 9999, f);  // elege deputados federais
+    elege_politico(votos, 10000, 99999, e);  // elege deputados estaduais
 
     return 0;
 } 
 
 void elege_presidente(int *votos){
     int pos_eleito = 0;
-    char segundo_turno = 0b00000000; // boolean falso
+    char segundo_turno = 0b00000000;
     int qnt_votos_presidente = 0;
 
     for(int i=1; i<100; i++){
@@ -94,7 +96,7 @@ void elege_presidente(int *votos){
             segundo_turno = 0b00000000;
         }
         else if(votos[i] == votos[pos_eleito]){
-            segundo_turno = 0b00000001;   // true
+            segundo_turno = 0b00000001;
         }
     }
 
@@ -109,7 +111,6 @@ void elege_presidente(int *votos){
 
 void elege_politico(int *votos, int inicio, int fim, int qnt){
    int pos_eleito;
-   char segundo_turno; // boolean
 
    while(qnt){
        pos_eleito = 0;
