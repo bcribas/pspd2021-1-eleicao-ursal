@@ -64,12 +64,13 @@ Devido a dificuldades no acesso das maquinas disponibilizadas, os testes foram r
 |Solução|011 big|010 big|
 |-|-|-|
 |IO AJustado|0.99|0.26|
-|16 Threads|0.93|0.38|
-|12 Threads|0.99|0.37|
-|8 Threads|0.94|0.35|
-|4 Threads|0.94|0.36|
-|2 Threads|0.93|0.36|
-|1 Threads|1.98|0.38|
+|32 Threads|1.03|0.39|
+|16 Threads|0.99|0.41|
+|12 Threads|1.02|0.40|
+|8 Threads|1.08|0.39|
+|4 Threads|1.68|0.53|
+|2 Threads|2.36|0.72|
+|1 Threads|3.87|1.08|
 |Linear|3.90|1.11|
 |Solução Ingenua|8.50|2.13|
 
