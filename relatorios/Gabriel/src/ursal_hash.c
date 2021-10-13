@@ -30,7 +30,7 @@ void getFirstLineInfo(char* buf, int vals[4]){
     }
     aux1++;
   }
-  vals[4] = aux1+1;
+  vals[3] = aux1+1;
 }
 
 void findGenericWinner(int *votos, int n, int qtdEleitos){
