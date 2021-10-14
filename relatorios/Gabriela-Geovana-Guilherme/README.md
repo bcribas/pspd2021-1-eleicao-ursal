@@ -103,7 +103,7 @@ Esse trecho de código define uma região paralela que executará três reduçõ
 
 ### Teste de desempenho
 
-Os testes foram realizados no cluster *Chococino*, na máquina CM2. Cada um dos testes foi executado três vezes, para cada arquivo de entrada, sendo o tempo final a média do tempo de execução.
+Os testes foram realizados no cluster *Chococino*, na máquina CM2. Ela possui uma CPU Intel Core i7-8700 @ 3.20GHz (6 núcleos, 12 Threads) e 15Gb de RAM e 19Gb de Swap. Cada um dos testes foi executado quatro vezes, com a primeira execução descartada, isso para cada arquivo de entrada, sendo o tempo final a média do tempo de execução.
 
 Para melhor leitura dos gráficos, foram gerados dois gráficos para cada solução à medida que foi evoluída, um com os arquivos de entrada que possuem até 1000491 linhas e outro para arquivos com mais de 1000491. 
 
@@ -112,24 +112,24 @@ Com o objetivo de mostrar a evolução das duas versões paralelizadas, primeiro
 #### Primeira versão paralelizada
 
 
-Entradas com até 1000491 linhas        |  Mais que 1000491 linhas
-:-------------------------------------:|:-------------------------:
-![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=60594908&format=image)               |  ![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=1859316235&format=image)
+|                                                                     Entradas com até 1000491 linhas                                                                     |                                                                          Mais que 1000491 linhas                                                                          |
+| :---------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| ![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=60594908&format=image) | ![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=1859316235&format=image) |
 
 
 #### Primeira versão paralelizada executada com O3
 
 
-Entradas com até 1000491 linhas        |  Mais que 1000491 linhas
-:-------------------------------------:|:-------------------------:
-![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=461646246&format=image)               |  ![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=677563982&format=image)
+|                                                                     Entradas com até 1000491 linhas                                                                      |                                                                         Mais que 1000491 linhas                                                                          |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| ![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=461646246&format=image) | ![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=677563982&format=image) |
 
 #### Segunda versão paralelizada executada com O3
 
 
-Entradas com até 1000491 linhas        |  Mais que 1000491 linhas
-:-------------------------------------:|:-------------------------:
-![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=2096977485&format=image)               |  ![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=1077183580&format=image)
+|                                                                      Entradas com até 1000491 linhas                                                                      |                                                                          Mais que 1000491 linhas                                                                          |
+| :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+| ![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=2096977485&format=image) | ![](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubchart?oid=1077183580&format=image) |
 
 
 [Fonte dos dados](https://docs.google.com/spreadsheets/d/e/2PACX-1vRq1nuJRUqMmV2D0_mPMxHVD7dH3h2R1TRSDPhrpmYdfp-eEjq3NbD8-Fwg7vyM2KGGf2RuwSysfSy7/pubhtml)
