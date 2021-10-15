@@ -19,39 +19,84 @@
   
 ### Tabelas e Gráficos
 
+#### Tebela dados dos arquivos.
+
+| | 	Nr linhas| Tamanho [B]| Tamanho [kB]| 
+| :--- | :---| :---| :---|
+| file001 |        21| 	       98| 	      0,10| 
+| file009 |        26| 	      119| 	      0,12| 
+| file002 |        51| 	      231| 	      0,23| 
+| file003 |       256| 	     1151| 	      1,12| 
+| file004 |      1371| 	     6144| 	      6,00| 
+| file005	|     10296|      46020| 	     44,94| 
+| file006 |    100171| 	   447148| 	    436,67| 
+| file007 |   1000491| 	  4489715| 	  4.384,49| 
+| file008 |  10000176| 	 44891323|   43.839,18| 
+| file010 |  50000001| 	224449797| 	219.189,25| 
+| file011 | 200000001| 	897799152| 	876.756,98| 
 
 
 #### Melhor solução da equipe
-   A tabela e gráfico abaixo exibem as comparações entre a melhor solução desenvolvida pelo grupo(p_ursal_new.c) com a solução sequencial, desenvolvida pelo Flávio, e com as soluções disponibilizadas pelo professor(ribas-ac-ingenuo e ribas-ac-ioajustado).
-
-##### Tebela e grafico com os tempos medidos.
-  ![image](https://user-images.githubusercontent.com/48539765/137126670-9ab5b5e4-41fb-4461-89fb-64c954664d20.png)
-
-  ![image](https://user-images.githubusercontent.com/48539765/137127087-904415eb-f0b2-4ee6-be48-9ba1c5c2815b.png)
+   A tabela e gráfico abaixo exibem as comparações entre a melhor solução desenvolvida pelo grupo(eleicao-ursal-fastread.c) com a solução sequencial, desenvolvida pelo Flávio, e com as soluções disponibilizadas pelo professor(ribas-ac-ingenuo e ribas-ac-ioajustado).
 
 
-#### 2º Melhor Solução
-   A tabela e gráfico abaixo exibem as comparações entre a melhor solução desenvolvida pelo grupo(eleicao_ursal_final.c) com a solução sequencial, desenvolvida pelo Flávio, e com as soluções disponibilizadas pelo professor(ribas-ac-ingenuo e ribas-ac-ioajustado).
-##### Tebela e grafico com os tempos medidos.
-![image](https://user-images.githubusercontent.com/48539765/136131611-9b8714a7-195d-4c91-9652-7a3b5e2f78e6.png)
+#### Tebela e grafico com os tempos em milesegundos.
 
-![image](https://user-images.githubusercontent.com/48539765/136130757-2f829cb3-bf25-4d4e-bf71-e53d1105d05e.png)
+|        |file01 |file02  |file03  |file04  |file05  |file06  |file07  |file8  |file09  |file10  |file11 | 
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| ioajustado  |14	|15	|16	|18	|27	|15	|22	|81	 |14	|335	|1283 |
+| ingenuo     |16	|13	|12	|14	|14	|22	|61	|491 |14	|2390	|9419 |
+| sequencial  |16	|19	|21	|17	|17	|23	|67	|503 |16	|2421	|9715 |
+| 1 threads   |18	|20	|37	|20	|22	|24	|31	|99	 |22	|493	|1927 |
+| 2 threads   |17	|17	|19	|18	|17	|20	|26	|68	 |16	|281	|1003 |
+| 4 threads   |22	|20	|18	|21	|22	|21	|22	|48	 |18	|152	|545  |
+| 6 threads   |19	|20	|20	|21	|21	|21	|25	|45	 |18	|173	|346  |
+| 8 threads   |17	|25	|22	|26	|20	|23	|26	|49	 |18	|148	|470  |
+|12 threads   |24	|30	|34	|27	|35	|31	|37	|43	 |33	|129	|410  |
+|16 threads   |25	|24	|24	|27	|19	|22	|31	|46	 |20	|127	|424  |
+
+Melhor solução eleicao-ursal-fastread.c
+
+<p align="center">  <img src="./img/fs_seq_ta.png" width="700"></p>
+<p align="center">  <img src="./img/fs_io_tas.png" width="700"></p>
+<p align="center">  <img src="./img/fs_io_g.png" width="700"></p>
+<p align="center">  <img src="./img/fs_seq_p.png" width="700"></p>
 
 
 #### Comparação de soluções antigas da equipe
 
   A tabela e o grafico abaixo, exibem dados de algumas soluções desenvolvidas pela equipe, utilizando 16 threads.
-  ##### Tebela e grafico com os tempos medidos.
-  ![image](https://user-images.githubusercontent.com/48539765/136134168-a7488bdf-e7d4-40c3-b0cf-959213b4a12c.png)
+#### Comparação de soluções antigas da equipe
+  A tabela e gráfico abaixo exibem as comparações entre a melhor solução desenvolvida pelo grupo(eleição-ursal-fastread) com outras soluções antigas desenvolvidas pelo grupo (strtok, matriz, atomic, critical), e com as soluções disponibilizadas pelo professor(ribas-ac-ingenuo e ribas-ac-ioajustado).
 
-  
-  ![image](https://user-images.githubusercontent.com/48539765/136133911-0a33ff6f-b62d-4f6c-88b1-963060c7b9e4.png)
 
-#### Como rodar
+|        |ioajustado |ingenuo |sequencial  |fastread  |strtok  |matriz  |atomic  |critical  | 
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+|    serial   | 1,28 | 9,42 |	9,72 | ----  | ----  |	----  |	----  |	----   |
+| 1 threads   | ---  | ---  | ---  |	1,93 |	2,45 |	12,07	| 12,75 |	13,54  |
+| 2 threads   | ---  | ---  | ---  |	1,00 |	1,29 |	6,98  |	10,35 |	15,98  |
+| 4 threads   | ---  | ---  | ---  |	0,55 |	0,90 |	3,56  |	8,27  |	26,19  |
+| 6 threads   | ---  | ---  | ---  |	0,34 |	1,01 |	2,41  |	7,11  |	32,53  |
+| 8 threads   | ---  | ---  | ---  |	0,47 |	0,87 |	3,21  |	9,05  |	32,73  |
+|12 threads   | ---  | ---  | ---  |	0,41 |	0,92 |	2,99  |	6,37  |	39,12  |
+|16 threads   | ---  | ---  | ---  |	0,42 |	0,87 |	2,91  |	5,97  |	36,85  |
+
+Arquivo file11
+
+<p align="center">  <img src="./img/comp.png" width="700"></p>
+
+#### Link apresentação  
+
+<p align="left">  <img src="./img/eleicao_ursal.gif" width="300"></p>
+
+https://www.canva.com/design/DAEss4rM_4c/xNgnYX2ocNzcf3DFcF-y_Q/view?utm_content=DAEss4rM_4c&utm_campaign=designshare&utm_medium=link&utm_source=sharebutton
+
+#### Como rodar  
 
 ```$ gcc eleicao_ursal_final.c ursal.c -o eleicao -fopenmp```
 
-```$ ./eleicao [arquivo_entrada] [quantidade_threads]```
+```$ ./eleicao [arquivo_entrada] [quantidade_threads]```  
+
 
 
 #### Especificações de ambiente de execução
