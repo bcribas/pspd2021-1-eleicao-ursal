@@ -33,13 +33,13 @@ void getFirstLineInfo(char* buf, int vals[4]){
   vals[4] = aux1+1;
 }
 
-void findGenericWinner(int *votos, int n, int qtdEleitos){
-  int idx_eleito;
+void findGenericWinner(int *votos, int n, int qtdEleitos, int* winners){
+  int idx_eleito, idx = 0;
 
   while (qtdEleitos)
   {
     idx_eleito = 0;
-    for (int i = 1; i < n; i++)
+    for (int i = n/10; i < n; i++)
     {
       if(votos[i] > 0){
         //printf("votos[%d] = %d\n", i, votos[i]);
@@ -49,20 +49,14 @@ void findGenericWinner(int *votos, int n, int qtdEleitos){
         idx_eleito = i;
       }
     }
-
-    printf("%d", idx_eleito);
+    winners[idx++] = idx_eleito;
     votos[idx_eleito] = 0;
     qtdEleitos--;
-    if (qtdEleitos)
-    {
-      printf(" ");
-    }
-  } 
-  printf("\n");
+  }
   return;
 } 
 
-int findPresidenteWinner(int* votos, int n) {
+int findPresidenteWinner(int* votos, int n, int* winner) {
     int idx = 0;
     int totalVotos = 0;
 
@@ -74,10 +68,10 @@ int findPresidenteWinner(int* votos, int n) {
         };
     }
     if (votos[idx] < (totalVotos * 0.51)) {
-        printf("Segundo turno\n");
+      *winner = -1;
     }
     else {
-        printf("%d\n", idx);
+      *winner = idx;
     }
 }
 
@@ -112,15 +106,15 @@ int main(int argc ,char** argv) {
 
   getFirstLineInfo(buffer, vals);
 
-  const int nVotosPresidente = 100, nVotosSenadores = 1000, nVotosEstadual = 10000, nVotosFederal = 100000;
-  int aux = vals[4], votosValidos = 0, votosInvalidos = 0, votosPresidente[nVotosPresidente], votosSenadores[nVotosSenadores], votosEstadual[nVotosEstadual], votosFederal[nVotosFederal];
-  int *votos[4] = {votosPresidente,votosSenadores,votosEstadual,votosFederal};
-  memset(votosPresidente, 0, nVotosPresidente * sizeof(int));
-  memset(votosSenadores,0,nVotosSenadores*sizeof(int));
-  memset(votosEstadual,0,nVotosEstadual*sizeof(int));
-  memset(votosFederal,0,nVotosFederal*sizeof(int));
+  const int nVotos = 100000;
+  int aux = vals[4], votosValidos = 0, votosInvalidos = 0, votos[nVotos];
+  int wPresidente, wSenadores[nVotos], wEstadual[nVotos], wFederal[nVotos];
+  memset(votos, 0, nVotos * sizeof(int));
+  memset(wSenadores,0,nVotos*sizeof(int));
+  memset(wEstadual,0,nVotos*sizeof(int));
+  memset(wFederal,0,nVotos*sizeof(int));
   int voto;
-#pragma omp parallel for private(voto) reduction(+:votosInvalidos) reduction(+:votosValidos) shared(votosPresidente) shared(votosSenadores) shared(votosEstadual) shared(votosFederal)
+#pragma omp parallel for private(voto) reduction(+:votosInvalidos) reduction(+:votosValidos) reduction(+:votos)
   for (int i = aux; i < bytesRead; i++)
   {
     /*Começa a partir do prox. numero completo*/
@@ -134,21 +128,58 @@ int main(int argc ,char** argv) {
     }
     else if (voto > 0)
     {
-      #pragma omp atomic
-        votos[numPlaces(voto) - 2][voto]++;
-        votosValidos++;
+      votos[voto]++;
+      votosValidos++;
     }
     while (buffer[i] != '\n')
       i++;
   }
 
-  printf("%d %d\n", votosValidos, votosInvalidos);
-  findPresidenteWinner(votosPresidente, nVotosPresidente);
-  findGenericWinner(votosSenadores, nVotosSenadores, vals[0]);
-  findGenericWinner(votosEstadual, nVotosEstadual, vals[1]);
-  findGenericWinner(votosFederal, nVotosFederal, vals[2]);
+  printf("%d %d\n", votosValidos, votosInvalidos);    
+#pragma omp parallel sections 
+{
+  #pragma omp section 
+  {
+    findPresidenteWinner(votos, 100, &wPresidente);
+  }
+  #pragma omp section 
+  {
+    findGenericWinner(votos, 1000, vals[0], wSenadores);
+  }
+  #pragma omp section 
+  {
+    findGenericWinner(votos, 10000, vals[1], wEstadual);
+  }
+  #pragma omp section 
+  {
+    findGenericWinner(votos, 100000, vals[2], wFederal);
+  }
+}
+  if(wPresidente == -1){
+      printf("Segundo turno\n");
+  }
+  else {
+    printf("%d\n", wPresidente);
+  }
+  printf("%d", wSenadores[0]);
+  for (int i = 1; i < vals[0]; i++)
+  {
+    printf(" %d", wSenadores[i]);
+  }
+  printf("\n");
+  printf("%d", wEstadual[0]);
+  for (int i = 1; i < vals[1]; i++)
+  {
+    printf(" %d", wEstadual[i]);
+  }
+  printf("\n");
+  printf("%d", wFederal[0]);
+  for (int i = 1; i < vals[2]; i++)
+  {
+    printf(" %d", wFederal[i]);
+  }
+  printf("\n");
   fclose(arquivo);
   free(buffer);
-
   return 0;
 }

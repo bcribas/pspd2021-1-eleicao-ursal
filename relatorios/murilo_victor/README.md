@@ -42,7 +42,7 @@ A segunda solução foi criar uma matriz para os candidatos, onde cada thread op
 Para evitar outros conflitos de acesso, a variável 'voto' foi tornada privada de cada thread e foi aplicado um reduction nas variáveis de soma de votos.
 
 ## 4. Teste de desempenho
-No dia no qual o grupo testou o projeto, a máquina CHOCOCINO recomendada pelo professor não estava disponível. Fomos orientados a usar uma máquina dos próprios integrantes do grupo, apesar da limitação de 8 threads.
+Todos os testes foram realizados na máquina CHOCOCINO disponibilizada pelo professor.
 
 ### 4.1. Gráficos
 
@@ -101,6 +101,17 @@ No dia no qual o grupo testou o projeto, a máquina CHOCOCINO recomendada pelo p
     <img src="imagens/file-011-big.png" alt="Logo">
 </p>
 
+#### 4.1.12 Tempo de CPU
+<p align="center">
+    <img src="imagens/total_cpu.png" alt="Logo">
+</p>
+
+#### 4.1.12 Tempo Real
+<p align="center">
+    <img src="imagens/total_real.png" alt="Logo">
+</p>
+
+
 ### 4.2. Conclusões
 
 Cada programa foi executado 3 vezes com cada arquivo e os gráficos representam a média dos tempos de execução.
@@ -110,6 +121,8 @@ Os principais pontos a serem destacados são:
 - Fazer uso de mais threads nos arquivos menores aumentou o tempo de processamento sem ganhos significantes no tempo de execução. Isso acontece por causa dos passos extras que a implementação das threads exige. Isso é facilmente notável comparando a execução sequencial e a execução com 1 thread. Apesar de ambos usarem somente uma thread para processamento, a execução com 1 thread perde ou empata com a sequencial em todos os casos.
 
 - O ganho de tempo da execução com mais threads torna-se mais claro nos arquivos maiores. Nos arquivos 'big', por exemplo, a utilização de mais threads aumenta o tempo de processamento, devido a utilização do processador por completo, mas reduz significativamente o tempo de execução.
+
+- Os dois últimos gráficos tem uma estrutura semelhante, porém estão invertidos. É possível notar que, ao aumentar o número de threads, o tempo de uso de CPU também aumenta (utilização mais completa dos núcleos de processamento disponíveis) e, proporcionalmente, o tempo real diminui (quase todas as vezes).
 
 [Planilha com os tempos médios de execução](https://docs.google.com/spreadsheets/d/1oWU8GOvMt8J1LMZlms-_GB_e31vwBHyafCCxKyFT1iE/edit?usp=sharing)
 

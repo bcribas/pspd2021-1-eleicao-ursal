@@ -23,7 +23,7 @@ A sessão do código responsável pela leitua do arquivo de votos se mostrou 
 
 É importante notar que existem algumas regiões críticas nesse processo de leitura, sendo eles no momento de escrita dos arrays e no incremento dos contadores de votos. Como todas as threads compartilham essa região de memória e estão constantemente tentando inserir novos valores, pode ser que haja uma sobrescrita nas variáveis.
 Para impedir isso utilizamos dois metodos, para os contadores de votos utilizamos uma reduction, assim protegendo o acesso às variáveis __validVote__, __invalidVote__ e __totalVotesPresident__.
-O segundo método foi utilizado para a escrita nos arrays __president__, __senator__, __congressman__ e __congressperson__, foi utilizado o método __atomic__(também disponibilizamos os resultados obtidos com o método __critical__) para realizar essa escrita.
+O segundo método foi utilizado para a escrita nos arrays __president__, __senator__, __congressman__ e __congressperson__, foi utilizado o método __atomic__ para realizar essa escrita.
 
 ## Seleção de Candidatos
 
@@ -31,29 +31,28 @@ Houveram alguns testes tentando paralelizar a parte de seleção dos candidato
 
 ### Testes realizados
 
-#### Especificações da máquina de teste
-- Processador: Intel Core i7-7500U CPU @ 2.70GHz × 2
-- Memória RAM: 16GB
-- Sistema operacional: Linux Mint 20 Cinnamon
+- **Máquina utilizada para testes**: Chococino
 
 Na tabela abaixo é possível ver o tempo em segundos obtidos em cada um dos testes.a
 os testes ingenuo e io foram fornecidos pelo professor com o objetivo de comparar com nossos resultados.
 
-|file          |ingenuo|sequencial|io  |1 thread(atomic)|2 threads(atomic)|4 threads(atomic)|8 threads(atomic)|12 threads(atomic)|16 threads(atomic)|1 thread(critical)|2 threads(critical)|4 threads(critical)|8 threads(critical)|12 threads(critical)|16 threads(critical)|
-|--------------|-------|----------|----|----------------|-----------------|-----------------|-----------------|------------------|------------------|------------------|-------------------|-------------------|-------------------|--------------------|--------------------|
-|file001-sample|0      |0         |0   |0               |0                |0                |0                |0                 |0                 |0                 |0                  |0                  |0                  |0                   |0,02                |
-|file002-sample|0      |0         |0,05|0,02            |0,03             |0,03             |0,02             |0,02              |0,02              |0,01              |0,02               |0,02               |0,01               |0,02                |0,02                |
-|file003       |0      |0         |0   |0,01            |0,02             |0,04             |0,01             |0,02              |0,01              |0,01              |0,01               |0,02               |0,01               |0,01                |0,01                |
-|file004       |0      |0         |0   |0,01            |0,01             |0,03             |0,01             |0,01              |0,01              |0,01              |0,01               |0,02               |0,01               |0,01                |0,01                |
-|file005-sample|0      |0         |0   |0,06            |0,06             |0,07             |0,06             |0,06              |0,07              |0,06              |0,08               |0,09               |0,06               |0,06                |0,07                |
-|file006       |0,02   |0,01      |0   |0,05            |0,06             |0,08             |0,06             |0,06              |0,06              |0,05              |0,06               |0,06               |0,05               |0,06                |0,05                |
-|file007-sample|0,08   |0,07      |0,01|0,12            |0,08             |0,09             |0,1              |0,09              |0,08              |0,17              |0,1                |0,11               |0,1                |0,1                 |0,1                 |
-|file008       |0,71   |0,7       |0,1 |0,88            |0,53             |0,59             |0,55             |0,54              |0,55              |0,98              |0,71               |0,79               |0,73               |0,72                |0,77                |
-|file009       |0      |0         |0   |0               |0,01             |0,01             |0                |0,02              |0                 |0                 |0                  |0,02               |0                  |0,01                |0,01                |
-|file010-big   |3,29   |3,93      |0,45|4,97            |2,61             |2,97             |2,78             |2,96              |2,83              |4,89              |3,91               |3,53               |3,39               |3,76                |3,47                |
-|file-011-big  |13,26  |14,32     |1,87|17,18           |10,03            |10,52            |10,54            |11,04             |10,42             |18,41             |13,28              |13,95              |13,01              |13,45               |13,42               |
+|file          |ingenuo|sequencial|io  |1 thread(atomic)|2 threads(atomic)|4 threads(atomic)|8 threads(atomic)|12 threads(atomic)|16 threads(atomic)|
+|--------------|-------|----------|----|----------------|-----------------|-----------------|-----------------|------------------|------------------|
+|file001-sample|0      |0         |0   |0               |0                |0                |0                |0                 |0                 |
+|file002-sample|0,1    |0,01      |0,01|0               |0,01             |0,01             |0,01             |0,02              |0,01              |
+|file003       |0      |0         |0   |0               |0                |0                |0                |0,02              |0                 |
+|file004       |0      |0         |0   |0               |0,01             |0                |0                |0,01              |0                 |
+|file005-sample|0      |0,03      |0   |0,01            |0,01             |0,02             |0,06             |0,03              |0,01              |
+|file006       |0,01   |0,02      |0   |0,01            |0,01             |0,01             |0,02             |0,02              |0,01              |
+|file007-sample|0,05   |0,06      |0,01|0,03            |0,04             |0,04             |0,03             |0,02              |0,02              |
+|file008       |0,48   |0,5       |0,11|0,6             |0,34             |0,2              |0,19             |0,15              |0,15              |
+|file009       |0      |0         |0   |0               |0                |0                |0,01             |0,01              |0                 |
+|file010-big   |2,38   |2,48      |0,34|2,99            |1,67             |0,92             |0,73             |0,71              |0,68              |
+|file-011-big  |9,35   |9,56      |1,26|11,81           |6,52             |3,56             |2,79             |2,69              |2,5               |
 
-![Resultado obtidos](./imagens/resultados.svg)
+![Resultado obtidos](./resultados.svg)
+
+
 
 ### Regiões Críticas
 

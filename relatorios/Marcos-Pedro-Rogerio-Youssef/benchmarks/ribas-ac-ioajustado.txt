@@ -1,0 +1,65 @@
+* Processando input/file002-sample
+time -p prof/ribas-ac-ioajustado input/file002-sample > benchmark/file002-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file009
+time -p prof/ribas-ac-ioajustado input/file009 > benchmark/file009
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file008
+time -p prof/ribas-ac-ioajustado input/file008 > benchmark/file008
+real 0.07
+user 0.06
+sys 0.00
+
+* Processando input/file006
+time -p prof/ribas-ac-ioajustado input/file006 > benchmark/file006
+real 0.01
+user 0.00
+sys 0.00
+
+* Processando input/file004
+time -p prof/ribas-ac-ioajustado input/file004 > benchmark/file004
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file003
+time -p prof/ribas-ac-ioajustado input/file003 > benchmark/file003
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file007-sample
+time -p prof/ribas-ac-ioajustado input/file007-sample > benchmark/file007-sample
+real 0.01
+user 0.00
+sys 0.00
+
+* Processando input/file001-sample
+time -p prof/ribas-ac-ioajustado input/file001-sample > benchmark/file001-sample
+real 0.00
+user 0.00
+sys 0.00
+
+* Processando input/file010-big
+time -p prof/ribas-ac-ioajustado input/file010-big > benchmark/file010-big
+real 0.32
+user 0.29
+sys 0.02
+
+* Processando input/file-011-big
+time -p prof/ribas-ac-ioajustado input/file-011-big > benchmark/file-011-big
+real 1.24
+user 1.19
+sys 0.04
+
+* Processando input/file005-sample
+time -p prof/ribas-ac-ioajustado input/file005-sample > benchmark/file005-sample
+real 0.00
+user 0.00
+sys 0.00
