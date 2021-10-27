@@ -217,8 +217,7 @@ Figura 6:<br>
 </img><br>
 
 É possível perceber que, para a solução do grupo, o tempo diminuiu consideravelmente<br>
-com o aumento do número de *threads*. Por outro lado, o contrário aconteceu para os<br>
-programas do professor, em alguns casos, mas o tempo se manteve igual em outros.<br>
+com o aumento do número de *threads*.<br>
 
 
 ## Conclusão
