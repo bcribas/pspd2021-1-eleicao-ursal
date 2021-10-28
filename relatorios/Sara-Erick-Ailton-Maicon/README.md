@@ -265,7 +265,9 @@ trechos de código em que ocorrem as eleições.<br>
 
 ### Versão 4 do programa -> usa quick sort com mediana de 3
 
-Usando a Chococino.<br>
+O grupo fez um novo programa o qual usa uma implementação própria do algoritmo<br>
+***quick sort mediana de 3*** e fez os testes usando a Chococino. A região de<br>
+paralização continua sendo na leitura dos dados de entrada.<br>
 
 Especificações da máquina chococino:<br>
 
