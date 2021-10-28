@@ -12,7 +12,7 @@
 Deve ser levado em consideração que as threads são capturadas no momento em que o usuário insere o comando no terminal para rodar o programa.
 
 ``` sh
-$ gcc -fopenmp main.c -o <arquivo-de-saida>
+$ gcc -fopenmp main.c -o <arquivo-de-saida> -O3
 ```
 
 E para rodar executaremos:
@@ -28,6 +28,15 @@ $ ./out input/file009 4
 ```
 <p align="justify">
 Desta forma estamos especificando que serão utilizadas 4 threads para estar realizando as instruções do arquivo main.
+
+## Especificações da máquina de testes
+
+<p align="justify">
+A máquina que foi utilizada para os testes:
+
+SO: Ubuntu 20.04 LTS;
+Processador: Intel i5-9600k, 6 threads, 6 núcleos, 3.7 Ghz de frequência base (4.6 GHz frequência turbo max);
+Memoria RAM: 2x8 Crucial B
 
 ## Informações sobre as regiões críticas de paralelização
 
@@ -98,8 +107,8 @@ Ao final cada thread realiza o fechamento do arquivo.
 
 Inputs | qtd. linhas | sequencial | ribas-ac-ingenuo | ribas-ac-ioajustado | paralelo 1 thread | paralelo 2 thread | paralelo 4 thread | paralelo 8 thread | paralelo 12 thread | paralelo 16 thread |
 | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
-| file001-sample    | 21            | 0,021 | 0,012 | 0,011 | 0,024 | 0,023 | 0,012 | 0,028 | 0,014 | 0,029 |
-| file009           | 26            | 0,015 | 0,012 | 0,011 | 0,024 | 0,024 | 0,012 | 0,028 | 0,027 | 0,029 |
+| file001-sample    | 21            | 0,021 | 0,012 | 0,011 | 0,024 | 0,003 | 0,012 | 0,028 | 0,014 | 0,029 |
+| file009           | 26            | 0,015 | 0,012 | 0,011 | 0,024 | 0,019 | 0,012 | 0,028 | 0,027 | 0,029 |
 | file002-sample    | 51            | 0,012 | 0,005 | 0,012 | 0,023 | 0,024 | 0,018 | 0,028 | 0,027 | 0,028 |
 | file003           | 256           | 0,008 | 0,012 | 0,010 | 0,026 | 0,024 | 0,028 | 0,012 | 0,029 | 0,029 |
 | file004           | 1371          | 0,013 | 0,012 | 0,030 | 0,009 | 0,017 | 0,042 | 0,026 | 0,007 | 0,029 |
@@ -108,6 +117,24 @@ Inputs | qtd. linhas | sequencial | ribas-ac-ingenuo | ribas-ac-ioajustado | par
 | file007-sample    | 1000491       | 0,064 | 0,071 | 0,038 | 0,067 | 0,047 | 0,042 | 0,026 | 0,025 | 0,048 |
 | file008           | 10000176      | 0,567 | 0,526 | 0,088 | 0,306 | 0,210 | 0,111 | 0,087 | 0,094 | 0,088 |
 | file010-big       | 50000001      | 2,605 | 2,522 | 0,358 | 1,470 | 0,925 | 0,464 | 0,405 | 0,362 | 0,355 |
+| file-011-big      | 200000001     | 10,373 | 10,019 | 1,370 | 5,621 | 3,496 | 1,838 | 1,455 | 1,386 | 1,278 |
+
+## Teste de desempenho com a flag -O3
+
+Ao se adicionar a flag -O3, obtivemos os seguintes resultados:
+
+Inputs | qtd. linhas | sequencial | ribas-ac-ingenuo | ribas-ac-ioajustado | paralelo 1 thread | paralelo 2 thread | paralelo 4 thread | paralelo 8 thread | paralelo 12 thread | paralelo 16 thread |
+| -- | -- | -- | -- | -- | -- | -- | -- | -- | -- | -- |
+| file001-sample    | 21            | 0,021 | 0,012 | 0,011 | 0,021 | 0,023 | 0,012 | 0,028 | 0,014 | 0,029 |
+| file009           | 26            | 0,015 | 0,012 | 0,011 | 0,022 | 0,024 | 0,012 | 0,028 | 0,027 | 0,029 |
+| file002-sample    | 51            | 0,012 | 0,005 | 0,012 | 0,009 | 0,024 | 0,018 | 0,028 | 0,027 | 0,028 |
+| file003           | 256           | 0,008 | 0,012 | 0,010 | 0,014 | 0,024 | 0,028 | 0,012 | 0,029 | 0,029 |
+| file004           | 1371          | 0,013 | 0,012 | 0,030 | 0,022 | 0,017 | 0,042 | 0,026 | 0,007 | 0,029 |
+| file005-sample    | 10296         | 0,022 | 0,016 | 0,013 | 0,021 | 0,026 | 0,010 | 0,017 | 0,023 | 0,028 |
+| file006           | 100171        | 0,050 | 0,017 | 0,019 | 0,034 | 0,035 | 0,025 | 0,027 | 0,032 | 0,025 |
+| file007-sample    | 1000491       | 0,064 | 0,071 | 0,038 | 0,071 | 0,047 | 0,042 | 0,026 | 0,025 | 0,048 |
+| file008           | 10000176      | 0,567 | 0,526 | 0,088 | 0,305 | 0,210 | 0,111 | 0,087 | 0,094 | 0,088 |
+| file010-big       | 50000001      | 2,605 | 2,522 | 0,358 | 1,360 | 0,925 | 0,464 | 0,405 | 0,362 | 0,355 |
 | file-011-big      | 200000001     | 10,373 | 10,019 | 1,370 | 5,763 | 3,496 | 1,838 | 1,455 | 1,386 | 1,278 |
 
 <p align="justify">

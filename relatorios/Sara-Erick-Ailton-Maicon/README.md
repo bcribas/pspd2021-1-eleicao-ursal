@@ -23,7 +23,7 @@ ríodo 2021/1 da Universidade de Brasília, Faculdade do Gama.<br>
 ## Primeiras versões
 
 No começo desse trabalho, nossa equipe desenvolveu uma solução sequencial e outra<br>
-paralela para o problema proposto. Isso foi antes da criação do repositório oficial<br>
+[paralela](./eleicao-ursal-paralela-v1.c) para o problema proposto. Isso foi antes da criação do repositório oficial<br>
 para o trabalho pelo professor Bruno Ribas.<br>
 
 Nesse sentido, utilizamos alguns scripts em `bash`, de nossa autoria, para executar<br>
@@ -91,7 +91,7 @@ em mãos. Fizemos um *fork* dele e passamos a trabalhar com a criação de difer
 
 **Sobre o código paralelo:**
 
-- Programa: [```relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-parallel.c```](./eleicao-ursal-parallel.c)
+- Programa: [```relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela-v2.c```](./eleicao-ursal-paralela-v2.c)
 
 A turma logo recebeu algumas orientações do professor Ribas com o intuito de que<br>
 todos entendessem quais seriam os próximos desafios do trabalho. Dentre eles, co-<br>
@@ -167,7 +167,7 @@ bastante o desempenho da solução.<br>
 
 ## Histograma
 
-- Programa: [```relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela.c```](./eleicao-ursal-paralela.c)
+- Programa: [```relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela-v3.c```](./eleicao-ursal-paralela-v3.c)
 
 O código foi evoluído usando a lógica de histograma, que consiste em uma distribuição de frequências. Foi usado um vetor *votos* e a cada voto *v* válido lido, o valor do vetor no índice *v* é incrementado, registrando assim a frenquência desse voto. Então deixaram de ser usados os vetores diferentes para cada tipo de candidato.
 Nessa versão também foi utilizada a diretiva do for do OpenMp para paralelizar o laço principal de leitura dos votos.
@@ -217,8 +217,9 @@ Figura 6:<br>
 </img><br>
 
 É possível perceber que, para a solução do grupo, o tempo diminuiu consideravelmente<br>
-com o aumento do número de *threads*. Por outro lado, o contrário aconteceu para os<br>
-programas do professor, em alguns casos, mas o tempo se manteve igual em outros.<br>
+com o aumento do número de *threads*. Vale lembrar que os dois programas fornecidos<br>
+pelo professor (ribas-ac-ioajustado e ribas-ac-ingenuo) são sequenciais e estão no<br>
+gráfico acima apenas para melhor visualizar a comparação com a solução do grupo.<br>
 
 
 ## Conclusão
@@ -239,8 +240,8 @@ do desenvolvimento desse trabalho.<br>
 
 |Programa|Entrada|Qtd threads|Tempo (s)|
 |:----------|:----------:|:----------:|:----------:|
-| ribas-ac-ioajustado | file-011-big | 1 | **1.24** |
-| ribas-ac-ingenuo | file-011-big | 2 | **9.33** |
+| ribas-ac-ioajustado | file-011-big | sequencial | **1.24** |
+| ribas-ac-ingenuo | file-011-big | sequencial | **9.33** |
 | grupo: histograma | file-011-big | 8 | **12.67** |
 | grupo: 1a evolucao | file-011-big | 12 | **12.9** |
 | grupo: inicial | file-002 | 4 | **20.576** |

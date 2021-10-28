@@ -19,18 +19,29 @@
   
 ### Tabelas e Gráficos
 
-#### Melhor Solução
+
+
+#### Melhor solução da equipe
+   A tabela e gráfico abaixo exibem as comparações entre a melhor solução desenvolvida pelo grupo(p_ursal_new.c) com a solução sequencial, desenvolvida pelo Flávio, e com as soluções disponibilizadas pelo professor(ribas-ac-ingenuo e ribas-ac-ioajustado).
+
+##### Tebela e grafico com os tempos medidos.
+  ![image](https://user-images.githubusercontent.com/48539765/137126670-9ab5b5e4-41fb-4461-89fb-64c954664d20.png)
+
+  ![image](https://user-images.githubusercontent.com/48539765/137127087-904415eb-f0b2-4ee6-be48-9ba1c5c2815b.png)
+
+
+#### 2º Melhor Solução
    A tabela e gráfico abaixo exibem as comparações entre a melhor solução desenvolvida pelo grupo(eleicao_ursal_final.c) com a solução sequencial, desenvolvida pelo Flávio, e com as soluções disponibilizadas pelo professor(ribas-ac-ingenuo e ribas-ac-ioajustado).
-##### Tebela com os tempos medidos.
+##### Tebela e grafico com os tempos medidos.
 ![image](https://user-images.githubusercontent.com/48539765/136131611-9b8714a7-195d-4c91-9652-7a3b5e2f78e6.png)
 
 ![image](https://user-images.githubusercontent.com/48539765/136130757-2f829cb3-bf25-4d4e-bf71-e53d1105d05e.png)
 
 
-#### Comparação de soluções da equipe
+#### Comparação de soluções antigas da equipe
 
   A tabela e o grafico abaixo, exibem dados de algumas soluções desenvolvidas pela equipe, utilizando 16 threads.
-  ##### Tebela com os tempos medidos.
+  ##### Tebela e grafico com os tempos medidos.
   ![image](https://user-images.githubusercontent.com/48539765/136134168-a7488bdf-e7d4-40c3-b0cf-959213b4a12c.png)
 
   
@@ -44,7 +55,10 @@
 
 
 #### Especificações de ambiente de execução
+**SO**: Ubuntu 20.04.03
+**Memoria RAM**: 16 GB
 
+**Processador**
 Architecture:                    x86_64
 
 CPU op-mode(s):                  32-bit, 64-bit
@@ -60,3 +74,6 @@ Thread(s) per core:              2
 CPU family:                      6
 
 Model name:                      Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz
+
+
+

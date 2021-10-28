@@ -38,29 +38,34 @@ A parte paralelizado do código é encontrado entre as linhas 81 e 166.
 ### Comparação de desempenho entre as implementações
 
 
-A comparação entre as implementações foram realizadas em todos os arquivos do BENCHMARK e neste relatório vamos evidenciar os dois maiores. Os testes foram obtidos em uma máquina com UBUNTU 21.04, CPU Ryzen 7 2700X, 32GB de mémoria RAM 3200MHz, SSD 512GB SATA 3, GPU GeFORCE RTX2600 SUPER.
+A comparação entre as implementações foram realizadas em todos os arquivos do BENCHMARK e neste relatório vamos evidenciar os dois maiores. Os testes foram utilizados na máquina chococino(gpu1).
 
-| file010-big | PROF-INGENUO | PROF-IAJUSTADO | CDMOJ | 1 THREAD | 2 THREADS | 4 THREADS | 8 THREADS | 16 THREADS |
+| file010-big | PROF-INGENUO | PROF-IOAJUSTADO | CDMOJ | 1 THREAD | 2 THREADS | 4 THREADS | 8 THREADS | 16 THREADS |
 | ----------- | ------------ | -------------- | ----- | -------- | --------- | --------- | --------- | ---------- |
-| REAL        | 2,71         | 0,43           | 3,14  | 4,39     | 2,43      | 1,33      | 0,98      | 0,75       |
-| USER        | 2,68         | 0,39           | 3,07  | 4,37     | 4,55      | 4,63      | 5,13      | 6,82       |
-| SYS         | 0,02         | 0,04           | 0,06  | 0,02     | 0,03      | 0,05      | 0,04      | 0,05       |
+| REAL        | 2,66         | 0,41           | 4,24  | 2,63     | 1,49      | 0,89      | 0,72      | 0,58       |
+| USER        | 2,64         | 0,37           | 4,19  | 2,59     | 5,14      | 2,85      | 3,57      | 4,42       |
+| SYS         | 0,01         | 0,03           | 0,03  | 0,02     | 0,03      | 0,03      | 0,02      | 0,1        |
+
 *tempos em segundos
 
 | file-011-big | PROF-INGENUO | PROF-IOAJUSTADO | CDMOJ | 1 THREADS | 2 THREADS | 4 THREADS | 8 THREADS | 16 THREADS |
 | ------------ | ------------ | --------------- | ----- | --------- | --------- | --------- | --------- | ---------- |
-| REAL         | 10,79        | 1,64            | 12,01 | 16,9      | 9,07      | 4,64      | 2,73      | 2,05       |
-| USER         | 10,65        | 1,56            | 11,82 | 16,73     | 17,7      | 17,66     | 19,06     | 26,59      |
-| SYS          | 0,14         | 0,07            | 0,19  | 0,15      | 0,18      | 0,17      | 0,17      | 0,21       |
+| REAL         | 10,6         | 1,63            | 15,95 | 9,98      | 5,14      | 3,15      | 1,77      | 1,36       |
+| USER         | 10,49        | 1,49            | 15,82 | 9,83      | 9,91      | 11,24     | 12,03     | 16,79      |
+| SYS          | 0,1          | 0,13            | 0,12  | 0,16      | 0,18      | 0,16      | 0,12      | 0,17       |
+
 *tempos em segundos
 
-![image info](https://i.imgur.com/FiJwBZ4.png)
+Abaixo segua a tabela do Tempo vs Arquivos:
 
-![image info](https://i.imgur.com/9gvlIBW.png)
+![Imagem1](./img/TempoXArquivos.png)
 
-![image info](https://i.imgur.com/m3nREYt.png)
+
+Abaixo segua a tabela do Tempo vs Threads:
+
+![Imagem2](./img/TempoXThreads.png)
 
 
 ### Conclusão
 
-Vimos que foi possível reduzir o tempo do processo quando utilizamos mais threads, no local do bloco onde ele abre o arquivo e busca as informações do mesmo (pragma omp). No entando, não conseguimos ultrapassar o tempo definido pelo professor no PROF-IOAJUSTADO, porem chegamos bem próximo com uma diferença de 0,41 segundos. 
+Vimos que foi possível reduzir o tempo do processo quando utilizamos mais threads, no local do bloco onde ele abre o arquivo e busca as informações do mesmo (pragma omp). Ultrapassamos então o tempo definido pelo professor no file-011-big por 0,27 segundos. Porém no file010-big ficou com uma diferença de 0,17 segundos a favor do PROF-IOAJUSTADO.

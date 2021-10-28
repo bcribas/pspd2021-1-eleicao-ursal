@@ -1,5 +1,4 @@
 all:
-	rm -f bin/ursal_
 	gcc src/ursal_hash.c -o bin/hash_seq
 	gcc src/ursal_hash_paralelo.c -DTHREADS=1 -fopenmp -o bin/hash_paralelo_1_thread
 	gcc src/ursal_hash_paralelo.c -DTHREADS=2 -fopenmp -o bin/hash_paralelo_2_thread
