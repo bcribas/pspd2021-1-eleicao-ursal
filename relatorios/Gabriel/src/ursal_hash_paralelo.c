@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <omp.h>
+
+#ifndef THREADS
+  #define THREADS 16
+#endif
 
 int getFileSize(FILE* file){
   
@@ -81,6 +86,8 @@ int main(int argc ,char** argv) {
     exit(-1);
   }
 
+
+  omp_set_num_threads(THREADS);
   char *filePath = argv[1];
   FILE* arquivo = fopen(filePath, "rb");
   if (arquivo == NULL) {

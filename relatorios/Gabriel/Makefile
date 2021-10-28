@@ -6,3 +6,4 @@ all:
 	gcc src/ursal_hash_paralelo.c -DTHREADS=8 -fopenmp -o bin/hash_paralelo_8_thread
 	gcc src/ursal_hash_paralelo.c -DTHREADS=12 -fopenmp -o bin/hash_paralelo_12_thread
 	gcc src/ursal_hash_paralelo.c -DTHREADS=16 -fopenmp -o bin/hash_paralelo_16_thread
+	gcc src/ursal_hash_paralelo.c -DTHREADS=32 -fopenmp -o bin/hash_paralelo_32_thread
