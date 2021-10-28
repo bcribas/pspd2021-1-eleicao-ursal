@@ -1,71 +1,417 @@
 Versao = histograma + quick sort (like)
-Tue, Oct 12 2021
+Thu, Oct 28 2021
 
-8 threads
+1 thread
 
 * Processando input/file002-sample
-time -p ./a.out input/file002-sample > benchmark/file002-sample
+time -p ./v4quick input/file002-sample > benchmark/file002-sample
+real 0.95
+user 0.94
+sys 0.00
+
+* Processando input/file009
+time -p ./v4quick input/file009 > benchmark/file009
+real 0.94
+user 0.93
+sys 0.00
+
+* Processando input/file008
+time -p ./v4quick input/file008 > benchmark/file008
+real 4.15
+user 2.93
+sys 1.21
+
+* Processando input/file006
+time -p ./v4quick input/file006 > benchmark/file006
+real 0.07
+user 0.06
+sys 0.00
+
+* Processando input/file004
+time -p ./v4quick input/file004 > benchmark/file004
+real 0.92
+user 0.91
+sys 0.00
+
+* Processando input/file003
+time -p ./v4quick input/file003 > benchmark/file003
+real 0.93
+user 0.93
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./v4quick input/file007-sample > benchmark/file007-sample
+real 0.42
+user 0.28
+sys 0.14
+
+* Processando input/file001-sample
+time -p ./v4quick input/file001-sample > benchmark/file001-sample
+real 0.94
+user 0.93
+sys 0.00
+
+* Processando input/file010-big
+time -p ./v4quick input/file010-big > benchmark/file010-big
+real 20.58
+user 14.72
+sys 5.85
+
+* Processando input/file-011-big
+time -p ./v4quick input/file-011-big > benchmark/file-011-big
+
+real 82.67
+user 58.69
+sys 23.98
+
+* Processando input/file005-sample
+time -p ./v4quick input/file005-sample > benchmark/file005-sample
+real 0.78
+user 0.77
+sys 0.00
+
+
+2 threads
+
+* Processando input/file002-sample
+time -p ./v4quick input/file002-sample > benchmark/file002-sample
+real 0.95
+user 0.95
+sys 0.00
+
+* Processando input/file009
+time -p ./v4quick input/file009 > benchmark/file009
+real 0.94
+user 0.94
+sys 0.00
+
+* Processando input/file008
+time -p ./v4quick input/file008 > benchmark/file008
+real 2.48
+user 3.78
+sys 1.15
+
+* Processando input/file006
+time -p ./v4quick input/file006 > benchmark/file006
+real 0.05
+user 0.07
+sys 0.01
+
+* Processando input/file004
+time -p ./v4quick input/file004 > benchmark/file004
+real 0.92
+user 0.92
+sys 0.00
+
+* Processando input/file003
+time -p ./v4quick input/file003 > benchmark/file003
+real 0.94
+user 0.94
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./v4quick input/file007-sample > benchmark/file007-sample
+real 0.27
+user 0.42
+sys 0.11
+
+* Processando input/file001-sample
+time -p ./v4quick input/file001-sample > benchmark/file001-sample
+real 0.94
+user 0.94
+sys 0.00
+
+* Processando input/file010-big
+time -p ./v4quick input/file010-big > benchmark/file010-big
+real 12.68
+user 18.51
+sys 6.48
+
+* Processando input/file-011-big
+time -p ./v4quick input/file-011-big > benchmark/file-011-big
+real 50.29
+user 73.76
+sys 26.79
+
+* Processando input/file005-sample
+time -p ./v4quick input/file005-sample > benchmark/file005-sample
+real 0.77
+user 0.78
+sys 0.00
+
+
+4
+
+* Processando input/file002-sample
+time -p ./v4quick input/file002-sample > benchmark/file002-sample
+real 0.94
+user 0.98
+sys 0.00
+
+* Processando input/file009
+time -p ./v4quick input/file009 > benchmark/file009
+real 0.94
+user 0.98
+sys 0.00
+
+* Processando input/file008
+time -p ./v4quick input/file008 > benchmark/file008
+real 1.36
+user 3.99
+sys 1.37
+
+* Processando input/file006
+time -p ./v4quick input/file006 > benchmark/file006
+real 0.05
+user 0.12
+sys 0.01
+
+* Processando input/file004
+time -p ./v4quick input/file004 > benchmark/file004
+real 0.92
+user 0.95
+sys 0.00
+
+* Processando input/file003
+time -p ./v4quick input/file003 > benchmark/file003
+real 0.94
+user 0.97
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./v4quick input/file007-sample > benchmark/file007-sample
+real 0.15
+user 0.44
+sys 0.14
+
+* Processando input/file001-sample
+time -p ./v4quick input/file001-sample > benchmark/file001-sample
+real 0.94
+user 0.97
+sys 0.00
+
+* Processando input/file010-big
+time -p ./v4quick input/file010-big > benchmark/file010-big
+real 6.71
+user 19.64
+sys 6.76
+
+* Processando input/file-011-big
+time -p ./v4quick input/file-011-big > benchmark/file-011-big
+real 26.62
+user 79.64
+sys 26.78
+
+* Processando input/file005-sample
+time -p ./v4quick input/file005-sample > benchmark/file005-sample
+real 0.78
+user 0.81
+sys 0.00
+
+
+8
+
+* Processando input/file002-sample
+time -p ./v4quick input/file002-sample > benchmark/file002-sample
 real 0.95
 user 1.05
 sys 0.00
 
 * Processando input/file009
-time -p ./a.out input/file009 > benchmark/file009
+time -p ./v4quick input/file009 > benchmark/file009
 real 0.94
-user 1.01
+user 1.02
 sys 0.00
 
 * Processando input/file008
-time -p ./a.out input/file008 > benchmark/file008
+time -p ./v4quick input/file008 > benchmark/file008
 real 0.94
-user 4.88
-sys 1.65
+user 4.85
+sys 1.53
 
 * Processando input/file006
-time -p ./a.out input/file006 > benchmark/file006
+time -p ./v4quick input/file006 > benchmark/file006
 real 0.04
 user 0.17
 sys 0.02
 
 * Processando input/file004
-time -p ./a.out input/file004 > benchmark/file004
+time -p ./v4quick input/file004 > benchmark/file004
 real 0.92
 user 1.01
 sys 0.00
 
 * Processando input/file003
-time -p ./a.out input/file003 > benchmark/file003
+time -p ./v4quick input/file003 > benchmark/file003
 real 0.94
-user 1.04
+user 1.01
 sys 0.00
 
 * Processando input/file007-sample
-time -p ./a.out input/file007-sample > benchmark/file007-sample
+time -p ./v4quick input/file007-sample > benchmark/file007-sample
 real 0.11
-user 0.57
-sys 0.23
+user 0.60
+sys 0.19
 
 * Processando input/file001-sample
-time -p ./a.out input/file001-sample > benchmark/file001-sample
-real 0.94
-user 1.02
+time -p ./v4quick input/file001-sample > benchmark/file001-sample
+real 0.96
+user 1.10
 sys 0.00
 
 * Processando input/file010-big
-time -p ./a.out input/file010-big > benchmark/file010-big
-real 4.64
-user 23.34
-sys 7.81
+time -p ./v4quick input/file010-big > benchmark/file010-big
+real 4.49
+user 22.88
+sys 8.58
 
 * Processando input/file-011-big
-time -p ./a.out input/file-011-big > benchmark/file-011-big
-real 18.03
-user 92.16
-sys 32.27
+time -p ./v4quick input/file-011-big > benchmark/file-011-big
+real 19.22
+user 98.42
+sys 35.27
 
 * Processando input/file005-sample
-time -p ./a.out input/file005-sample > benchmark/file005-sample
-real 0.78
-user 0.86
+time -p ./v4quick input/file005-sample > benchmark/file005-sample
+real 0.77
+user 0.85
+sys 0.00
+
+
+12
+
+* Processando input/file002-sample
+time -p ./v4quick input/file002-sample > benchmark/file002-sample
+real 0.96
+user 1.17
+sys 0.04
+
+* Processando input/file009
+time -p ./v4quick input/file009 > benchmark/file009
+real 0.95
+user 1.18
+sys 0.00
+
+* Processando input/file008
+time -p ./v4quick input/file008 > benchmark/file008
+real 0.72
+user 6.07
+sys 2.23
+
+* Processando input/file006
+time -p ./v4quick input/file006 > benchmark/file006
+real 0.05
+user 0.30
+sys 0.05
+
+* Processando input/file004
+time -p ./v4quick input/file004 > benchmark/file004
+real 0.93
+user 1.17
+sys 0.00
+
+* Processando input/file003
+time -p ./v4quick input/file003 > benchmark/file003
+real 0.96
+user 1.22
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./v4quick input/file007-sample > benchmark/file007-sample
+real 0.09
+user 0.82
+sys 0.25
+
+* Processando input/file001-sample
+time -p ./v4quick input/file001-sample > benchmark/file001-sample
+real 0.95
+user 1.19
+sys 0.00
+
+* Processando input/file010-big
+time -p ./v4quick input/file010-big > benchmark/file010-big
+real 3.60
+user 29.62
+sys 10.70
+
+* Processando input/file-011-big
+time -p ./v4quick input/file-011-big > benchmark/file-011-big
+real 15.76
+user 135.16
+sys 52.00
+
+* Processando input/file005-sample
+time -p ./v4quick input/file005-sample > benchmark/file005-sample
+real 0.79
+user 1.02
+sys 0.00
+
+
+16
+
+* Processando input/file002-sample
+time -p ./v4quick input/file002-sample > benchmark/file002-sample
+real 0.96
+user 0.95
+sys 0.00
+
+* Processando input/file009
+time -p ./v4quick input/file009 > benchmark/file009
+real 0.94
+user 0.93
+sys 0.00
+
+* Processando input/file008
+time -p ./v4quick input/file008 > benchmark/file008
+real 0.77
+user 5.54
+sys 2.28
+
+* Processando input/file006
+time -p ./v4quick input/file006 > benchmark/file006
+real 0.04
+user 0.08
+sys 0.01
+
+* Processando input/file004
+time -p ./v4quick input/file004 > benchmark/file004
+real 0.93
+user 0.93
+sys 0.00
+
+* Processando input/file003
+time -p ./v4quick input/file003 > benchmark/file003
+real 0.94
+user 0.94
+sys 0.00
+
+* Processando input/file007-sample
+time -p ./v4quick input/file007-sample > benchmark/file007-sample
+real 0.09
+user 0.57
+sys 0.19
+
+* Processando input/file001-sample
+time -p ./v4quick input/file001-sample > benchmark/file001-sample
+real 0.94
+user 0.93
+sys 0.00
+
+* Processando input/file010-big
+time -p ./v4quick input/file010-big > benchmark/file010-big
+real 3.86
+user 31.39
+sys 11.24
+
+* Processando input/file-011-big
+time -p ./v4quick input/file-011-big > benchmark/file-011-big
+real 16.34
+user 132.65
+sys 49.22
+
+* Processando input/file005-sample
+time -p ./v4quick input/file005-sample > benchmark/file005-sample
+real 0.77
+user 0.78
 sys 0.00
 
