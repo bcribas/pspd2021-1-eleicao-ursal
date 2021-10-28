@@ -217,7 +217,9 @@ Figura 6:<br>
 </img><br>
 
 É possível perceber que, para a solução do grupo, o tempo diminuiu consideravelmente<br>
-com o aumento do número de *threads*.<br>
+com o aumento do número de *threads*. Vale lembrar que os dois programas fornecidos<br>
+pelo professor (ribas-ac-ioajustado e ribas-ac-ingenuo) são sequenciais e estão no<br>
+gráfico acima apenas para melhor visualizar a comparação com a solução do grupo.<br>
 
 
 ## Conclusão
@@ -238,8 +240,8 @@ do desenvolvimento desse trabalho.<br>
 
 |Programa|Entrada|Qtd threads|Tempo (s)|
 |:----------|:----------:|:----------:|:----------:|
-| ribas-ac-ioajustado | file-011-big | 1 | **1.24** |
-| ribas-ac-ingenuo | file-011-big | 2 | **9.33** |
+| ribas-ac-ioajustado | file-011-big | sequencial | **1.24** |
+| ribas-ac-ingenuo | file-011-big | sequencial | **9.33** |
 | grupo: histograma | file-011-big | 8 | **12.67** |
 | grupo: 1a evolucao | file-011-big | 12 | **12.9** |
 | grupo: inicial | file-002 | 4 | **20.576** |
