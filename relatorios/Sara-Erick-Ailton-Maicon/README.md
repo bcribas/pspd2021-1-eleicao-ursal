@@ -261,6 +261,39 @@ trechos de código em que ocorrem as eleições.<br>
 
 <hr>
 
+# Evoluções após a entrega
+
+### Versão 4 do programa -> usa quick sort com mediana de 3
+
+O grupo fez um novo programa o qual usa uma implementação própria do algoritmo<br>
+***quick sort mediana de 3*** e fez os testes usando a Chococino. A região de<br>
+paralização continua sendo na leitura dos dados de entrada.<br>
+
+Especificações da máquina chococino:<br>
+
+- Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz 6 cores, 16GB
+
+
+> Compilação
+
+```gcc relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela-v4.c -O3 -o v4quick -fopenmp```
+
+> Execução dos testes:
+
+```make benchmark BENCHMARKBINARY=./v4quick```
+
+
+Os resultados podem ser encontrados no arquivo [quick-benchmark.txt](./quick-benchmark.txt) . A figura 7<br>
+a seguir mostra os tempos de execução e quantidade de *threads* para o arquivo de<br>
+entrada `file-011-big`.<br>
+
+Figura 7:<br>
+<img src="./imagens/g7-v4.png">
+<br>Fonte: autores
+</img><br>
+
+O melhor tempo foi aproximadamente 15.76 segundos.<br>
+
 ## Referências
 
 [1] RIBAS, Bruno. Aula 18 de Agosto. Disponível em: https://www.brunoribas.com.br/pspd/2021-1/#orga81c164
