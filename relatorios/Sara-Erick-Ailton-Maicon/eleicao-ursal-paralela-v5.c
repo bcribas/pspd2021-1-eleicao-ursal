@@ -7,65 +7,82 @@ typedef struct voto {
    int qtd_votos;
 } Voto;
 
+typedef struct offset {
+   int byteInicial;
+} Offset;
+
 int  compara(const void *a, const void *b);
 void elege_politico(Voto *votos, int inicio, int qnt);
 void elege_presidente(Voto *votos);
 
 int main(int argc, char *argv[]){
 
-   Voto *votos       = (Voto *) calloc(0b11000011010100000, sizeof(Voto));   // 0-99999
+   Voto *votos = (Voto *) calloc(0b11000011010100000, sizeof(Voto));   // 0-99999
+
    for(int i=10; i<0b11000011010100000; i++)
      votos[i].codigo_candidato = i;
-   int voto;
-   int qnt_invalidos        = 0;
-   int qnt_validos          = 0;
+
+   int qnt_invalidos = 0;
+   int qnt_validos   = 0;
    
    char *filename = argv[1];
-   FILE *arquivo = fopen(filename, "r");
+   FILE *arquivo  = fopen(filename, "r");
    
    int s, f, e;   // qnt senadores, dep.fed, dep.est para a eleicao
    fscanf(arquivo, "%d %d %d", &s, &f, &e);
    
-   int ultimo_primeira_linha = ftell(arquivo); // ultimo byte primeira linha, ela precisa ser ignorada nas threads
-   int total_bytes = 0;
-   fseek(arquivo, 0, SEEK_END); // posiciona no final do arquivo para pegar o total de bytes
-   total_bytes = ftell(arquivo) - ultimo_primeira_linha;
-   #pragma omp parallel
-   {
-       // quantidade de bytes pelo número total de threas em execução
-       int qnt_bytes_thread = total_bytes / omp_get_num_threads();
-       FILE *arquivo = fopen(filename, "r");
-       fseek(arquivo, ultimo_primeira_linha+(qnt_bytes_thread*omp_get_thread_num()), SEEK_SET);
-       int voto = 0;
-       int lixo = 0;
-       int count = 0;
-       int nova_posicao = 0;
-       int posicao_atual = 0;
-       
-       #pragma omp parallel for private(voto) shared(votos)
-       for (count = 0; count < qnt_bytes_thread; count++){
-           posicao_atual = ftell(arquivo);
-           fseek(arquivo, posicao_atual-1, SEEK_SET);
-           if(fgetc(arquivo) == '\n'){
-               fscanf(arquivo, "%d ", &voto);
-               if(voto < 0){
-                   qnt_invalidos++;
-               }
-               else{
-                   qnt_validos++;
-                   votos[voto].qtd_votos++;
-               }
-           }
-           else{
-               fseek(arquivo, posicao_atual-1, SEEK_SET);
-               fscanf(arquivo, "%d ", &lixo);
-           }
-           int nova_posicao = ftell(arquivo);
-           count += nova_posicao - posicao_atual; // incrementa qnt de bytes voto no ultimo scanf
-           count--;
-       }        
-       fclose(arquivo);
+   int ultimo_primeira_linha  = ftell(arquivo);
+
+   fseek(arquivo, 0, SEEK_END);
+   int total_bytes = ftell(arquivo) - ultimo_primeira_linha;
+
+   int numeroDeThreads  = omp_get_num_threads();
+   Offset *threads      = (Offset *) malloc(numeroDeThreads * sizeof(Offset));
+
+   threads[0].byteInicial = ultimo_primeira_linha;
+   int qnt_bytes_thread = total_bytes / numeroDeThreads;
+
+   for(int i=1; i < numeroDeThreads; i++){
+      threads[i].byteInicial = i * qnt_bytes_thread;
    }
+
+   fclose(arquivo);
+
+   #pragma omp parallel num_threads(numeroDeThreads)
+   {
+      FILE *arquivo = fopen(filename, "r");
+      fseek(arquivo, threads[omp_get_thread_num()].byteInicial, SEEK_SET);
+
+      int byteFinal = (numeroDeThreads - 1) == omp_get_thread_num()
+         ? total_bytes + ultimo_primeira_linha
+         : threads[omp_get_thread_num() + 1].byteInicial;
+
+      char lixo;
+      do {
+         fscanf(arquivo, "%c", &lixo);
+      } while (lixo != '\n');
+
+      char *valor    = (char *) malloc(6 * sizeof(char)); // 6 -> max eh 99999\0
+      size_t intt    = sizeof(int);
+      int voto       = 0;
+
+      for(int i = ftell(arquivo); i < byteFinal;){
+         i     += getline(&valor, &intt, arquivo);
+         voto   = atoi(valor);
+
+         if(voto < 0){
+            qnt_invalidos++;
+         }
+         else {
+            qnt_validos++;
+            votos[voto].qtd_votos++;
+         }
+      }
+
+      free(valor);
+      fclose(arquivo);
+   } // end parallel execution
+
    printf("%d %d\n", qnt_validos, qnt_invalidos);
 
    elege_presidente(votos);
