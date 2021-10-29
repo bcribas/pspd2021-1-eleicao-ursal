@@ -328,8 +328,11 @@ Figura 7:<br>
 
 O melhor tempo foi aproximadamente **1.2** segundo para o `file010-big` e<br>
 de **4.78** segundos para o `file-011-big`.<br>
+
 Dessa forma, **o grupo conseguiu atingir o objetivo de superar a solução ingênua disponibilizada =)**<br>
-em relação ao maior arquivo de entrada.<br>
+em relação ao maior arquivo de entrada. Apesar da solução utilizar *threads*,<br>
+curiosamente os tempos de execução praticamente não sofreram alteração ao<br>
+aumentar a quantidade de *threads*.<br>
 
 A tabela 3 a seguir reúne alguns dos melhores tempos de execução coletados ao longo<br>
 do desenvolvimento desse trabalho.<br>
