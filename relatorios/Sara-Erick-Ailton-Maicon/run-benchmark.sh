@@ -16,7 +16,7 @@ else
    done
 
    BINARY="prog.out"
-   gcc-10 $PROG -O3 -fopenmp -o $BINARY
+   gcc $PROG -O3 -fopenmp -o $BINARY
 
    for i in 1 2 4 8 12 16
    do
