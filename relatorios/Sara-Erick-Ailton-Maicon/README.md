@@ -294,6 +294,65 @@ Figura 7:<br>
 
 O melhor tempo foi aproximadamente 15.76 segundos.<br>
 
+
+### Versão 5 do programa -> usa quick sort padrão do C e melhora a leitura paralela
+
+A versão 5 da solução do grupo utiliza a implementação padrão da linguagem C para<br>
+o algoritmo do ***quick sort***. Além disso, a estratégia de leitura foi melhorada,<br>
+uma vez que antes fazia muitas chamadas às funções `fscanf` e `fseek`, além de lidar<br>
+com muitas atribuições de valor em várias variáveis. A suspeita é que esses fatores<br>
+estavam atrasando a leitura do arquivo de entrada.<br>
+
+Além disso, foi utilizada uma estrutura para armazenar o byte inicial que cada *thread*<br>
+deveria ler antes da paralelização começar. Mais ainda, a diretiva do OpenMP *num_threads()*<br>
+também foi importante.
+
+Especificações da máquina chococino:<br>
+
+- Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz 6 cores, 16GB
+
+
+> Compilação e execução dos testes a partir da raiz
+
+```source``` [```/relatorios/Sara-Erick-Ailton-Maicon/run-benchmark.sh```](./run-benchmark.sh) -c [```/relatorios/Sara-Erick-Ailton-Maicon/eleicao-ursal-paralela-v5.c```](./eleicao-ursal-paralela-v5.c)
+
+
+Os resultados podem ser encontrados no arquivo [v5-benchmark.txt](./v5-benchmark.txt) . A figura 8<br>
+a seguir mostra os tempos de execução e quantidade de *threads* para os arquivos de<br>
+entrada `file-011-big` e `file010-big`.<br>
+
+Figura 7:<br>
+<img src="./imagens/g8-v5.png">
+<br>Fonte: autores
+</img><br>
+
+O melhor tempo foi aproximadamente **1.2** segundo para o `file010-big` e<br>
+de **4.78** segundos para o `file-011-big`.<br>
+
+Dessa forma, **o grupo conseguiu atingir o objetivo de superar a solução ingênua disponibilizada =)**<br>
+em relação ao maior arquivo de entrada. Apesar da solução utilizar *threads*,<br>
+curiosamente os tempos de execução praticamente não sofreram alteração ao<br>
+aumentar a quantidade de *threads*.<br>
+
+A tabela 3 a seguir reúne alguns dos melhores tempos de execução coletados ao longo<br>
+do desenvolvimento desse trabalho.<br>
+
+|Programa|Entrada|Qtd threads|Tempo (s)|
+|:----------|:----------:|:----------:|:----------:|
+| ribas-ac-ioajustado | file-011-big | sequencial | **1.24** |
+| **grupo: v5** | file-011-big | 4 | **4.78** |
+| ribas-ac-ingenuo | file-011-big | sequencial | **9.33** |
+| grupo: histograma | file-011-big | 8 | **12.67** |
+| grupo: 1a evolucao | file-011-big | 12 | **12.9** |
+| grupo: v4 | file-011-big | 12 | **15.76** |
+| grupo: inicial | file-002 | 4 | **20.576** |
+<br>
+Fonte: autores
+
+
+Considerando a versão menos eficiente do grupo e a mais eficiente, houve uma<br>
+melhoria de aproximadamente **76%**, bastante considerável.<br>
+
 ## Referências
 
 [1] RIBAS, Bruno. Aula 18 de Agosto. Disponível em: https://www.brunoribas.com.br/pspd/2021-1/#orga81c164
