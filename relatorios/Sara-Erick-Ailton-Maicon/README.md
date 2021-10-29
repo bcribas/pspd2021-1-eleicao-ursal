@@ -321,7 +321,7 @@ Os resultados podem ser encontrados no arquivo [v5-benchmark.txt](./v5-benchmark
 a seguir mostra os tempos de execução e quantidade de *threads* para os arquivos de<br>
 entrada `file-011-big` e `file010-big`.<br>
 
-Figura 7:<br>
+Figura 8:<br>
 <img src="./imagens/g8-v5.png">
 <br>Fonte: autores
 </img><br>
@@ -347,7 +347,7 @@ do desenvolvimento desse trabalho.<br>
 | grupo: v4 | file-011-big | 12 | **15.76** |
 | grupo: inicial | file-002 | 4 | **20.576** |
 <br>
-Fonte: autores
+Fonte: autores<br>
 
 
 Considerando a versão menos eficiente do grupo e a mais eficiente, houve uma<br>
