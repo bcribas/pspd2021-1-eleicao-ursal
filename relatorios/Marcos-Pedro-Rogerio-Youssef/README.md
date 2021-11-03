@@ -128,7 +128,7 @@ Esses são os resultados da segunda tentativa de paralelização do algoritmo, c
 
 ## Resultados - Versão Paralelizável 03
 
-<Explicacao>
+Dado a oportunidade de melhoria do trabalho(`/src/new.c`), a equipe buscou por formas alternativas de fazer com a leitura fosse mais rápida. Com isso o teste com a função `fread_unlocked()`([unlocked_stdio(3)](https://man7.org/linux/man-pages/man3/unlocked_stdio.3.html)) foi bastante efetivo. Já que o controle do paralelismo está sendo feito por meio das diretivas OpenMP, decidimos por seguir com o `fread_unlocked()`, já que ele não tem o controle dos _locks_, sendo thread-unsafe.
 
 | Entrada        | Número de Linhas | Sequencial | ribas-ac-ingenuo | ribas-ac-ajustado | 1 Thread | 2 Threads | 4 Threads | 8 Threads | 12 Threads | 16 Threads |
 | -------------- | ---------------- | ---------- | ---------------- | ----------------- | -------- | --------- | --------- | --------- | ---------- | ---------- |

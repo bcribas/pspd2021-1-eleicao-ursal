@@ -5,8 +5,9 @@
 #include <string.h>
 #define MAX_ARRAY_SIZE 1000000
 #ifndef THREADS
-    #define THREADS 1
+#define THREADS 1
 #endif
+
 int encontrar_candidato(int *votos, long int size)
 {
     unsigned int maior = 0;
@@ -22,6 +23,7 @@ int encontrar_candidato(int *votos, long int size)
     votos[posicao_maior] = 0;
     return posicao_maior;
 }
+
 float porcentagem_presidente(int *votos, int total)
 {
     int size = 100;
@@ -35,6 +37,7 @@ float porcentagem_presidente(int *votos, int total)
     }
     return (float)maior / total;
 }
+
 int get_start_position(int thread, FILE * file, int votes_start_position, int chunk_size, int threads){
     long int position = votes_start_position;
     for(int i = 0; i < thread; i++){
@@ -48,9 +51,11 @@ int get_start_position(int thread, FILE * file, int votes_start_position, int ch
     }
     return position;
 }
+
 int get_end_position(int thread, FILE * file, int votes_start_position, int chunk_size, int threads){
     return get_start_position(thread+1, file, votes_start_position, chunk_size, threads);
 }
+
 int main(int argc, char *argv[])
 {
     omp_set_num_threads(THREADS);
