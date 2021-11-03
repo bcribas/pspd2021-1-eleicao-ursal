@@ -155,7 +155,7 @@ Os principais pontos a serem destacados são:
 
 - Os dois últimos gráficos tem uma estrutura semelhante, porém estão invertidos. É possível notar que, ao aumentar o número de threads, o tempo de uso de CPU também aumenta (utilização mais completa dos núcleos de processamento disponíveis) e, proporcionalmente, o tempo real diminui (quase todas as vezes).
 
-[Planilha com os tempos médios de execução](https://docs.google.com/spreadsheets/d/1oWU8GOvMt8J1LMZlms-_GB_e31vwBHyafCCxKyFT1iE/edit?usp=sharing)
+[Planilha com os tempos médios de execução (ATUALIZADO)](https://docs.google.com/spreadsheets/d/1oWU8GOvMt8J1LMZlms-_GB_e31vwBHyafCCxKyFT1iE/edit?usp=sharing)
 
 Obs.: É possível mudar o número de threads a serem executadas na linha 37 do arquivo 'thread.c'.
 
