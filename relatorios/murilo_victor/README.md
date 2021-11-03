@@ -21,6 +21,24 @@ No entanto o único ponto em que se obteve ganhos significativos de tempo foi na
 
 Na versão final paralelizada foi feita a paralelização da leitura do arquivo de entradas, onde cada thread fica responsável por computar uma parte do arquivo. Para determinar quanto cada thread terá que ler do arquivo, utilizamos o tamanho total do arquivo e dividimos em chunk's semelhantes de acordo com o número de threads. Por exemplo, caso o programa execute com 2 thread's o arquivo seria dividido em 2 partes iguais, 3 thread's, em 3, e assim por diante. Assim é determinado quanto cada thread lê do arquivo. Um problema comum dessa divisão do arquivo em bytes de leitura é ocorrer de uma thread parar no meio de uma entrada (número de voto) e quebrar a leitura. Para evitar que isso ocorresse, cada ponteiro de leitura retrocede um caracter por vez até encontrar um "\n", determinando ali o começo da leitura.
 
+Abaixo o trecho de código responsável por dividir o arquivo em partes iguais de acordo com o número de threads.
+
+```c
+for (int i = 1; i < nThreads; i++)
+    {
+        fseek(inputFile, threadStartingPoints[i - 1] + chunkSize, SEEK_SET);
+
+        // Busca o final da linha anterior
+        fscanf(inputFile, "%c", &character);
+        while (character != '\n' && ftell(inputFile) < endPosition)
+        {
+            fseek(inputFile, ftell(inputFile) - 2, SEEK_SET);
+            fscanf(inputFile, "%c", &character);
+        }
+        threadStartingPoints[i] = ftell(inputFile);
+    }
+```
+
 ## 3. Experimentos e tentativas
 ### 3.1. Sequencial
 Como o problema de lógica para o estudo foi simples, a solução sequencial não teve nenhum problema em ser realizada. Como o esperado foi a solução menos eficiente e que demandou mais tempo de execução para as grandes entradas.
