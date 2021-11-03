@@ -34,7 +34,7 @@ A paralelização ocorria na leitura das entradas do arquivo, porém, com essa s
 #### 3.2.2. Matriz
 A segunda solução foi criar uma matriz [thread]x[Candidato], onde cada thread operaria em uma única linha da matriz e os candidatos seriam identificados pelas colunas e o numero de votos contabilizado pela thread seria alocado na posição correspondente da matriz. Após o cálculo de todas as thread's é feito um último cálculo para armazenar o valor contido em cada thread em um vetor final que será utilizado posteriormente para ordenação e cálculo dos candidatos eleitos. 
 
-No trecho de código abaixo, é possível verificar que cada thread acessa somente a linha da matriz correspondente ao seu identificador (thread 1 acessa linha 1).
+No trecho de código abaixo, é possível verificar que cada thread acessa somente a linha da matriz correspondente ao seu identificador (thread 1 acessa linha 1, por exemplo).
 
 ```c
 #pragma omp parallel private(voto) reduction(+ \
@@ -108,22 +108,22 @@ Os valores a seguir são a média de 3 execuções na máquina descrita acima.
 
 #### 4.2.10 FILE010-BIG
 <p align="center">
-    <img src="imagens/file010-big.png" alt="Logo">
+    <img src="imagens_2/file010-big.png" alt="Logo">
 </p>
 
 #### 4.2.11 FILE-011-BIG
 <p align="center">
-    <img src="imagens/file-011-big.png" alt="Logo">
+    <img src="imagens_2/file-011-big.png" alt="Logo">
 </p>
 
 #### 4.2.12 Tempo de CPU
 <p align="center">
-    <img src="imagens/total_cpu.png" alt="Logo">
+    <img src="imagens_2/analise_tempo_cpu.png" alt="Logo">
 </p>
 
 #### 4.2.12 Tempo Real
 <p align="center">
-    <img src="imagens/total_real.png" alt="Logo">
+    <img src="imagens_2/analise_tempo_real.png" alt="Logo">
 </p>
 
 
