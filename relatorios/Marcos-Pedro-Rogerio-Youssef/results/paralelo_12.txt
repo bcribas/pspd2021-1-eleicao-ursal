@@ -1,0 +1,65 @@
+* Processando input/file002-sample
+time -p relatorios/Marcos-Pedro-Rogerio-Youssef/bin/paralelo_12 input/file002-sample > benchmark/file002-sample
+real 0.03
+user 0.28
+sys 0.01
+
+* Processando input/file009
+time -p relatorios/Marcos-Pedro-Rogerio-Youssef/bin/paralelo_12 input/file009 > benchmark/file009
+real 0.03
+user 0.28
+sys 0.00
+
+* Processando input/file008
+time -p relatorios/Marcos-Pedro-Rogerio-Youssef/bin/paralelo_12 input/file008 > benchmark/file008
+real 0.04
+user 0.39
+sys 0.01
+
+* Processando input/file006
+time -p relatorios/Marcos-Pedro-Rogerio-Youssef/bin/paralelo_12 input/file006 > benchmark/file006
+real 0.05
+user 0.37
+sys 0.01
+
+* Processando input/file004
+time -p relatorios/Marcos-Pedro-Rogerio-Youssef/bin/paralelo_12 input/file004 > benchmark/file004
+real 0.03
+user 0.29
+sys 0.00
+
+* Processando input/file003
+time -p relatorios/Marcos-Pedro-Rogerio-Youssef/bin/paralelo_12 input/file003 > benchmark/file003
+real 0.02
+user 0.20
+sys 0.01
+
+* Processando input/file007-sample
+time -p relatorios/Marcos-Pedro-Rogerio-Youssef/bin/paralelo_12 input/file007-sample > benchmark/file007-sample
+real 0.03
+user 0.22
+sys 0.00
+
+* Processando input/file001-sample
+time -p relatorios/Marcos-Pedro-Rogerio-Youssef/bin/paralelo_12 input/file001-sample > benchmark/file001-sample
+real 0.03
+user 0.27
+sys 0.02
+
+* Processando input/file010-big
+time -p relatorios/Marcos-Pedro-Rogerio-Youssef/bin/paralelo_12 input/file010-big > benchmark/file010-big
+real 0.18
+user 1.41
+sys 0.03
+
+* Processando input/file-011-big
+time -p relatorios/Marcos-Pedro-Rogerio-Youssef/bin/paralelo_12 input/file-011-big > benchmark/file-011-big
+real 0.45
+user 4.52
+sys 0.17
+
+* Processando input/file005-sample
+time -p relatorios/Marcos-Pedro-Rogerio-Youssef/bin/paralelo_12 input/file005-sample > benchmark/file005-sample
+real 0.08
+user 0.58
+sys 0.01
